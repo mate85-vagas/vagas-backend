@@ -30,6 +30,10 @@ const Vaga = db.define('vaga',{
         type:DataTypes.DOUBLE,
         allowNull: false
     },
+    Salario_Vaga:{
+        type:DataTypes.DOUBLE,
+        allowNull: false
+    },
     Prazo_Vaga:{
         type:DataTypes.DATE,
         allowNull: false
