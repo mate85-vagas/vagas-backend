@@ -88,7 +88,7 @@ export const deleteVaga = async (req, res) => {
     try {
         await Vaga.destroy({
             where: {
-                id_Vaga: req.params.id_Vaga
+                id_Vaga: req.params.id
             }
         });
         res.json({
