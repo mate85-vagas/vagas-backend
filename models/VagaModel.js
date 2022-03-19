@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/database.js";
+import Usuario from "./UsuarioModel.js";
  
 const { DataTypes } = Sequelize;
  
@@ -39,5 +40,8 @@ const Vaga = db.define('vaga',{
         allowNull: false
     }
 });
+
+Usuario.hasMany(Vaga);
+Vaga.belongsTo(Usuario);
  
 export default Vaga;
