@@ -15,7 +15,7 @@ export const getUsuarioById = async (req, res) => {
     try {
         const usuario = await Usuario.findAll({
             where: {
-                id_Usuario: req.params.id
+                idUsuario: req.params.id
             }
         });
         res.json(usuario[0]);
@@ -41,7 +41,7 @@ export const updateUsuario = async (req, res) => {
     try {
         await Usuario.update(req.body, {
             where: {
-                id_Usuario: req.params.id
+                idUsuario: req.params.id
             }
         });
         res.json({
@@ -58,7 +58,7 @@ export const deleteUsuario = async (req, res) => {
     try {
         await Usuario.destroy({
             where: {
-                id_Usuario: req.params.id
+                idUsuario: req.params.id
             }
         });
         res.json({
