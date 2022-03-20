@@ -36,8 +36,14 @@ const Vaga = db.define('vaga',{
         allowNull: false
     },
     prazoVaga:{
-        type:DataTypes.DATE,
+        type:DataTypes.DATEONLY,
         allowNull: false
+    },
+    createdAt:{
+        type:DataTypes.DATEONLY
+    },
+    updatedAt:{
+        type:DataTypes.DATEONLY
     }
 });
 
