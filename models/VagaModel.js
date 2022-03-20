@@ -5,37 +5,37 @@ import Usuario from "./UsuarioModel.js";
 const { DataTypes } = Sequelize;
  
 const Vaga = db.define('vaga',{
-    id_Vaga:{
+    idVaga:{
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
-    Descricao_Vaga:{
+    descricaoVaga:{
         type: DataTypes.TEXT,
         allowNull: false
     },
-    Titulo_Vaga:{
+    tituloVaga:{
         type: DataTypes.STRING(60),
         allowNull: false
     },
-    Tipo_Vaga:{
+    tipoVaga:{
         type: DataTypes.STRING(12),
         allowNull: false
     },
-    Local_Vaga:{
+    localVaga:{
         type: DataTypes.STRING(30),
         allowNull: false
     },
-    Carga_Vaga:{
+    cargaVaga:{
         type:DataTypes.DOUBLE,
         allowNull: false
     },
-    Salario_Vaga:{
+    salarioVaga:{
         type:DataTypes.DOUBLE,
         allowNull: false
     },
-    Prazo_Vaga:{
+    prazoVaga:{
         type:DataTypes.DATE,
         allowNull: false
     }

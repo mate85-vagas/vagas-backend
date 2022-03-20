@@ -9,7 +9,7 @@ export const getAllVagas = async (req, res) => {
                 {
                     model: Usuario,
                     as: "usuario",
-                    attributes:["id_Usuario","Email_Usuario"]
+                    attributes:["idUsuario","emailUsuario"]
                 }
             ]
         });
@@ -24,13 +24,13 @@ export const getVagaById = async (req, res) => {
     try {
         const vaga = await Vaga.findAll({
             where: {
-                id_Vaga: req.params.id
+                idVaga: req.params.id
             },
             include:[
                 {
                     model: Usuario,
                     as: "usuario",
-                    attributes:["id_Usuario","Email_Usuario"]
+                    attributes:["idUsuario","emailUsuario"]
                 }
             ]
         });
@@ -71,7 +71,7 @@ export const updateVaga = async (req, res) => {
     try {
         await Vaga.update(req.body, {
             where: {
-                id_Vaga: req.params.id
+                idVaga: req.params.id
             }
         });
         res.json({
@@ -88,7 +88,7 @@ export const deleteVaga = async (req, res) => {
     try {
         await Vaga.destroy({
             where: {
-                id_Vaga: req.params.id
+                idVaga: req.params.id
             }
         });
         res.json({

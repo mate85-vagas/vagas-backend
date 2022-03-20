@@ -4,17 +4,17 @@ import db from "../config/database.js";
 const { DataTypes } = Sequelize;
  
 const Usuario = db.define('usuario',{
-    id_Usuario:{
+    idUsuario:{
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
-    Email_Usuario:{
+    emailUsuario:{
         type: DataTypes.STRING,
         allowNull: false
     },
-    Senha_Usuario:{
+    senhaUsuario:{
         type: DataTypes.STRING,
         allowNull:false
     }
