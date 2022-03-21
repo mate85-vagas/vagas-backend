@@ -1,4 +1,7 @@
-import Usuario from "../models/UsuarioModel.js";
+import Usuario from '../models/UsuarioModel.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
  
 //Get all users from db
 export const getAllUsuarios = async (req, res) => {
@@ -27,10 +30,43 @@ export const getUsuarioById = async (req, res) => {
 //Create new user
 export const createUsuario = async (req, res) => {
     try {
+        const salt = await bcrypt.genSalt(10);
+        req.body.senhaUsuario = await bcrypt.hash(req.body.senhaUsuario, salt);
         await Usuario.create(req.body);
         res.json({
             "message": "Usuario Created"
         });
+    } catch (error) {
+        res.json({ message: error.message });
+    }  
+}
+
+//Check user credentials
+export const checkUsuario = async (req, res) => {
+    try {
+        const usuario = await Usuario.findAll({
+            where: {
+                emailUsuario: req.body.emailUsuario
+            }
+        });
+        if (usuario[0]){
+            //Compare password from req body to stored password by bcrypt compare
+            const validPassword = await bcrypt.compare(req.body.senhaUsuario, usuario[0].senhaUsuario);
+            if(validPassword){
+                const id = usuario[0].idUsuario;
+                dotenv.config();
+                const token = jwt.sign({ id }, process.env.SECRET, {
+                    expiresIn: 7200 // expires in 2h
+                  });
+                res.json({ token: token });
+            }
+            else{
+                res.status(401).json({ message: "Unauthorized" });
+            }
+        }
+        else{
+            res.status(401).json({ message: "Unauthorized" });
+        }
     } catch (error) {
         res.json({ message: error.message });
     }  
