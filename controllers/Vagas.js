@@ -1,5 +1,5 @@
-import Vaga from "../models/VagaModel.js";
-import Usuario from "../models/UsuarioModel.js";
+import Vaga from '../models/VagaModel.js';
+import Usuario from '../models/UsuarioModel.js';
  
 //Get all jobs from db
 export const getAllVagas = async (req, res) => {

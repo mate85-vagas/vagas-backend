@@ -1,6 +1,6 @@
-import { Sequelize } from "sequelize";
-import db from "../config/database.js";
-import Usuario from "./UsuarioModel.js";
+import { Sequelize } from 'sequelize';
+import db from '../config/database.js';
+import Usuario from './UsuarioModel.js';
  
 const { DataTypes } = Sequelize;
  
