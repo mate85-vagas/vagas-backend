@@ -1,53 +1,48 @@
 import { Sequelize } from 'sequelize';
-import db from '../config/database.js';
-import Usuario from './UsuarioModel.js';
+import  db  from '../config/database.js';
+import  User  from './UserModel.js';
+import { JobAttrs } from './JobAttrs.js';
  
 const { DataTypes } = Sequelize;
  
-const Vaga = db.define('vaga',{
-    idVaga:{
+const Job = db.define('job',{
+    [JobAttrs.id]:{
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
-    descricaoVaga:{
+    [JobAttrs.description]:{
         type: DataTypes.TEXT,
         allowNull: false
     },
-    tituloVaga:{
+    [JobAttrs.title]:{
         type: DataTypes.STRING(60),
         allowNull: false
     },
-    tipoVaga:{
+    [JobAttrs.type]:{
         type: DataTypes.STRING(12),
         allowNull: false
     },
-    localVaga:{
+    [JobAttrs.site]:{
         type: DataTypes.STRING(30),
         allowNull: false
     },
-    cargaVaga:{
+    [JobAttrs.workload]:{
         type:DataTypes.DOUBLE,
         allowNull: false
     },
-    salarioVaga:{
+    [JobAttrs.salary]:{
         type:DataTypes.DOUBLE,
         allowNull: false
     },
-    prazoVaga:{
+    [JobAttrs.endingDate]:{
         type:DataTypes.DATEONLY,
         allowNull: false
     },
-    createdAt:{
-        type:DataTypes.DATEONLY
-    },
-    updatedAt:{
-        type:DataTypes.DATEONLY
-    }
 });
 
-Usuario.hasMany(Vaga);
-Vaga.belongsTo(Usuario);
+User.hasMany(Job);
+Job.belongsTo(User);
  
-export default Vaga;
+export default Job;
