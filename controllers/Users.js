@@ -1,40 +1,41 @@
-import Usuario from '../models/UsuarioModel.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+import  User  from '../models/UserModel.js';
+import  bcrypt  from 'bcrypt';
+import  jwt  from 'jsonwebtoken';
+import  dotenv  from 'dotenv';
+import { UserAttrs } from '../models/UserAttrs.js';
  
 //Get all users from db
-export const getAllUsuarios = async (req, res) => {
+export const getAllUsers = async (req, res) => {
     try {
-        const usuarios = await Usuario.findAll();
-        res.json(usuarios);
+        const users = await User.findAll();
+        res.json(users);
     } catch (error) {
         res.json({ message: error.message });
     }  
 }
  
 //Get user by given id from db
-export const getUsuarioById = async (req, res) => {
+export const getUserById = async (req, res) => {
     try {
-        const usuario = await Usuario.findAll({
+        const user = await User.findAll({
             where: {
-                idUsuario: req.params.id
+                [UserAttrs.id]: req.params.id
             }
         });
-        res.json(usuario[0]);
+        res.json(user[0]);
     } catch (error) {
         res.json({ message: error.message });
     }  
 }
  
 //Create new user
-export const createUsuario = async (req, res) => {
+export const createUser = async (req, res) => {
     try {
         const salt = await bcrypt.genSalt(10);
-        req.body.senhaUsuario = await bcrypt.hash(req.body.senhaUsuario, salt);
-        await Usuario.create(req.body);
+        req.body.password = await bcrypt.hash(req.body.password, salt);
+        await User.create(req.body);
         res.json({
-            "message": "Usuario Created"
+            "message": "User Created"
         });
     } catch (error) {
         res.json({ message: error.message });
@@ -42,18 +43,18 @@ export const createUsuario = async (req, res) => {
 }
 
 //Check user credentials
-export const checkUsuario = async (req, res) => {
+export const checkUser = async (req, res) => {
     try {
-        const usuario = await Usuario.findAll({
+        const user = await User.findAll({
             where: {
-                emailUsuario: req.body.emailUsuario
+                [UserAttrs.email]: req.body.email
             }
         });
-        if (usuario[0]){
+        if (user[0]){
             //Compare password from req body to stored password by bcrypt compare
-            const validPassword = await bcrypt.compare(req.body.senhaUsuario, usuario[0].senhaUsuario);
+            const validPassword = await bcrypt.compare(req.body.password, user[0].password);
             if(validPassword){
-                const id = usuario[0].idUsuario;
+                const id = user[0].id;
                 dotenv.config();
                 const token = jwt.sign({ id }, process.env.SECRET, {
                     expiresIn: 7200 // expires in 2h
@@ -73,15 +74,17 @@ export const checkUsuario = async (req, res) => {
 }
  
 //Update user record on db by given id
-export const updateUsuario = async (req, res) => {
+export const updateUser = async (req, res) => {
     try {
-        await Usuario.update(req.body, {
+        const salt = await bcrypt.genSalt(10);
+        req.body.password = await bcrypt.hash(req.body.password, salt);
+        await User.update(req.body, {
             where: {
-                idUsuario: req.params.id
+                [UserAttrs.id]: req.params.id
             }
         });
         res.json({
-            "message": "Usuario Updated"
+            "message": "User Updated"
         });
     } catch (error) {
         res.json({ message: error.message });
@@ -90,15 +93,15 @@ export const updateUsuario = async (req, res) => {
 }
  
 //Delete user from db
-export const deleteUsuario = async (req, res) => {
+export const deleteUser = async (req, res) => {
     try {
-        await Usuario.destroy({
+        await User.destroy({
             where: {
-                idUsuario: req.params.id
+                [UserAttrs.id]: req.params.id
             }
         });
         res.json({
-            "message": "Usuario Deleted"
+            "message": "User Deleted"
         });
     } catch (error) {
         res.json({ message: error.message });

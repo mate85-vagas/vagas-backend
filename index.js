@@ -1,22 +1,17 @@
-import express from 'express';
-import db from './config/database.js';
-import vagaRoutes from './routes/vagaRoutes.js';
-import usuarioRoutes from './routes/usuarioRoutes.js';
-import cors from 'cors';
+import  express  from 'express';
+import  jobRoutes from './routes/jobRoutes.js';
+import  userRoutes from './routes/userRoutes.js';
+import  cors  from 'cors';
+import connect from './utils/connection.js';
  
 const app = express();
  
-try {
-    await db.authenticate();
-    await db.sync();
-    console.log('Database connected...');
-} catch (error) {
-    console.error('Connection error:', error);
-}
+//Try connection with db
+connect();
 
 app.use(cors());
 app.use(express.json());
-app.use('/vagas', vagaRoutes);
-app.use('/usuarios',usuarioRoutes);
+app.use('/vagas', jobRoutes);
+app.use('/usuarios',userRoutes);
  
 app.listen(5000, () => console.log('Server running at port 5000'));
