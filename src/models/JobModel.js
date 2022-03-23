@@ -15,6 +15,10 @@ const Job = db.define('job',{
     [JobAttrs.description]:{
         type: DataTypes.TEXT,
         allowNull: false
+    }, 
+    [JobAttrs.scholarity]:{
+        type: DataTypes.TEXT,
+        allowNull: false
     },
     [JobAttrs.title]:{
         type: DataTypes.STRING(60),
@@ -28,22 +32,26 @@ const Job = db.define('job',{
         type: DataTypes.STRING(30),
         allowNull: false
     },
+    [JobAttrs.locality]: {
+        type: DataTypes.STRING(25),
+        allowNull: false
+    },
     [JobAttrs.workload]:{
-        type:DataTypes.DOUBLE,
+        type: DataTypes.DOUBLE,
         allowNull: false
     },
     [JobAttrs.salary]:{
-        type:DataTypes.DOUBLE,
+        type: DataTypes.DOUBLE,
         allowNull: false
     },
     [JobAttrs.endingDate]:{
-        type:DataTypes.DATEONLY,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     [JobAttrs.startingDate]:{
-        type:DataTypes.DATEONLY,
+        type: DataTypes.DATEONLY,
         allowNull: false
-    },
+    }
 });
 
 User.hasMany(Job);

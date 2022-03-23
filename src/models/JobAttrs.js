@@ -7,5 +7,7 @@ export const JobAttrs = {
     workload : 'workload',
     salary : 'salary',
     endingDate : 'endingDate',
-    startingDate : 'startingDate'
+    startingDate : 'startingDate',
+    scholarity : 'scholarity',
+    locality : 'locality'
 }
