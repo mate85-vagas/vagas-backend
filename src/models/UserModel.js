@@ -11,6 +11,10 @@ const User = db.define('user',{
         autoIncrement: true,
         allowNull: false
     },
+    [UserAttrs.name]:{
+        type: DataTypes.STRING,
+        allowNull:false
+    },
     [UserAttrs.email]:{
         type: DataTypes.STRING,
         allowNull: false
