@@ -35,7 +35,7 @@ export const createUser = async (req, res) => {
         req.body.password = await bcrypt.hash(req.body.password, salt);
         await User.create(req.body);
         res.json({
-            "message": "User Created"
+            "message": "Usuario Criado"
         });
     } catch (error) {
         res.json({ message: error.message });
@@ -84,7 +84,7 @@ export const updateUser = async (req, res) => {
             }
         });
         res.json({
-            "message": "User Updated"
+            "message": "Usuario Atualizado"
         });
     } catch (error) {
         res.json({ message: error.message });
@@ -100,7 +100,7 @@ export const deleteUser = async (req, res) => {
             }
         });
         res.json({
-            "message": "User Deleted"
+            "message": "Usuario Deletado"
         });
     } catch (error) {
         res.json({ message: error.message });
