@@ -40,6 +40,10 @@ const Job = db.define('job',{
         type:DataTypes.DATEONLY,
         allowNull: false
     },
+    [JobAttrs.startingDate]:{
+        type:DataTypes.DATEONLY,
+        allowNull: false
+    },
 });
 
 User.hasMany(Job);
