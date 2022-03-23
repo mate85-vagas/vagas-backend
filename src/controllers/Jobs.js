@@ -61,7 +61,7 @@ export const createJob = async (req, res) => {
     try {
         await Job.create(req.body);
         res.json({
-            "message": "Job Created"
+            "message": "Vaga Criada"
         });
     } catch (error) {
         res.json({ message: error.message });
@@ -77,7 +77,7 @@ export const updateJob = async (req, res) => {
             }
         });
         res.json({
-            "message": "Job Updated"
+            "message": "Vaga Atualizada"
         });
     } catch (error) {
         res.json({ message: error.message });
@@ -94,7 +94,7 @@ export const deleteJob = async (req, res) => {
             }
         });
         res.json({
-            "message": "Job Deleted"
+            "message": "Vaga Deletada"
         });
     } catch (error) {
         res.json({ message: error.message });
