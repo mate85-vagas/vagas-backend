@@ -1,6 +1,7 @@
 export const UserAttrs = {
     password: 'password',
     id: 'id',
-    email:'email'
+    email:'email',
+    name: 'name'
  }
  

@@ -11,7 +11,7 @@ export const getAllJobs = async (req, res) => {
                 {
                     model: User,
                     as: "user",
-                    attributes:[UserAttrs.email]
+                    attributes:[UserAttrs.name,UserAttrs.email]
                 }
             ]
         });
@@ -32,7 +32,7 @@ export const getJobById = async (req, res) => {
                 {
                     model: User,
                     as: "user",
-                    attributes:[UserAttrs.email]
+                    attributes:[UserAttrs.name,UserAttrs.email]
                 }
             ]
         });
