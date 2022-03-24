@@ -17,7 +17,7 @@ const Job = db.define('job',{
         allowNull: false
     }, 
     [JobAttrs.scholarity]:{
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING(30),
         allowNull: false
     },
     [JobAttrs.title]:{
