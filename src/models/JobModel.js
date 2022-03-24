@@ -32,10 +32,6 @@ const Job = db.define('job',{
         type: DataTypes.STRING(30),
         allowNull: false
     },
-    [JobAttrs.locality]: {
-        type: DataTypes.STRING(25),
-        allowNull: false
-    },
     [JobAttrs.workload]:{
         type: DataTypes.DOUBLE,
         allowNull: false

@@ -9,5 +9,4 @@ export const JobAttrs = {
     endingDate : 'endingDate',
     startingDate : 'startingDate',
     scholarity : 'scholarity',
-    locality : 'locality'
 }
