@@ -7,7 +7,7 @@ import { UserAttrs } from '../models/UserAttrs.js';
 //Get all users from db
 export const getAllUsers = async (req, res) => {
     try {
-        const users = await User.findAll();
+        const users = await User.findAndCountAll();
         res.json(users);
     } catch (error) {
         res.json({ message: error.message });
@@ -17,12 +17,12 @@ export const getAllUsers = async (req, res) => {
 //Get user by given id from db
 export const getUserById = async (req, res) => {
     try {
-        const user = await User.findAll({
+        const user = await User.findOne({
             where: {
                 [UserAttrs.id]: req.params.id
             }
         });
-        res.json(user[0]);
+        res.json(user);
     } catch (error) {
         res.json({ message: error.message });
     }  
@@ -45,16 +45,16 @@ export const createUser = async (req, res) => {
 //Check user credentials
 export const checkUser = async (req, res) => {
     try {
-        const user = await User.findAll({
+        const user = await User.findOne({
             where: {
                 [UserAttrs.email]: req.body.email
             }
         });
-        if (user[0]){
+        if (user){
             //Compare password from req body to stored password by bcrypt compare
-            const validPassword = await bcrypt.compare(req.body.password, user[0].password);
+            const validPassword = await bcrypt.compare(req.body.password, user.password);
             if(validPassword){
-                const id = user[0].id;
+                const id = user.id;
                 dotenv.config();
                 const token = jwt.sign({ id }, process.env.SECRET, {
                     expiresIn: 7200 // expires in 2h
