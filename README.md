@@ -4,7 +4,7 @@ Make sure to have all dependencies installed before run the project, you can use
 
 Since you have all the dependencies, you can run the project by using ``` npx nodemon index ``` on your console.
 
-p.s.: Make sure to have a MySQL database named vagas_db running and all the environment tables set.
+p.s.: Make sure to have a MySQL database named vagas_db running and all the environment variables set.
 
 # API endpoints
 These endpoints will be used to consult, analyze and update informations on the application in IC's jobs base
