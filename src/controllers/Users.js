@@ -69,11 +69,11 @@ export const checkUser = async (req, res) => {
                 res.json({ token: token });
             }
             else{
-                res.status(401).json({ message: "Unauthorized" });
+                res.status(401).json({ message: "Acesso negado." });
             }
         }
         else{
-            res.status(401).json({ message: "Unauthorized" });
+            res.status(401).json({ message: "Acesso negado." });
         }
     } catch (error) {
         res.json({ message: error.message });
