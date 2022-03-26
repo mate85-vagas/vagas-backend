@@ -33,6 +33,7 @@ export const createUser = async (req, res) => {
     try {
         const salt = await bcrypt.genSalt(10);
         req.body.password = await bcrypt.hash(req.body.password, salt);
+        await checkExistentEmail(req)
         await User.create(req.body);
         res.json({
             "message": "Usuário criado."
@@ -41,6 +42,22 @@ export const createUser = async (req, res) => {
         res.json({ message: error.message });
     }  
 }
+
+//Check if e-mail exists in db
+const checkExistentEmail = async (req) =>{
+    try {
+        const user = await User.findOne({
+            where: {
+                [UserAttrs.email]: req.body.email
+            }
+        });
+        if (user){
+            throw new Error('Esse e-mail já existe.');
+        }
+    } catch (error){
+        throw new Error(error)
+     }
+}  
 
 //Check user credentials
 export const checkUser = async (req, res) => {
