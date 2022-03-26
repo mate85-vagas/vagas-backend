@@ -32,6 +32,7 @@ export const getUserById = async (req, res) => {
 export const createUser = async (req, res) => {
     try {
         const salt = await bcrypt.genSalt(10);
+        checkValidEmail(req.body.email);
         req.body.password = await bcrypt.hash(req.body.password, salt);
         await User.create(req.body);
         res.json({
@@ -40,6 +41,12 @@ export const createUser = async (req, res) => {
     } catch (error) {
         res.json({ message: error.message });
     }  
+}
+
+//Check if e-mail is valid
+const checkValidEmail = (email) => {
+    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email))
+        throw new Error("Esse e-mail não é válido.");
 }
 
 //Check user credentials
