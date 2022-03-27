@@ -3,7 +3,29 @@ import  bcrypt  from 'bcrypt';
 import  jwt  from 'jsonwebtoken';
 import  dotenv  from 'dotenv';
 import { UserAttrs } from '../models/UserAttrs.js';
- 
+
+
+//Check if e-mail is valid
+const checkValidEmail = (email) => {
+    const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!regex.test(email)) throw new Error("E-mail inválido ou existente.");
+}
+
+//Check if e-mail exists in db
+const checkExistentEmail = async (req) =>{
+    try {
+        const count = await User.count({
+            where: {
+                [UserAttrs.email]: req.body.email
+            }
+        });
+        if (count) throw new Error("E-mail inválido ou existente.");
+
+    } catch (error){
+        throw error;
+     }
+}  
+
 //Get all users from db
 export const getAllUsers = async (req, res) => {
     try {
@@ -31,6 +53,8 @@ export const getUserById = async (req, res) => {
 //Create new user
 export const createUser = async (req, res) => {
     try {
+        checkValidEmail(req.body.email);
+        await checkExistentEmail(req);
         const salt = await bcrypt.genSalt(10);
         req.body.password = await bcrypt.hash(req.body.password, salt);
         const user = await User.create(req.body);
