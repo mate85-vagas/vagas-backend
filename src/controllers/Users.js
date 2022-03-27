@@ -33,9 +33,13 @@ export const createUser = async (req, res) => {
     try {
         const salt = await bcrypt.genSalt(10);
         req.body.password = await bcrypt.hash(req.body.password, salt);
-        await User.create(req.body);
+        const user = await User.create(req.body);
+        const id = user.id
+        const token = jwt.sign({ id }, process.env.SECRET, {
+            expiresIn: 7200 // expires in 2h
+        });
         res.json({
-            "message": "Usuário criado."
+            token: token
         });
     } catch (error) {
         res.json({ message: error.message });
@@ -59,7 +63,9 @@ export const checkUser = async (req, res) => {
                 const token = jwt.sign({ id }, process.env.SECRET, {
                     expiresIn: 7200 // expires in 2h
                   });
-                res.json({ token: token });
+                res.json({ 
+                    token: token 
+                });
             }
             else{
                 res.status(401).json({ message: "Acesso negado." });
