@@ -152,7 +152,7 @@ ___
 ```
 { 
       {
-      "message: "Usuário criado.",
+      "token": "string with random token",
        }
     or
        {
