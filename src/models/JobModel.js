@@ -47,6 +47,9 @@ const Job = db.define('job',{
     [JobAttrs.startingDate]:{
         type: DataTypes.DATEONLY,
         allowNull: false
+    },
+    [JobAttrs.createdAt] : {
+        type: DataTypes.DATEONLY
     }
 });
 
