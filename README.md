@@ -1,37 +1,48 @@
 # How to run
 
-Make sure to have all dependencies installed before run the project, you can use ``` npm install ``` to do that.
+Make sure to have all dependencies installed before run the project, you can use `npm install` to do that.
 
-Since you have all the dependencies, you can run the project by using ``` npx nodemon index ``` on your console.
+Since you have all the dependencies, you can run the project by using `npx nodemon index` on your console.
 
 p.s.: Make sure to have a MySQL database named vagas_db running and all the environment variables set.
 
 # API endpoints
+
 These endpoints will be used to consult, analyze and update informations on the application in IC's jobs base
 
+# Code formatting setup
+
+Download prettier and eslint plugin in vscode.
+
+Execute command: `ctrl + shift + P`
+
+Now add: "editor.defaultFormatter": "esbenp.prettier-vscode", "editor.formatOnSave": true
+
 ## GET
+
 `url` [/usuarios](#get-usuarios) <br/>
 `url` [/vagas](#get-vagas) <br/>
 
 ## POST
+
 `url` [/usuarios](#post-usuarios)<br/>
 `url` [/usuarios/login](#post-usuarioslogin)<br/>
 `url` [/vagas](#post-vagas) <br/>
-___
+
+---
 
 ### GET /usuarios
 
 **Response**
 
-|          Name | Type   | Description  |
-| -------------:|:--------:|--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|     `id` |  int  | The user's identification code   |
-|     `name` | string  | The user's name
-|     `email` | string  | The user's email
-|     `password` |  string  | The user's password to sign in 
-|     `createdAt` | date  | The date of the job's record creation
-|     `updatedAt` | date  | The date of the last job's record update
-
+|        Name |  Type  | Description                              |
+| ----------: | :----: | ---------------------------------------- |
+|        `id` |  int   | The user's identification code           |
+|      `name` | string | The user's name                          |
+|     `email` | string | The user's email                         |
+|  `password` | string | The user's password to sign in           |
+| `createdAt` |  date  | The date of the job's record creation    |
+| `updatedAt` |  date  | The date of the last job's record update |
 
 **Example**
 
@@ -45,47 +56,48 @@ ___
       "updatedAt": "2022-03-24T16:36:05.000Z",
 }
 ```
-___
+
+---
 
 ### GET /vagas
 
 **Parameters**
 
-|          Name | Required |  Type   | Description  |
-| -------------:|:--------:|:-------:| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------| 
-|    `type` | optional | string | Shows you the type of the job... Internship, junior, full or senior                   |
-|     `site` | optional | string  | Tells you the city where you will work <br/><br/> In case of home office, tells you the city your team is alocated |
-|    `workload` | optional | int  | Your weekly workload          |
-|    `scholarity` | optional | string  | The minimum scholarity required fot the job   |
-|    `filter` | optional | string  | Filter will search in both description and title   |
-|    `min` | optional | float  | Lower bound of salary (must have `max` parameter too work) |
-|    `max` | optional | float  | Upper bound of salary (must have `min` parameter too work) |
-|    `itemsPerPage` | optional | int  | The number of items you want to see in a single page   |
-|    `pageNumber` | optional | int  | The page number   |
-|    `createdAt` | optional | date  | The date of the job's record creation   |
+|           Name | Required |  Type  | Description                                                                                                        |
+| -------------: | :------: | :----: | ------------------------------------------------------------------------------------------------------------------ |
+|         `type` | optional | string | Shows you the type of the job... Internship, junior, full or senior                                                |
+|         `site` | optional | string | Tells you the city where you will work <br/><br/> In case of home office, tells you the city your team is alocated |
+|     `workload` | optional |  int   | Your weekly workload                                                                                               |
+|   `scholarity` | optional | string | The minimum scholarity required fot the job                                                                        |
+|       `filter` | optional | string | Filter will search in both description and title                                                                   |
+|          `min` | optional | float  | Lower bound of salary (must have `max` parameter too work)                                                         |
+|          `max` | optional | float  | Upper bound of salary (must have `min` parameter too work)                                                         |
+| `itemsPerPage` | optional |  int   | The number of items you want to see in a single page                                                               |
+|   `pageNumber` | optional |  int   | The page number                                                                                                    |
+|    `createdAt` | optional |  date  | The date of the job's record creation                                                                              |
 
 **Response**
 
-|          Name |  Type   | Description |
-| -------------:|:--------:| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|    `count` | int | Counts the amount of data from database that matches with the requisition query (not based on pagination) |
-|    ` rows ` | array | Contains the data from database that matches with requisition query |
-|    ` id ` | int | The id of the job |
-|     `description` | string  | Explains the job's requirements   |
-|    `scholarity` | string  | The minimum scholarity required fot the job   |
-|        `title` | string  | A little 'spoiler' of the job's requirement |
-| `type` |  string | Shows you the type of the job... Internship, junior, full or senior                   |
-|       `site` | string  | Tells you the city where you will work <br/><br/> In case of home office, tells you the city your team is alocated
-|    `workload` |  int  | Your weekly workload          |
-|    `salary` |  float  | The monthly wage offer    |
-|    `endingDate` | date  | Deadline for the job in the database (default: 3 weeks, 6 months max)  |
-|    `startingDate` |  date  | When the job starts   |
-|    `createdAt` |  date | The date of the job's record creation   |
-|    `updatedAt` |  date  | The date of the last job's record update |
-|    `userId` | int  | The job's identification code   |
-|    `user` | object | Contains information about job's creator |
-|    `user.name` | string | Name of the creator of the job |
-|    `user.email` | string | Email of the creator of the job |
+|           Name |  Type  | Description                                                                                                        |
+| -------------: | :----: | ------------------------------------------------------------------------------------------------------------------ |
+|        `count` |  int   | Counts the amount of data from database that matches with the requisition query (not based on pagination)          |
+|         `rows` | array  | Contains the data from database that matches with requisition query                                                |
+|           `id` |  int   | The id of the job                                                                                                  |
+|  `description` | string | Explains the job's requirements                                                                                    |
+|   `scholarity` | string | The minimum scholarity required fot the job                                                                        |
+|        `title` | string | A little 'spoiler' of the job's requirement                                                                        |
+|         `type` | string | Shows you the type of the job... Internship, junior, full or senior                                                |
+|         `site` | string | Tells you the city where you will work <br/><br/> In case of home office, tells you the city your team is alocated |
+|     `workload` |  int   | Your weekly workload                                                                                               |
+|       `salary` | float  | The monthly wage offer                                                                                             |
+|   `endingDate` |  date  | Deadline for the job in the database (default: 3 weeks, 6 months max)                                              |
+| `startingDate` |  date  | When the job starts                                                                                                |
+|    `createdAt` |  date  | The date of the job's record creation                                                                              |
+|    `updatedAt` |  date  | The date of the last job's record update                                                                           |
+|       `userId` |  int   | The job's identification code                                                                                      |
+|         `user` | object | Contains information about job's creator                                                                           |
+|    `user.name` | string | Name of the creator of the job                                                                                     |
+|   `user.email` | string | Email of the creator of the job                                                                                    |
 
 **Example**
 
@@ -112,7 +124,7 @@ ___
                   "email": "vini@vini.ltda"
                }
        }
-       {        
+       {
                "id": 2
                "description: "Vaga programador sênior com pelo menos 5 anos de experiência, na Natan LTDA",
                "scolarity": "Ensino superior completo",
@@ -131,26 +143,25 @@ ___
                   "email": "natan@ntan.ltda"
                }
        }
- }             
+ }
 ```
-___
+
+---
 
 ### POST /usuarios
 
 **Body**
 
-|          Name | Type     | Required | Description |
-| -------------:|:--------:|:--------:|--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |                                                                
-|     `name` | required | string  | The user's name |
-|     `email` | required | string  | The user's email |
-|     `password` |  required | string  | The user's password to sign in |
-
-
+|       Name |   Type   | Required | Description                    |
+| ---------: | :------: | :------: | ------------------------------ |
+|     `name` | required |  string  | The user's name                |
+|    `email` | required |  string  | The user's email               |
+| `password` | required |  string  | The user's password to sign in |
 
 **Response**
 
 ```
-{ 
+{
       {
       "message: "Usuário criado.",
        }
@@ -158,32 +169,30 @@ ___
        {
        "message": "Erro",
        }
- }             
+ }
 ```
-___
+
+---
 
 ### POST /usuarios/login
 
 **Body**
 
-|          Name | Type   | Required | Description                                                                                                                                                           |
-| -------------:|:--------:|:--------:|--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |                                                              
-|     `email` | required | string  | The user's email |
-|     `password` |  required | string  | The user's password to sign in |
+|       Name |   Type   | Required | Description                    |
+| ---------: | :------: | :------: | ------------------------------ |
+|    `email` | required |  string  | The user's email               |
+| `password` | required |  string  | The user's password to sign in |
 
 **Response**
 
-|          Name | Type   | Description                                                                                                                                                           |
-| -------------:|:--------:|--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |                                                                  
-|     `token` |  string  | Random token to verify user access (expires in 2 hours) |
-
-
-
+|    Name |  Type  | Description                                             |
+| ------: | :----: | ------------------------------------------------------- |
+| `token` | string | Random token to verify user access (expires in 2 hours) |
 
 **Response**
 
 ```
-{ 
+{
       {
       "token": "string with random token",
        }
@@ -191,33 +200,32 @@ ___
        {
        "message": "Erro",
        }
- }             
+ }
 ```
-___
+
+---
 
 ### POST /vagas
 
 **Body**
 
-|          Name | Required |  Type   | Description                                                                                                                                                           |
-| -------------:|:--------:|:-------:| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|     `description` | required | string  | Explains the job's requirements                                                                      |
-|        `title` | required | string  | A little 'spoiler' of the job's requirement |
-| `type` | required | string | Shows you the type of the job... Internship, junior, full or senior                   |
-|       `site` | required | string  | Tells you the city where you will work <br/><br/> In case of home office, tells you the city your team is alocated
-|    `workload` | required | int  | Your weekly workload          |
-|    `salary` | required | float  | The monthly wage offer    |
-|    `endingDate` | required | date  | Deadline for the job in the database (default: 3 weeks, 6 months max)  |
-|    `startingDate` | required | date  | When the job starts   |
-|    `scholarity` | required | string  | The minimum scholarity required fot the job   |
-|    `userId` | required | int  | the job's identification code   |
-
-
+|           Name | Required |  Type  | Description                                                                                                        |
+| -------------: | :------: | :----: | ------------------------------------------------------------------------------------------------------------------ |
+|  `description` | required | string | Explains the job's requirements                                                                                    |
+|        `title` | required | string | A little 'spoiler' of the job's requirement                                                                        |
+|         `type` | required | string | Shows you the type of the job... Internship, junior, full or senior                                                |
+|         `site` | required | string | Tells you the city where you will work <br/><br/> In case of home office, tells you the city your team is alocated |
+|     `workload` | required |  int   | Your weekly workload                                                                                               |
+|       `salary` | required | float  | The monthly wage offer                                                                                             |
+|   `endingDate` | required |  date  | Deadline for the job in the database (default: 3 weeks, 6 months max)                                              |
+| `startingDate` | required |  date  | When the job starts                                                                                                |
+|   `scholarity` | required | string | The minimum scholarity required fot the job                                                                        |
+|       `userId` | required |  int   | the job's identification code                                                                                      |
 
 **Response**
 
 ```
-{ 
+{
       {
       "message": "Vaga criada",
        }
@@ -225,6 +233,7 @@ ___
        {
        "message": "Erro",
        }
- }             
+ }
 ```
-___
+
+---
