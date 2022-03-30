@@ -163,7 +163,7 @@ Now add: "editor.defaultFormatter": "esbenp.prettier-vscode", "editor.formatOnSa
 ```
 {
       {
-      "message: "Usuário criado.",
+      "token": "string with random token",
        }
     or
        {

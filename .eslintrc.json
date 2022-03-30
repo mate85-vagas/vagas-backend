@@ -10,6 +10,9 @@
   },
   "rules": {
     "semi": ["error", "always"],
-    "quotes": ["off", "single"]
+    "quotes": ["off", "single"],
+    "no-useless-escape": ["off"],
+    "no-useless-catch": ["off"],
+    "no-undef": ["off"]
   }
 }
