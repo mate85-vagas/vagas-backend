@@ -33,11 +33,11 @@ const Job = db.define('job',{
         allowNull: false
     },
     [JobAttrs.workload]:{
-        type: DataTypes.DOUBLE,
+        type: DataTypes.FLOAT,
         allowNull: false
     },
     [JobAttrs.salary]:{
-        type: DataTypes.DOUBLE,
+        type: DataTypes.FLOAT,
         allowNull: false
     },
     [JobAttrs.endingDate]:{
@@ -47,6 +47,9 @@ const Job = db.define('job',{
     [JobAttrs.startingDate]:{
         type: DataTypes.DATEONLY,
         allowNull: false
+    },
+    [JobAttrs.createdAt] : {
+        type: DataTypes.DATEONLY
     }
 });
 
