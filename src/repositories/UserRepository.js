@@ -1,12 +1,12 @@
 import User from '../models/UserModel.js';
 import { UserAttrs } from '../models/UserAttrs.js';
 
-export const getAllUsers = async () => {
+const getAllUsers = async () => {
   const users = await User.findAndCountAll();
   return users;
 };
 
-export const getUserById = async (id) => {
+const getUserById = async (id) => {
   const user = await User.findOne({
     where: {
       [UserAttrs.id]: id
@@ -15,7 +15,7 @@ export const getUserById = async (id) => {
   return user;
 };
 
-export const getUserByEmail = async (email) => {
+const getUserByEmail = async (email) => {
   const user = await User.findOne({
     where: {
       [UserAttrs.email]: email
@@ -24,7 +24,7 @@ export const getUserByEmail = async (email) => {
   return user;
 };
 
-export const checkExistentEmail = async (email) => {
+const checkExistentEmail = async (email) => {
   const count = await User.count({
     where: {
       [UserAttrs.email]: email
@@ -33,12 +33,12 @@ export const checkExistentEmail = async (email) => {
   return count;
 };
 
-export const createUser = async (body) => {
+const createUser = async (body) => {
   const user = await User.create(body);
   return user;
 };
 
-export const updateUser = async (body, id) => {
+const updateUser = async (body, id) => {
   await User.update(body, {
     where: {
       [UserAttrs.id]: id
@@ -46,7 +46,7 @@ export const updateUser = async (body, id) => {
   });
 };
 
-export const deleteUser = async (id) => {
+const deleteUser = async (id) => {
   await User.destroy({
     where: {
       [UserAttrs.id]: id
