@@ -1,14 +1,23 @@
 import express from 'express';
 
-import { getAllUsers, createUser, getUserById, updateUser, deleteUser, checkUser } from '../controllers/Users.js';
-import { getJobByUserId } from '../controllers/Jobs.js';
+import {
+  getAllUsers,
+  createUser,
+  getUserById,
+  updateUser,
+  deleteUser,
+  checkUser,
+  getCreatedJobsByUser,
+  getAppliedJobsByUser
+} from '../controllers/Users.js';
 
 const router = express.Router();
 
 //Routes for User
 router.get('/', getAllUsers);
-router.get('/minhasVagas/:id', getJobByUserId);
 router.get('/:id', getUserById);
+router.get('/:id/vagas_criadas', getCreatedJobsByUser);
+router.get('/:id/vagas_aplicadas', getAppliedJobsByUser);
 router.post('/', createUser);
 router.post('/login', checkUser);
 router.patch('/:id', updateUser);
