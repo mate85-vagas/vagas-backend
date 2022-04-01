@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import repository from '../repositories/UserRepository.js';
+import User_JobRepository from '../repositories/User_JobRepository.js';
 
 //Check if e-mail is valid
 const checkValidEmail = (email) => {
@@ -34,6 +35,26 @@ export const getUserById = async (req, res) => {
     const user = await repository.getUserById(req.params.id);
     if (user) res.json(user);
     else res.json({ message: 'Usuário não encontrado.' });
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+
+//Get all jobs that user created
+export const getCreatedJobsByUser = async (req, res) => {
+  try {
+    const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, true);
+    res.json(user_jobs);
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+
+//Get all jobs that user applied to
+export const getAppliedJobsByUser = async (req, res) => {
+  try {
+    const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, false);
+    res.json(user_jobs);
   } catch (error) {
     res.json({ message: error.message });
   }

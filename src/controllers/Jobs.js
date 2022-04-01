@@ -25,20 +25,10 @@ export const getJobById = async (req, res) => {
   }
 };
 
-//Get all jobs related to a user by given user id
-export const getJobByUserId = async (req, res) => {
-  try {
-    const job = await repository.getJobByUserId(req.params.id);
-    res.json(job);
-  } catch (error) {
-    res.json({ message: error.message });
-  }
-};
-
 //Create new job
 export const createJob = async (req, res) => {
   try {
-    await repository.createJob(req.body);
+    await repository.createJob(req.body, req.body.userId);
     res.json({
       message: 'Vaga criada.'
     });
@@ -66,6 +56,16 @@ export const deleteJob = async (req, res) => {
     res.json({
       message: 'Vaga deletada.'
     });
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+
+//Apply user to a job
+export const applyToJob = async (req, res) => {
+  try {
+    await repository.applyToJob(req.body.userId, req.body.jobId);
+    res.json({ message: 'Aplicação realizada.' });
   } catch (error) {
     res.json({ message: error.message });
   }
