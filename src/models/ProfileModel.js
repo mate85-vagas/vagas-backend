@@ -12,13 +12,24 @@ const Profile = db.define('profile', {
       allowNull: false
     },
     [ProfileAttrs.birthDate]: {
-        type: DataTypes.INTEGER
+        type: DataTypes.DATEONLY,
+        allowNull: false
     },
     [ProfileAttrs.knowledge]: {
-        type: DataTypes.ARRAY(DataTypes.STRING(30))
+        type: DataTypes.STRING(255),
+        allowNull: false
     },
     [ProfileAttrs.technologies]: {
-        type: DataTypes.ARRAY(DataTypes.STRING(30))
+        type: DataTypes.STRING(255),
+        allowNull: false
+    },
+    [ProfileAttrs.languages]: {
+        type: DataTypes.STRING(255),
+        allowNull: true
+    },
+    [ProfileAttrs.linkResume]: {
+        type: DataTypes.STRING(255),
+        allowNull: false
     }
   });
   
