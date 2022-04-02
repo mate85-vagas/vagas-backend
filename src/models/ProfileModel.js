@@ -1,6 +1,8 @@
 import { Sequelize } from 'sequelize';
 import db from '../config/database.js';
 import { ProfileAttrs } from './ProfileAttrs.js';
+import User from './UserModel.js';
+
 
 const { DataTypes } = Sequelize;
 
@@ -31,6 +33,9 @@ const Profile = db.define('profile', {
         type: DataTypes.STRING(255),
         allowNull: false
     }
-  });
+});
   
-  export default Profile;
+User.hasOne(Profile)
+Profile.belongsTo(User)
+
+export default Profile;
