@@ -1,5 +1,4 @@
 import db from '../config/database.js';
-import Profile from '../models/ProfileModel.js';
 
 //Authenticate with db and sync tables with models
 const connect = async () => {
