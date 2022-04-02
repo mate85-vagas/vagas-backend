@@ -1,0 +1,20 @@
+openapi: '3.0.0'
+info:
+  title: Vagas
+  description: Service documentation
+  version: 1.0.0 BETA
+servers:
+  - url: /
+    description: API - Vagas
+schemes:
+  - http
+
+paths:
+  /health-check:
+    get:
+      tags:
+        - Health check
+      summary: API integrity check
+      responses:
+        200:
+          description: OK

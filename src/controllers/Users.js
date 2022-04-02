@@ -1,125 +1,133 @@
-import  User  from '../models/UserModel.js';
-import  bcrypt  from 'bcrypt';
-import  jwt  from 'jsonwebtoken';
-import  dotenv  from 'dotenv';
-import { UserAttrs } from '../models/UserAttrs.js';
- 
-//Get all users from db
-export const getAllUsers = async (req, res) => {
-    try {
-        const users = await User.findAndCountAll();
-        res.json(users);
-    } catch (error) {
-        res.json({ message: error.message });
-    }  
-}
- 
-//Get user by given id from db
-export const getUserById = async (req, res) => {
-    try {
-        const user = await User.findOne({
-            where: {
-                [UserAttrs.id]: req.params.id
-            }
-        });
-        res.json(user);
-    } catch (error) {
-        res.json({ message: error.message });
-    }  
-}
- 
-//Create new user
-export const createUser = async (req, res) => {
-    try {
-        const salt = await bcrypt.genSalt(10);
-        req.body.password = await bcrypt.hash(req.body.password, salt);
-        await checkExistentEmail(req)
-        await User.create(req.body);
-        res.json({
-            "message": "Usuário criado."
-        });
-    } catch (error) {
-        res.json({ message: error.message });
-    }  
-}
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import repository from '../repositories/UserRepository.js';
+import User_JobRepository from '../repositories/User_JobRepository.js';
+
+//Check if e-mail is valid
+const checkValidEmail = (email) => {
+  const regex =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (!regex.test(email)) throw new Error('E-mail inválido ou existente.');
+};
 
 //Check if e-mail exists in db
-const checkExistentEmail = async (req) =>{
-    try {
-        const user = await User.findOne({
-            where: {
-                [UserAttrs.email]: req.body.email
-            }
-        });
-        if (user){
-            throw new Error('Esse e-mail já existe.');
-        }
-    } catch (error){
-        throw new Error(error)
-     }
-}  
+const checkExistentEmail = async (email) => {
+  try {
+    const count = await repository.checkExistentEmail(email);
+    if (count) throw new Error('E-mail inválido ou existente.');
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await repository.getAllUsers();
+    res.json(users);
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+
+export const getUserById = async (req, res) => {
+  try {
+    const user = await repository.getUserById(req.params.id);
+    if (user) res.json(user);
+    else res.json({ message: 'Usuário não encontrado.' });
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+
+//Get all jobs that user created
+export const getCreatedJobsByUser = async (req, res) => {
+  try {
+    const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, true);
+    res.json(user_jobs);
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+
+//Get all jobs that user applied to
+export const getAppliedJobsByUser = async (req, res) => {
+  try {
+    const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, false);
+    res.json(user_jobs);
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+
+export const createUser = async (req, res) => {
+  try {
+    checkValidEmail(req.body.email);
+    await checkExistentEmail(req.body.email);
+    const salt = await bcrypt.genSalt(10);
+    req.body.password = await bcrypt.hash(req.body.password, salt);
+    const user = await repository.createUser(req.body);
+    const id = user.id;
+    const token = jwt.sign({ id }, process.env.SECRET, {
+      expiresIn: 7200 // expires in 2h
+    });
+    res.json({
+      token: token
+    });
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
 
 //Check user credentials
 export const checkUser = async (req, res) => {
-    try {
-        const user = await User.findOne({
-            where: {
-                [UserAttrs.email]: req.body.email
-            }
+  try {
+    const user = await repository.getUserByEmail(req.body.email);
+    if (user) {
+      //Compare password from req body to stored password by bcrypt compare
+      const validPassword = await bcrypt.compare(req.body.password, user.password);
+      if (validPassword) {
+        const id = user.id;
+        dotenv.config();
+        const token = jwt.sign({ id }, process.env.SECRET, {
+          expiresIn: 7200 // expires in 2h
         });
-        if (user){
-            //Compare password from req body to stored password by bcrypt compare
-            const validPassword = await bcrypt.compare(req.body.password, user.password);
-            if(validPassword){
-                const id = user.id;
-                dotenv.config();
-                const token = jwt.sign({ id }, process.env.SECRET, {
-                    expiresIn: 7200 // expires in 2h
-                  });
-                res.json({ token: token });
-            }
-            else{
-                res.status(401).json({ message: "Acesso negado." });
-            }
-        }
-        else{
-            res.status(401).json({ message: "Acesso negado." });
-        }
-    } catch (error) {
-        res.json({ message: error.message });
-    }  
-}
- 
-//Update user record on db by given id
+        res.json({
+          token: token
+        });
+      } else {
+        res.status(401).json({ message: 'Acesso negado.' });
+      }
+    } else {
+      res.status(401).json({ message: 'Acesso negado.' });
+    }
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+
 export const updateUser = async (req, res) => {
-    try {
-        const salt = await bcrypt.genSalt(10);
-        req.body.password = await bcrypt.hash(req.body.password, salt);
-        await User.update(req.body, {
-            where: {
-                [UserAttrs.id]: req.params.id
-            }
-        });
-        res.json({
-            "message": "Usuário atualizado."
-        });
-    } catch (error) {
-        res.json({ message: error.message });
-    }  
-}
- 
-//Delete user from db
+  try {
+    checkValidEmail(req.body.email);
+    await checkExistentEmail(req.body.email);
+    const salt = await bcrypt.genSalt(10);
+    req.body.password = await bcrypt.hash(req.body.password, salt);
+    await repository.updateUser(req.body, req.params.id);
+    res.json({
+      message: 'Usuário atualizado.'
+    });
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+
 export const deleteUser = async (req, res) => {
-    try {
-        await User.destroy({
-            where: {
-                [UserAttrs.id]: req.params.id
-            }
-        });
-        res.json({
-            "message": "Usuário deletado."
-        });
-    } catch (error) {
-        res.json({ message: error.message });
-    }  
-}
+  try {
+    await repository.deleteUser(req.params.id);
+    res.json({
+      message: 'Usuário deletado.'
+    });
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
