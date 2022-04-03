@@ -3,7 +3,7 @@ import {
     getAllProfiles,
     getProfileById,
     updateProfile
-} from "../controllers/Profiles";
+} from "../controllers/Profiles.js";
 
 const router = express.Router();
 

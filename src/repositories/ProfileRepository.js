@@ -23,4 +23,5 @@ const getProfileById = async (id) => {
       }
     });
   };
+  export default{ updateProfile,getAllProfiles,getProfileById };
   

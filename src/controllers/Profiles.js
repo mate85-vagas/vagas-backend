@@ -1,4 +1,5 @@
 import repository from '../repositories/ProfileRepository.js';
+import { ProfileAttrs } from '../models/ProfileAttrs.js';
  
 export const getAllProfiles = async (req, res) => {
     try {
@@ -18,11 +19,7 @@ export const getProfileById = async (req, res) => {
   };
 export const updateProfile = async (req, res) => {
     try {
-        await Profile.update(req.body, {
-            where: {
-                [ProfileModel.id]: req.params.id
-            }
-        });
+        await repository.updateProfile(req.body, req.params.id);
         res.json({
             "message": "Perfil atualizado."
         });
