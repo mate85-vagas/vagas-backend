@@ -1,9 +1,5 @@
 import express from 'express';
-import { 
-    getAllProfiles,
-    getProfileById,
-    updateProfile
-} from "../controllers/Profiles.js";
+import { getAllProfiles, getProfileById, updateProfile } from '../controllers/Profiles.js';
 
 const router = express.Router();
 
