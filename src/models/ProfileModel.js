@@ -31,6 +31,10 @@ const Profile = db.define('profile', {
   [ProfileAttrs.linkResume]: {
     type: DataTypes.STRING(255),
     allowNull: true
+  },
+  [ProfileAttrs.searchable]: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
   }
 });
 

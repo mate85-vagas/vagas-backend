@@ -12,7 +12,8 @@ export const getAllProfiles = async (req, res) => {
 export const getProfileById = async (req, res) => {
   try {
     const profile = await repository.getProfileById(req.params.id);
-    res.json(profile);
+    if (profile) res.json(profile);
+    else res.json({ message: 'Perfil não encontrado.' });
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -29,7 +30,6 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-//Create new profile
 export const createProfile = async (req, res) => {
   try {
     await repository.createProfile(req.body);
@@ -41,7 +41,6 @@ export const createProfile = async (req, res) => {
   }
 };
 
-//Delete profile from db
 export const deleteProfile = async (req, res) => {
   try {
     await repository.deleteProfile(req.params.id);
