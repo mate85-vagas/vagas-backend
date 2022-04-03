@@ -11,7 +11,9 @@ const getProfileById = async (id) => {
 };
 
 const getAllProfiles = async () => {
-  const profiles = await Profile.findAndCountAll();
+  const profiles = await Profile.findAndCountAll({
+    where: { [ProfileAttrs.searchable]: true }
+  });
   return profiles;
 };
 

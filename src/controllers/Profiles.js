@@ -1,5 +1,6 @@
 import repository from '../repositories/ProfileRepository.js';
 
+//Get all searchable profiles
 export const getAllProfiles = async (req, res) => {
   try {
     const profiles = await repository.getAllProfiles();
