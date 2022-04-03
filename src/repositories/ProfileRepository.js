@@ -22,4 +22,18 @@ const updateProfile = async (body, id) => {
     }
   });
 };
-export default { updateProfile, getAllProfiles, getProfileById };
+
+const createProfile = async (body) => {
+  const profile = await Profile.create(body);
+  return profile;
+};
+
+const deleteProfile = async (id) => {
+  await Profile.destroy({
+    where: {
+      [ProfileAttrs.id]: id
+    }
+  });
+};
+
+export default { updateProfile, getAllProfiles, getProfileById, createProfile, deleteProfile };
