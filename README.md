@@ -2,7 +2,7 @@
 
 Make sure to have all dependencies installed before run the project, you can use `npm install` to do that.
 
-Since you have all the dependencies, you can run the project by using `npx nodemon index` on your console.
+Since you have all the dependencies, you can run the project by using `npx nodemon src/index` on your console, in vagas-backend dir.
 
 p.s.: Make sure to have a MySQL database named vagas_db running and all the environment variables set.
 <!---
