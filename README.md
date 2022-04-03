@@ -5,11 +5,11 @@ Make sure to have all dependencies installed before run the project, you can use
 Since you have all the dependencies, you can run the project by using `npx nodemon index` on your console.
 
 p.s.: Make sure to have a MySQL database named vagas_db running and all the environment variables set.
-
+<!---
 # API endpoints
 
 These endpoints will be used to consult, analyze and update informations on the application in IC's jobs base
-
+--->
 # Code formatting setup
 
 Download prettier and eslint plugin in vscode.
@@ -17,7 +17,7 @@ Download prettier and eslint plugin in vscode.
 Execute command: `ctrl + shift + P`
 
 Now add: "editor.defaultFormatter": "esbenp.prettier-vscode", "editor.formatOnSave": true
-
+<!---
 ## GET
 
 `url` [/usuarios](#get-usuarios) <br/>
@@ -237,3 +237,4 @@ Now add: "editor.defaultFormatter": "esbenp.prettier-vscode", "editor.formatOnSa
 ```
 
 ---
+--->
