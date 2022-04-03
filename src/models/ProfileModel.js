@@ -30,7 +30,7 @@ const Profile = db.define('profile', {
   },
   [ProfileAttrs.linkResume]: {
     type: DataTypes.STRING(255),
-    allowNull: false
+    allowNull: true
   }
 });
 
