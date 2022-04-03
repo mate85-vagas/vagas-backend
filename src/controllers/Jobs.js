@@ -1,5 +1,6 @@
 import repository from '../repositories/JobRepository.js';
 import { buildJobWhereClause } from '../utils/filters.js';
+import User_JobRepository from '../repositories/User_JobRepository.js';
 
 //Get all jobs from db (can return filtered data by HTTP GET params)
 export const getAllJobs = async (req, res) => {
@@ -17,8 +18,8 @@ export const getAllJobs = async (req, res) => {
 //Get a job by given id
 export const getJobById = async (req, res) => {
   try {
-    const job = await repository.getJobById(req.params.id);
-    if (job) res.json(job);
+    const jobInfo = await User_JobRepository.getInformationByJobId(req.params.id);
+    if (jobInfo) res.json(jobInfo);
     else res.json({ message: 'Vaga não encontrada.' });
   } catch (error) {
     res.json({ message: error.message });

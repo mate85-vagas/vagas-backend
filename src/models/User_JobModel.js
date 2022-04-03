@@ -17,11 +17,12 @@ const User_Job = db.define(
   { timestamps: false }
 );
 
-User.belongsToMany(Job, { through: User_Job });
-Job.belongsToMany(User, { through: User_Job });
-User_Job.belongsTo(Job);
-User_Job.belongsTo(User);
-Job.hasMany(User_Job);
-User.hasMany(User_Job);
+//Super M:N association
+User.belongsToMany(Job, { through: User_Job }, { onDelete: 'CASCADE' });
+Job.belongsToMany(User, { through: User_Job }, { onDelete: 'CASCADE' });
+User_Job.belongsTo(Job, { onDelete: 'CASCADE' });
+User_Job.belongsTo(User, { onDelete: 'CASCADE' });
+Job.hasMany(User_Job, { onDelete: 'CASCADE' });
+User.hasMany(User_Job, { onDelete: 'CASCADE' });
 
 export default User_Job;
