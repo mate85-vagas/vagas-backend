@@ -72,6 +72,7 @@ export const createUser = async (req, res) => {
       expiresIn: 7200 // expires in 2h
     });
     res.json({
+      id: id,
       token: token
     });
   } catch (error) {
@@ -93,6 +94,7 @@ export const checkUser = async (req, res) => {
           expiresIn: 7200 // expires in 2h
         });
         res.json({
+          id: id,
           token: token
         });
       } else {
