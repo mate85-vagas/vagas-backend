@@ -4,5 +4,6 @@ export const ProfileAttrs = {
   knowledge: 'knowledge',
   technologies: 'technologies',
   languages: 'languages',
-  linkResume: 'linkResume'
+  linkResume: 'linkResume',
+  searchable: 'searchable'
 };
