@@ -22,4 +22,13 @@ const updateProfile = async (body, id) => {
     }
   });
 };
-export default { updateProfile, getAllProfiles, getProfileById };
+
+const deleteProfile = async (id) => {
+  await Profile.destroy({
+    where: {
+      [ProfileAttrs.id]: id
+    }
+  });
+};
+
+export default { updateProfile, getAllProfiles, getProfileById, deleteProfile };

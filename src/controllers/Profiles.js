@@ -26,3 +26,14 @@ export const updateProfile = async (req, res) => {
     res.json({ message: error.message });
   }
 };
+
+export const deleteJob = async (req, res) => {
+  try {
+    await repository.deleteJob(req.params.id);
+    res.json({
+      message: 'Perfil deletado.'
+    });
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
