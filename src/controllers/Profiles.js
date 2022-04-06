@@ -13,9 +13,12 @@ export const getAllProfiles = async (req, res) => {
 
 export const getProfileById = async (req, res) => {
   try {
+    const userId = auth.checkTokenAndReturnId(req.headers['x-acess-token']);
     const profile = await repository.getProfileById(req.params.id);
-    if (profile) res.json(profile);
-    else res.json({ message: 'Perfil não encontrado.' });
+    if (profile) {
+      if (profile.userId == userId) res.json(profile);
+      else throw new Error('Acesso não autorizado.');
+    } else res.json({ message: 'Perfil não encontrado.' });
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -50,10 +53,11 @@ export const createProfile = async (req, res) => {
 
 export const deleteProfile = async (req, res) => {
   try {
-    const userId = req.headers['user-id'];
-    if (userId && repository.countProfileByUserId(userId)) {
-      auth.checkToken(userId, req.headers['x-acess-token']);
-      await repository.deleteProfile(req.params.id);
+    const userId = auth.checkTokenAndReturnId(req.headers['x-acess-token']);
+    const profile = await repository.getProfileByUserId(userId);
+    console.log(profile.id);
+    if (profile.id == req.params.id) {
+      await repository.deleteProfile(profile.id);
       res.json({
         message: 'Perfil deletado.'
       });

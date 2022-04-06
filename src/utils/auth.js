@@ -24,4 +24,15 @@ const checkToken = (id, token) => {
   }
 };
 
-export default { createToken, checkToken };
+//Validates token and return user id
+const checkTokenAndReturnId = (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET);
+    return decoded.userId;
+  } catch (error) {
+    error.message = 'Acesso não autorizado';
+    throw error;
+  }
+};
+
+export default { createToken, checkToken, checkTokenAndReturnId };

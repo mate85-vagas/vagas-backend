@@ -61,10 +61,9 @@ export const updateJob = async (req, res) => {
 //Delete job from db
 export const deleteJob = async (req, res) => {
   try {
-    const userId = req.headers['user-id'];
+    const userId = auth.checkTokenAndReturnId(req.headers['x-acess-token']);
     const jobId = req.params.id;
-    if (userId && (await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId))) {
-      auth.checkToken(userId, req.headers['x-acess-token']);
+    if (await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId)) {
       await repository.deleteJob(jobId);
       res.json({
         message: 'Vaga deletada.'
