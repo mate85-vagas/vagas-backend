@@ -59,4 +59,12 @@ const getInformationByJobId = async (jobId) => {
   return createdJobsByUser;
 };
 
-export default { createUser_Job, getJobsByUserId, getInformationByJobId };
+//Check if user created a job
+const countUser_JobByJobIdAndUserId = async (jobId, userId) => {
+  const count = await User_Job.count({
+    where: { [User_JobAttrs.jobId]: jobId, [User_JobAttrs.userId]: userId, [User_JobAttrs.created]: true }
+  });
+  return count;
+};
+
+export default { createUser_Job, getJobsByUserId, getInformationByJobId, countUser_JobByJobIdAndUserId };
