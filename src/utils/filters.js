@@ -25,3 +25,25 @@ export const buildJobWhereClause = (req) =>{
     
     return content;
 }
+export const buildProfileWhereClause = (req) =>{
+    var content = {}
+    if(req.query.filter){
+        content = { 
+            [Op.or]:{
+                title:{ 
+                    [Op.like]: `%${req.query.filter}%`
+                },
+                description:{
+                    [Op.like]: `%${req.query.filter}%`
+                }
+            }
+        }
+    } 
+    if (req.query.name) content.name = {[Op.like]: `%${req.query.name}%`}
+    if (req.query.scholarity) content.scholarity = {[Op.like]: `%${req.query.scholarity}%`}
+    if (req.query.knowledge) content.knowledge = {[Op.like]: `%${req.query.knowledge}%`}
+    if (req.query.technologies) content.technologies = {[Op.like]: `%${req.query.technologies}%`}
+    if (req.query.languages) content.languages = {[Op.like]: `%${req.query.languages}%`}
+    if (req.query.searchable) content.searchable = {[Op.like]: `%${req.query.searchable}%`}
+    return content;
+}

@@ -1,9 +1,13 @@
 import repository from '../repositories/ProfileRepository.js';
+import { buildProfileWhereClause } from '../utils/filters.js';
 
 //Get all searchable profiles
 export const getAllProfiles = async (req, res) => {
   try {
-    const profiles = await repository.getAllProfiles();
+    const pageNumber = parseInt(req.query.pageNumber);
+    const itemsPerPage = parseInt(req.query.itemsPerPage);
+    const filters = buildProfileWhereClause(req);
+    const profiles = await repository.getAllProfiles(filters, itemsPerPage, pageNumber);
     res.json(profiles);
   } catch (error) {
     res.json({ message: error.message });
