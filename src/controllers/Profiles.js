@@ -27,13 +27,16 @@ export const getProfileById = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const userId = req.body.userId;
-    if (userId && repository.countProfileByUserId(userId)) {
-      auth.checkToken(userId, req.headers['x-acess-token']);
-      await repository.updateProfile(req.body, req.params.id);
-      res.json({
-        message: 'Perfil atualizado.'
-      });
-    } else throw new Error('Acesso não autorizado.');
+    const profile = await repository.getProfileById(req.params.id);
+    if (profile) {
+      if (profile.userId == userId) {
+        auth.checkToken(userId, req.headers['x-acess-token']);
+        await repository.updateProfile(req.body, req.params.id);
+        res.json({
+          message: 'Perfil atualizado.'
+        });
+      } else throw new Error('Acesso não autorizado.');
+    } else res.json({ message: 'Perfil não encontrado.' });
   } catch (error) {
     res.json({ message: error.message });
   }
