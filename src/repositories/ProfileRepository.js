@@ -10,6 +10,15 @@ const getProfileById = async (id) => {
   return profile;
 };
 
+const getProfileByUserId = async (userId) => {
+  const profile = await Profile.findOne({
+    where: {
+      userId: userId
+    }
+  });
+  return profile;
+};
+
 const getAllProfiles = async () => {
   const profiles = await Profile.findAndCountAll({
     where: { [ProfileAttrs.searchable]: true }
@@ -38,4 +47,11 @@ const deleteProfile = async (id) => {
   });
 };
 
-export default { updateProfile, getAllProfiles, getProfileById, createProfile, deleteProfile };
+export default {
+  updateProfile,
+  getAllProfiles,
+  getProfileById,
+  createProfile,
+  deleteProfile,
+  getProfileByUserId
+};

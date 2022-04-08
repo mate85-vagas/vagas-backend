@@ -1,6 +1,7 @@
 import repository from '../repositories/JobRepository.js';
 import { buildJobWhereClause } from '../utils/filters.js';
 import User_JobRepository from '../repositories/User_JobRepository.js';
+import auth from '../utils/auth.js';
 
 //Get all jobs from db (can return filtered data by HTTP GET params)
 export const getAllJobs = async (req, res) => {
@@ -29,7 +30,9 @@ export const getJobById = async (req, res) => {
 //Create new job
 export const createJob = async (req, res) => {
   try {
-    await repository.createJob(req.body, req.body.userId);
+    const userId = req.body.userId;
+    auth.checkToken(userId, req.headers['x-acess-token']);
+    await repository.createJob(req.body, userId);
     res.json({
       message: 'Vaga criada.'
     });
@@ -41,10 +44,15 @@ export const createJob = async (req, res) => {
 //Update job record on db
 export const updateJob = async (req, res) => {
   try {
-    await repository.updateJob(req.body, req.params.id);
-    res.json({
-      message: 'Vaga atualizada.'
-    });
+    const userId = req.body.userId;
+    const jobId = req.params.id;
+    if (userId && (await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId))) {
+      auth.checkToken(userId, req.headers['x-acess-token']);
+      await repository.updateJob(req.body, jobId);
+      res.json({
+        message: 'Vaga atualizada.'
+      });
+    } else throw new Error('Acesso não autorizado.');
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -53,10 +61,14 @@ export const updateJob = async (req, res) => {
 //Delete job from db
 export const deleteJob = async (req, res) => {
   try {
-    await repository.deleteJob(req.params.id);
-    res.json({
-      message: 'Vaga deletada.'
-    });
+    const userId = auth.checkTokenAndReturnId(req.headers['x-acess-token']);
+    const jobId = req.params.id;
+    if (await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId)) {
+      await repository.deleteJob(jobId);
+      res.json({
+        message: 'Vaga deletada.'
+      });
+    } else throw new Error('Acesso não autorizado.');
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -65,7 +77,9 @@ export const deleteJob = async (req, res) => {
 //Apply user to a job
 export const applyToJob = async (req, res) => {
   try {
-    await repository.applyToJob(req.body.userId, req.body.jobId);
+    const userId = req.body.userId;
+    auth.checkToken(userId, req.headers['x-acess-token']);
+    await repository.applyToJob(userId, req.body.jobId);
     res.json({ message: 'Aplicação realizada.' });
   } catch (error) {
     res.json({ message: error.message });
