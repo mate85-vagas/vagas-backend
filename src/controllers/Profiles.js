@@ -42,7 +42,7 @@ export const updateProfile = async (req, res) => {
       } else throw new Error('Acesso não autorizado.');
     } else res.json({ message: 'Perfil não encontrado.' });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -54,7 +54,7 @@ export const createProfile = async (req, res) => {
       message: 'Perfil criado.'
     });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
