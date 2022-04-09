@@ -21,8 +21,7 @@ const getProfileByUserId = async (userId) => {
 
 const getAllProfiles = async (filters, itemsPerPage, pageNumber) => {
   const profiles = await Profile.findAndCountAll({
-    where:
-    filters,
+    where: filters,
     offset: (pageNumber - 1) * itemsPerPage || 0,
     limit: itemsPerPage || undefined,
   });
