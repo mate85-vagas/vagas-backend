@@ -115,10 +115,14 @@ export const checkUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     auth.checkToken(req.params.id, req.headers['x-access-token']);
-    checkValidEmail(req.body.email);
-    await checkExistentEmail(req.body.email);
-    const salt = await bcrypt.genSalt(10);
-    req.body.password = await bcrypt.hash(req.body.password, salt);
+    if (req.body.email) {
+      checkValidEmail(req.body.email);
+      await checkExistentEmail(req.body.email);
+    }
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      req.body.password = await bcrypt.hash(req.body.password, salt);
+    }
     await repository.updateUser(req.body, req.params.id);
     res.json({
       message: 'Usuário atualizado.'
