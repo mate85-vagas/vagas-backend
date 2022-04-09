@@ -29,7 +29,6 @@ export const buildJobWhereClause = (req) =>{
 export const buildProfileWhereClause = (req) =>{
     var content = {}
     content.searchable = {[Op.eq]: true}
-    if (req.query.name) content.name = {[Op.like]: `%${req.query.name}%`}
     if (req.query.scholarity) content.scholarity = {[Op.like]: `%${req.query.scholarity}%`}
     if (req.query.knowledge) content.knowledge = {[Op.like]: `%${req.query.knowledge}%`}
     if (req.query.technologies) content.technologies = {[Op.like]: `%${req.query.technologies}%`}
