@@ -8,7 +8,7 @@ const getProfileById = async (id) => {
     }
   });
   return profile;
-}
+};
 
 const getProfileByUserId = async (userId) => {
   const profile = await Profile.findOne({
