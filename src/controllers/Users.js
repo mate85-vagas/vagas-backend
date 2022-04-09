@@ -41,7 +41,6 @@ export const getUserById = async (req, res) => {
       let profileId = -1;
       if (profile) profileId = profile.userId;
       user.dataValues.profileId = profileId;
-      //user._options.attributes.push('profileId');
       res.json(user);
     } else res.json({ message: 'Usuário não encontrado.' });
   } catch (error) {
