@@ -16,6 +16,10 @@ const Profile = db.define('profile', {
     type: DataTypes.DATEONLY,
     allowNull: false
   },
+  [ProfileAttrs.scholarity]: {
+    type: DataTypes.STRING(30),
+    allowNull: false
+  },
   [ProfileAttrs.knowledge]: {
     type: DataTypes.STRING(255),
     allowNull: false
