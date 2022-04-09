@@ -31,7 +31,7 @@ export const getJobById = async (req, res) => {
 export const createJob = async (req, res) => {
   try {
     const userId = req.body.userId;
-    auth.checkToken(userId, req.headers['x-acess-token']);
+    auth.checkToken(userId, req.headers['x-access-token']);
     await repository.createJob(req.body, userId);
     res.json({
       message: 'Vaga criada.'
@@ -47,7 +47,7 @@ export const updateJob = async (req, res) => {
     const userId = req.body.userId;
     const jobId = req.params.id;
     if (userId && (await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId))) {
-      auth.checkToken(userId, req.headers['x-acess-token']);
+      auth.checkToken(userId, req.headers['x-access-token']);
       await repository.updateJob(req.body, jobId);
       res.json({
         message: 'Vaga atualizada.'
@@ -61,7 +61,7 @@ export const updateJob = async (req, res) => {
 //Delete job from db
 export const deleteJob = async (req, res) => {
   try {
-    const userId = auth.checkTokenAndReturnId(req.headers['x-acess-token']);
+    const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
     const jobId = req.params.id;
     if (await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId)) {
       await repository.deleteJob(jobId);
@@ -78,7 +78,7 @@ export const deleteJob = async (req, res) => {
 export const applyToJob = async (req, res) => {
   try {
     const userId = req.body.userId;
-    auth.checkToken(userId, req.headers['x-acess-token']);
+    auth.checkToken(userId, req.headers['x-access-token']);
     await repository.applyToJob(userId, req.body.jobId);
     res.json({ message: 'Aplicação realizada.' });
   } catch (error) {

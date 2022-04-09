@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import repository from '../repositories/UserRepository.js';
 import User_JobRepository from '../repositories/User_JobRepository.js';
 import auth from '../utils/auth.js';
+import ProfileRepository from '../repositories/ProfileRepository.js';
 
 //Check if e-mail is valid
 const checkValidEmail = (email) => {
@@ -33,10 +34,16 @@ export const getAllUsers = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   try {
-    auth.checkToken(req.params.id, req.headers['x-acess-token']);
+    auth.checkToken(req.params.id, req.headers['x-access-token']);
     const user = await repository.getUserById(req.params.id);
-    if (user) res.json(user);
-    else res.json({ message: 'Usuário não encontrado.' });
+    if (user) {
+      const profile = await ProfileRepository.getProfileByUserId(user.id);
+      let profileId = -1;
+      if (profile) profileId = profile.userId;
+      user.dataValues.profileId = profileId;
+      //user._options.attributes.push('profileId');
+      res.json(user);
+    } else res.json({ message: 'Usuário não encontrado.' });
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -45,7 +52,7 @@ export const getUserById = async (req, res) => {
 //Get all jobs that user created
 export const getCreatedJobsByUser = async (req, res) => {
   try {
-    auth.checkToken(req.params.id, req.headers['x-acess-token']);
+    auth.checkToken(req.params.id, req.headers['x-access-token']);
     const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, true);
     res.json(user_jobs);
   } catch (error) {
@@ -56,7 +63,7 @@ export const getCreatedJobsByUser = async (req, res) => {
 //Get all jobs that user applied to
 export const getAppliedJobsByUser = async (req, res) => {
   try {
-    auth.checkToken(req.params.id, req.headers['x-acess-token']);
+    auth.checkToken(req.params.id, req.headers['x-access-token']);
     const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, false);
     res.json(user_jobs);
   } catch (error) {
@@ -108,7 +115,7 @@ export const checkUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    auth.checkToken(req.params.id, req.headers['x-acess-token']);
+    auth.checkToken(req.params.id, req.headers['x-access-token']);
     checkValidEmail(req.body.email);
     await checkExistentEmail(req.body.email);
     const salt = await bcrypt.genSalt(10);
@@ -124,7 +131,7 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    auth.checkToken(req.params.id, req.headers['x-acess-token']);
+    auth.checkToken(req.params.id, req.headers['x-access-token']);
     await repository.deleteUser(req.params.id);
     res.json({
       message: 'Usuário deletado.'
