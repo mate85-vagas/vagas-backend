@@ -1,5 +1,7 @@
 import Profile from '../models/ProfileModel.js';
 import { ProfileAttrs } from '../models/ProfileAttrs.js';
+import User from '../models/UserModel.js';
+import { UserAttrs } from '../models/UserAttrs.js';
 
 const getProfileById = async (id) => {
   const profile = await Profile.findOne({
@@ -8,7 +10,7 @@ const getProfileById = async (id) => {
     }
   });
   return profile;
-};  
+};
 
 const getProfileByUserId = async (userId) => {
   const profile = await Profile.findOne({
@@ -19,11 +21,17 @@ const getProfileByUserId = async (userId) => {
   return profile;
 };
 
-const getAllProfiles = async (filters, itemsPerPage, pageNumber) => {
+const getAllProfiles = async (filters, itemsPerPage, pageNumber, name) => {
   const profiles = await Profile.findAndCountAll({
     where: filters,
     offset: (pageNumber - 1) * itemsPerPage || 0,
     limit: itemsPerPage || undefined,
+    include: {
+      model: User,
+      where: name,
+      as: 'user',
+      attributes: { exclude: [UserAttrs.id, 'createdAt', 'updatedAt', UserAttrs.password] }
+    }
   });
   return profiles;
 };
