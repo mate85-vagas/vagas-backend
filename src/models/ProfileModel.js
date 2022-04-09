@@ -31,11 +31,14 @@ const Profile = db.define('profile', {
   [ProfileAttrs.linkResume]: {
     type: DataTypes.STRING(255),
     allowNull: true
+  },
+  [ProfileAttrs.searchable]: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
   }
 });
 
 //1:1 association
-User.hasOne(Profile, { onDelete: 'CASCADE' });
-Profile.belongsTo(User, { onDelete: 'CASCADE' });
+User.hasOne(Profile, { onDelete: 'CASCADE', foreignKey: { unique: true } });
 
 export default Profile;

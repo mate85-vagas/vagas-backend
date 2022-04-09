@@ -11,7 +11,9 @@ const getProfileById = async (id) => {
 };
 
 const getAllProfiles = async () => {
-  const profiles = await Profile.findAndCountAll();
+  const profiles = await Profile.findAndCountAll({
+    where: { [ProfileAttrs.searchable]: true }
+  });
   return profiles;
 };
 
@@ -23,6 +25,11 @@ const updateProfile = async (body, id) => {
   });
 };
 
+const createProfile = async (body) => {
+  const profile = await Profile.create(body);
+  return profile;
+};
+
 const deleteProfile = async (id) => {
   await Profile.destroy({
     where: {
@@ -31,4 +38,4 @@ const deleteProfile = async (id) => {
   });
 };
 
-export default { updateProfile, getAllProfiles, getProfileById, deleteProfile };
+export default { updateProfile, getAllProfiles, getProfileById, createProfile, deleteProfile };
