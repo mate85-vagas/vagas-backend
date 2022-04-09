@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import repository from '../repositories/UserRepository.js';
 import User_JobRepository from '../repositories/User_JobRepository.js';
+import auth from '../utils/auth.js';
+import ProfileRepository from '../repositories/ProfileRepository.js';
 
 //Check if e-mail is valid
 const checkValidEmail = (email) => {
@@ -15,8 +16,9 @@ const checkValidEmail = (email) => {
 const checkExistentEmail = async (email) => {
   try {
     const count = await repository.checkExistentEmail(email);
-    if (count) throw new Error('E-mail inválido ou existente.');
+    if (count) throw new Error();
   } catch (error) {
+    error.message = 'E-mail inválido ou existente.';
     throw error;
   }
 };
@@ -32,9 +34,15 @@ export const getAllUsers = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   try {
+    auth.checkToken(req.params.id, req.headers['x-access-token']);
     const user = await repository.getUserById(req.params.id);
-    if (user) res.json(user);
-    else res.json({ message: 'Usuário não encontrado.' });
+    if (user) {
+      const profile = await ProfileRepository.getProfileByUserId(user.id);
+      let profileId = -1;
+      if (profile) profileId = profile.id;
+      user.dataValues.profileId = profileId;
+      res.json(user);
+    } else res.json({ message: 'Usuário não encontrado.' });
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -43,6 +51,7 @@ export const getUserById = async (req, res) => {
 //Get all jobs that user created
 export const getCreatedJobsByUser = async (req, res) => {
   try {
+    auth.checkToken(req.params.id, req.headers['x-access-token']);
     const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, true);
     res.json(user_jobs);
   } catch (error) {
@@ -53,6 +62,7 @@ export const getCreatedJobsByUser = async (req, res) => {
 //Get all jobs that user applied to
 export const getAppliedJobsByUser = async (req, res) => {
   try {
+    auth.checkToken(req.params.id, req.headers['x-access-token']);
     const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, false);
     res.json(user_jobs);
   } catch (error) {
@@ -67,12 +77,9 @@ export const createUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     req.body.password = await bcrypt.hash(req.body.password, salt);
     const user = await repository.createUser(req.body);
-    const id = user.id;
-    const token = jwt.sign({ id }, process.env.SECRET, {
-      expiresIn: 7200 // expires in 2h
-    });
+    const token = auth.createToken(user.id);
     res.json({
-      id: id,
+      id: user.id,
       token: token
     });
   } catch (error) {
@@ -88,13 +95,10 @@ export const checkUser = async (req, res) => {
       //Compare password from req body to stored password by bcrypt compare
       const validPassword = await bcrypt.compare(req.body.password, user.password);
       if (validPassword) {
-        const id = user.id;
         dotenv.config();
-        const token = jwt.sign({ id }, process.env.SECRET, {
-          expiresIn: 7200 // expires in 2h
-        });
+        const token = auth.createToken(user.id);
         res.json({
-          id: id,
+          id: user.id,
           token: token
         });
       } else {
@@ -110,6 +114,7 @@ export const checkUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
+    auth.checkToken(req.params.id, req.headers['x-access-token']);
     checkValidEmail(req.body.email);
     await checkExistentEmail(req.body.email);
     const salt = await bcrypt.genSalt(10);
@@ -125,6 +130,7 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
+    auth.checkToken(req.params.id, req.headers['x-access-token']);
     await repository.deleteUser(req.params.id);
     res.json({
       message: 'Usuário deletado.'

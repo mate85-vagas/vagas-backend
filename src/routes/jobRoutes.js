@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', getAllJobs);
 router.get('/:id', getJobById);
 router.post('/', createJob);
-router.post('/aplicacoes', applyToJob);
+router.post('/aplicacao', applyToJob);
 router.patch('/:id', updateJob);
 router.delete('/:id', deleteJob);
 
