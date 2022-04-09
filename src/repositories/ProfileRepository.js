@@ -19,16 +19,6 @@ const getProfileByUserId = async (userId) => {
   return profile;
 };
 
-
-const getProfileByUserId = async (userId) => {
-  const profile = await Profile.findOne({
-    where: {
-      userId: userId
-    }
-  });
-  return profile;
-};
-
 const getAllProfiles = async () => {
   const profiles = await Profile.findAndCountAll({
     where: filters,
