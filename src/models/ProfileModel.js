@@ -44,5 +44,6 @@ const Profile = db.define('profile', {
 
 //1:1 association
 User.hasOne(Profile, { onDelete: 'CASCADE', foreignKey: { unique: true } });
+Profile.belongsTo(User, { onDelete: 'CASCADE', foreignKey: { unique: true } });
 
 export default Profile;
