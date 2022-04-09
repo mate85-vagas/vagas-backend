@@ -8,11 +8,22 @@ const getProfileById = async (id) => {
     }
   });
   return profile;
+};  
+
+const getProfileByUserId = async (userId) => {
+  const profile = await Profile.findOne({
+    where: {
+      userId: userId
+    }
+  });
+  return profile;
 };
 
-const getAllProfiles = async () => {
+const getAllProfiles = async (filters, itemsPerPage, pageNumber) => {
   const profiles = await Profile.findAndCountAll({
-    where: { [ProfileAttrs.searchable]: true }
+    where: filters,
+    offset: (pageNumber - 1) * itemsPerPage || 0,
+    limit: itemsPerPage || undefined,
   });
   return profiles;
 };
@@ -38,4 +49,11 @@ const deleteProfile = async (id) => {
   });
 };
 
-export default { updateProfile, getAllProfiles, getProfileById, createProfile, deleteProfile };
+export default {
+  updateProfile,
+  getAllProfiles,
+  getProfileById,
+  createProfile,
+  deleteProfile,
+  getProfileByUserId
+};
