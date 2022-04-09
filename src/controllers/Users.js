@@ -39,7 +39,7 @@ export const getUserById = async (req, res) => {
     if (user) {
       const profile = await ProfileRepository.getProfileByUserId(user.id);
       let profileId = -1;
-      if (profile) profileId = profile.userId;
+      if (profile) profileId = profile.id;
       user.dataValues.profileId = profileId;
       res.json(user);
     } else res.json({ message: 'Usuário não encontrado.' });
