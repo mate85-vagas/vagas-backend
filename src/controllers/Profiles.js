@@ -13,7 +13,7 @@ export const getAllProfiles = async (req, res) => {
 
 export const getProfileById = async (req, res) => {
   try {
-    const userId = auth.checkTokenAndReturnId(req.headers['x-acess-token']);
+    const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
     const profile = await repository.getProfileById(req.params.id);
     if (profile) {
       if (profile.userId == userId) res.json(profile);
@@ -30,7 +30,7 @@ export const updateProfile = async (req, res) => {
     const profile = await repository.getProfileById(req.params.id);
     if (profile) {
       if (profile.userId == userId) {
-        auth.checkToken(userId, req.headers['x-acess-token']);
+        auth.checkToken(userId, req.headers['x-access-token']);
         await repository.updateProfile(req.body, req.params.id);
         res.json({
           message: 'Perfil atualizado.'
@@ -44,7 +44,7 @@ export const updateProfile = async (req, res) => {
 
 export const createProfile = async (req, res) => {
   try {
-    auth.checkToken(req.body.userId, req.headers['x-acess-token']);
+    auth.checkToken(req.body.userId, req.headers['x-access-token']);
     await repository.createProfile(req.body);
     res.json({
       message: 'Perfil criado.'
@@ -56,7 +56,7 @@ export const createProfile = async (req, res) => {
 
 export const deleteProfile = async (req, res) => {
   try {
-    const userId = auth.checkTokenAndReturnId(req.headers['x-acess-token']);
+    const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
     const profile = await repository.getProfileByUserId(userId);
     console.log(profile.id);
     if (profile.id == req.params.id) {
