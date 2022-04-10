@@ -18,10 +18,11 @@ export const buildJobWhereClause = (req) => {
     };
   }
   if (req.query.type) content.type = { [Op.like]: `%${req.query.type}%` };
-  if (req.query.min & req.query.max)
+  if ((req.query.min >= 0) & (req.query.max >= 0))
     content.salary = { [Op.between]: [parseFloat(req.query.min), parseFloat(req.query.max)] };
   if (req.query.site) content.site = { [Op.like]: `%${req.query.site}%` };
-  if (req.query.workload) content.workload = parseFloat(req.query.workload);
+  if ((req.query.chmin >= 0) & (req.query.chmax >= 0))
+    content.workload = { [Op.between]: [parseFloat(req.query.chmin), parseFloat(req.query.chmax)] };
   if (req.query.scholarity) content.scholarity = { [Op.like]: `%${req.query.scholarity}%` };
   if (req.query.createdAt) content.createdAt = req.query.createdAt;
 
