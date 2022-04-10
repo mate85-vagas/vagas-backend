@@ -78,6 +78,7 @@ export const deleteJob = async (req, res) => {
 export const applyToJob = async (req, res) => {
   try {
     const userId = req.body.userId;
+    console.log(userId);
     auth.checkToken(userId, req.headers['x-access-token']);
     await repository.applyToJob(userId, req.body.jobId);
     res.json({ message: 'Aplicação realizada.' });

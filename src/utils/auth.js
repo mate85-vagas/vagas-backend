@@ -17,6 +17,7 @@ const createToken = (id) => {
 const checkToken = (id, token) => {
   try {
     const decoded = jwt.verify(token, process.env.SECRET);
+    console.log(decoded.userId);
     if (decoded.userId != id) throw new Error();
   } catch (error) {
     error.message = 'Acesso não autorizado';
