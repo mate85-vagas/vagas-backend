@@ -12,6 +12,15 @@ const getProfileById = async (id) => {
   return profile;
 };
 
+const countProfileByUserId = async (userId) => {
+  const count = await Profile.count({
+    where: {
+      userId: userId
+    }
+  });
+  return count;
+};
+
 const getProfileByUserId = async (userId) => {
   const profile = await Profile.findOne({
     where: {
@@ -63,5 +72,6 @@ export default {
   getProfileById,
   createProfile,
   deleteProfile,
-  getProfileByUserId
+  getProfileByUserId,
+  countProfileByUserId
 };
