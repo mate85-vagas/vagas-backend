@@ -20,13 +20,13 @@ describe('Users Context', () => {
 describe('Find user by email', () => {
     it('should find an user by email', async () => {
       jest.spyOn(User, 'findOne').mockResolvedValueOnce(Promise.resolve(userModelMock));
-      const user = await repository.getUserByEmail(userModelMock).get('email');
+      const user = await repository.getUserByEmail(userModelMock.get('email'));
       expect(user).toBeDefined();
     });
   
     it('should return an empty user email object', async () => {
       jest.spyOn(User, 'findOne').mockResolvedValueOnce(Promise.resolve(null));
-      const user = await repository.getUserByEmail(userModelMock).get('email');
+      const user = await repository.getUserByEmail(userModelMock.get('email'));
       expect(user).toBe(null);
     });
   });
