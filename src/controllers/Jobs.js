@@ -2,6 +2,7 @@ import repository from '../repositories/JobRepository.js';
 import { buildJobWhereClause } from '../utils/filters.js';
 import User_JobRepository from '../repositories/User_JobRepository.js';
 import auth from '../utils/auth.js';
+import ProfileRepository from '../repositories/ProfileRepository.js';
 
 //Get all jobs from db (can return filtered data by HTTP GET params)
 export const getAllJobs = async (req, res) => {
@@ -79,6 +80,8 @@ export const applyToJob = async (req, res) => {
   try {
     const userId = req.body.userId;
     auth.checkToken(userId, req.headers['x-access-token']);
+    let count = await ProfileRepository.countProfileByUserId(userId);
+    if (!count) throw new Error('Necessário criar perfil.');
     await repository.applyToJob(userId, req.body.jobId);
     res.json({ message: 'Aplicação realizada.' });
   } catch (error) {

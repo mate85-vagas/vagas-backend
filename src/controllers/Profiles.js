@@ -1,6 +1,6 @@
 import repository from '../repositories/ProfileRepository.js';
 import auth from '../utils/auth.js';
-import { buildProfileWhereClause } from '../utils/filters.js';
+import { buildProfileWhereClause, buildUserNameWhereClause } from '../utils/filters.js';
 
 //Get all searchable profiles
 export const getAllProfiles = async (req, res) => {
@@ -8,7 +8,8 @@ export const getAllProfiles = async (req, res) => {
     const pageNumber = parseInt(req.query.pageNumber);
     const itemsPerPage = parseInt(req.query.itemsPerPage);
     const filters = buildProfileWhereClause(req);
-    const profiles = await repository.getAllProfiles(filters, itemsPerPage, pageNumber);
+    const name = buildUserNameWhereClause(req);
+    const profiles = await repository.getAllProfiles(filters, itemsPerPage, pageNumber, name);
     res.json(profiles);
   } catch (error) {
     res.json({ message: error.message });
@@ -17,11 +18,14 @@ export const getAllProfiles = async (req, res) => {
 
 export const getProfileById = async (req, res) => {
   try {
-    const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
     const profile = await repository.getProfileById(req.params.id);
     if (profile) {
-      if (profile.userId == userId) res.json(profile);
-      else throw new Error('Acesso não autorizado.');
+      if (profile.searchable) res.json(profile);
+      else {
+        const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
+        if (profile.userId == userId) res.json(profile);
+        else throw new Error('Acesso não autorizado.');
+      }
     } else res.json({ message: 'Perfil não encontrado.' });
   } catch (error) {
     res.json({ message: error.message });
