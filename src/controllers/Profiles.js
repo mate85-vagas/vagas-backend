@@ -18,11 +18,14 @@ export const getAllProfiles = async (req, res) => {
 
 export const getProfileById = async (req, res) => {
   try {
-    const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
     const profile = await repository.getProfileById(req.params.id);
     if (profile) {
-      if (profile.userId == userId) res.json(profile);
-      else throw new Error('Acesso não autorizado.');
+      if (profile.searchable) res.json(profile);
+      else {
+        const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
+        if (profile.userId == userId) res.json(profile);
+        else throw new Error('Acesso não autorizado.');
+      }
     } else res.json({ message: 'Perfil não encontrado.' });
   } catch (error) {
     res.json({ message: error.message });
