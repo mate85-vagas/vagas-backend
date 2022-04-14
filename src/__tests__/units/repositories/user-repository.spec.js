@@ -76,13 +76,13 @@ describe('Get all users', () => {
 describe('Delete an user', () => {
     it('should be able to delete an user', async () => {
       jest.spyOn(User, 'destroy').mockResolvedValueOnce(Promise.resolve(null));
-      const user = await repository.deleteUser(userModelMock);
+      const user = await repository.deleteUser(userModelMock.get('id'));
       expect(user).toBeUndefined();
     });
   
     it('should return an empty user object', async () => {
       jest.spyOn(User, 'destroy').mockResolvedValueOnce(Promise.resolve(userModelMock));
-      const user = await repository.deleteUser(userModelMock);
+      const user = await repository.deleteUser(userModelMock.get('id'));
       expect(user).toBeUndefined();
     });
   });
