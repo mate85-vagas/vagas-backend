@@ -19,19 +19,15 @@ export const getTechnologyById = async (req, res) => {
 };
 
 export const updateTechnology = async (req, res) => {
-    try {
-        await Technology.update(req.body, {
-            where: {
-                [TechnologyModel.id]: req.params.id
-            }
-        });
-        res.json({
-            "message": "Tecnologia atualizada."
-        });
-    } catch (error) {
-        res.json({ message: error.message });
-    }  
-};
+  try {
+    await repository.updateTechnology(req.body, req.params.id);
+    res.json({
+      message: 'Tecnologia atualizada.'
+    });
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+}
 
 export const deleteTechnology = async (req, res) => {
     try {

@@ -27,7 +27,7 @@ app.use(express.json());
 app.use("/vagas", jobRoutes);
 app.use("/usuarios", userRoutes);
 app.use("/perfis", profileRoutes);
-app.use("tecnologia", technologyRoutes);
+app.use("/tecnologias", technologyRoutes);
 app.use("/health-check", healthCheckRoutes);
 app.use(
   "/api-doc/v1",
