@@ -14,8 +14,19 @@ export const getTechnologyById = async (req, res) => {
       const technology = await repository.getTechnologyById(req.params.id);
       res.json(technology);
     } catch (error) {
-      res.json({ message: error.message });
+      res.json({ message: error.message, error: true });
     }
+};
+
+export const createTechnology = async (req, res) => {
+  try {
+    await repository.createTechnology(req.body);
+    res.json({
+      message: 'Tecnologia criada.'
+    });
+  } catch (error) {
+    res.json({ message: error.message, error: true });
+  }
 };
 
 export const updateTechnology = async (req, res) => {
@@ -25,7 +36,7 @@ export const updateTechnology = async (req, res) => {
       message: 'Tecnologia atualizada.'
     });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 }
 
@@ -36,6 +47,6 @@ export const deleteTechnology = async (req, res) => {
         message: 'Tecnologia deletada.'
       });
     } catch (error) {
-      res.json({ message: error.message });
+      res.json({ message: error.message, error: true });
     }
   };
