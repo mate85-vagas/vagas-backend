@@ -13,7 +13,7 @@ export const getAllJobs = async (req, res) => {
     const jobs = await repository.getAllJobs(filters, itemsPerPage, pageNumber);
     res.json(jobs);
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -22,9 +22,9 @@ export const getJobById = async (req, res) => {
   try {
     const jobInfo = await User_JobRepository.getInformationByJobId(req.params.id);
     if (jobInfo) res.json(jobInfo);
-    else res.json({ message: 'Vaga não encontrada.' });
+    else res.json({ message: 'Vaga não encontrada.', error: true });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -38,7 +38,7 @@ export const createJob = async (req, res) => {
       message: 'Vaga criada.'
     });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -55,7 +55,7 @@ export const updateJob = async (req, res) => {
       });
     } else throw new Error('Acesso não autorizado.');
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -71,7 +71,7 @@ export const deleteJob = async (req, res) => {
       });
     } else throw new Error('Acesso não autorizado.');
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -85,6 +85,6 @@ export const applyToJob = async (req, res) => {
     await repository.applyToJob(userId, req.body.jobId);
     res.json({ message: 'Aplicação realizada.' });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
