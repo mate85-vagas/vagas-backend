@@ -86,12 +86,12 @@ export const applyToJob = async (req, res) => {
     if (!count) throw new Error('Necessário criar perfil.');
     await repository.applyToJob(userId, req.body.jobId);
     const userApplier = await UserRepository.getUserById(userId)
-    const infoUserReceiver = await User_JobRepository.getInformationByJobId(
+    const infoUserRecvAndJob = await User_JobRepository.getInformationByJobId(
       req.body.jobId
     )
-    const userReceiver = infoUserReceiver.user.dataValues
+    const userReceiver = infoUserRecvAndJob.user.dataValues
     const profileUserApplier = await ProfileRepository.getProfileByUserId(userId)
-    const jobToApply = infoUserReceiver.job.dataValues
+    const jobToApply = infoUserRecvAndJob.job.dataValues
     await mail_sender(userApplier, userReceiver, profileUserApplier, jobToApply)
       res.json({ message: 'Aplicação realizada.' });
   } catch (error) {
