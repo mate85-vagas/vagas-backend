@@ -16,8 +16,7 @@ const getSkillById = async (id) => {
 };
 
 const createSkill = async (body) => {
-  const skill = await Skill.create(body);
-  return skill
+  await Skill.create(body);
 };
 
 const updateSkill = async (body, id) => {

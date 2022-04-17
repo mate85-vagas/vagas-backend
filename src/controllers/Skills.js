@@ -7,7 +7,7 @@ export const getAllSkills = async (req, res) => {
     const skills = await repository.getAllSkills();
     res.json(skills);
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -53,7 +53,7 @@ export const deleteSkill = async (req, res) => {
   try {
     await repository.deleteSkill(req.params.id);
     res.json({
-      message: 'Habilidade deletado.'
+      message: 'Habilidade deletada.'
     });
   } catch (error) {
     res.json({ message: error.message, error: true });
