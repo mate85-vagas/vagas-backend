@@ -5,7 +5,7 @@ export const getAllTechnologies = async (req, res) => {
       const technologies = await repository.getAllTechnologies();
       res.json(technologies);
     } catch (error) {
-      res.json({ message: error.message });
+      res.json({ message: error.message, error: true });
     }
 };
 

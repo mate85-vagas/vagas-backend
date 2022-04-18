@@ -17,7 +17,7 @@ const getAllTechnologies = async () => {
 
 const createTechnology = async (body) => {
   const technology = await Technology.create(body);
-  return technology
+  return technology;
 };
 
 const updateTechnology = async (body, id) => {
