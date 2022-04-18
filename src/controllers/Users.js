@@ -28,7 +28,7 @@ export const getAllUsers = async (req, res) => {
     const users = await repository.getAllUsers();
     res.json(users);
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -42,9 +42,9 @@ export const getUserById = async (req, res) => {
       if (profile) profileId = profile.id;
       user.dataValues.profileId = profileId;
       res.json(user);
-    } else res.json({ message: 'Usuário não encontrado.' });
+    } else res.json({ message: 'Usuário não encontrado.', error: true });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -55,7 +55,7 @@ export const getCreatedJobsByUser = async (req, res) => {
     const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, true);
     res.json(user_jobs);
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -66,7 +66,7 @@ export const getAppliedJobsByUser = async (req, res) => {
     const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, false);
     res.json(user_jobs);
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -83,7 +83,7 @@ export const createUser = async (req, res) => {
       token: token
     });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -102,13 +102,13 @@ export const checkUser = async (req, res) => {
           token: token
         });
       } else {
-        res.status(401).json({ message: 'Acesso negado.' });
+        res.status(401).json({ message: 'Acesso negado.', error: true });
       }
     } else {
-      res.status(401).json({ message: 'Acesso negado.' });
+      res.status(401).json({ message: 'Acesso negado.', error: true });
     }
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -140,6 +140,6 @@ export const deleteUser = async (req, res) => {
       message: 'Usuário deletado.'
     });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };

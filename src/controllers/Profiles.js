@@ -12,7 +12,7 @@ export const getAllProfiles = async (req, res) => {
     const profiles = await repository.getAllProfiles(filters, itemsPerPage, pageNumber, name);
     res.json(profiles);
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -26,9 +26,9 @@ export const getProfileById = async (req, res) => {
         if (profile.userId == userId) res.json(profile);
         else throw new Error('Acesso não autorizado.');
       }
-    } else res.json({ message: 'Perfil não encontrado.' });
+    } else res.json({ message: 'Perfil não encontrado.', error: true });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -44,7 +44,7 @@ export const updateProfile = async (req, res) => {
           message: 'Perfil atualizado.'
         });
       } else throw new Error('Acesso não autorizado.');
-    } else res.json({ message: 'Perfil não encontrado.' });
+    } else res.json({ message: 'Perfil não encontrado.', error: true });
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
@@ -66,7 +66,6 @@ export const deleteProfile = async (req, res) => {
   try {
     const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
     const profile = await repository.getProfileByUserId(userId);
-    console.log(profile.id);
     if (profile.id == req.params.id) {
       await repository.deleteProfile(profile.id);
       res.json({
@@ -74,6 +73,6 @@ export const deleteProfile = async (req, res) => {
       });
     } else throw new Error('Acesso não autorizado.');
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };

@@ -3,6 +3,8 @@ import { buildJobWhereClause } from '../utils/filters.js';
 import User_JobRepository from '../repositories/User_JobRepository.js';
 import auth from '../utils/auth.js';
 import ProfileRepository from '../repositories/ProfileRepository.js';
+import { mail_sender } from '../utils/emailSender.js'
+import UserRepository from '../repositories/UserRepository.js';
 
 //Get all jobs from db (can return filtered data by HTTP GET params)
 export const getAllJobs = async (req, res) => {
@@ -13,7 +15,7 @@ export const getAllJobs = async (req, res) => {
     const jobs = await repository.getAllJobs(filters, itemsPerPage, pageNumber);
     res.json(jobs);
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -22,9 +24,9 @@ export const getJobById = async (req, res) => {
   try {
     const jobInfo = await User_JobRepository.getInformationByJobId(req.params.id);
     if (jobInfo) res.json(jobInfo);
-    else res.json({ message: 'Vaga não encontrada.' });
+    else res.json({ message: 'Vaga não encontrada.', error: true });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -38,7 +40,7 @@ export const createJob = async (req, res) => {
       message: 'Vaga criada.'
     });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -55,7 +57,7 @@ export const updateJob = async (req, res) => {
       });
     } else throw new Error('Acesso não autorizado.');
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
@@ -71,11 +73,11 @@ export const deleteJob = async (req, res) => {
       });
     } else throw new Error('Acesso não autorizado.');
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
 
-//Apply user to a job
+//Apply user to a job and send an email for the job creator
 export const applyToJob = async (req, res) => {
   try {
     const userId = req.body.userId;
@@ -83,8 +85,16 @@ export const applyToJob = async (req, res) => {
     let count = await ProfileRepository.countProfileByUserId(userId);
     if (!count) throw new Error('Necessário criar perfil.');
     await repository.applyToJob(userId, req.body.jobId);
-    res.json({ message: 'Aplicação realizada.' });
+    const userApplier = await UserRepository.getUserById(userId)
+    const infoUserRecvAndJob = await User_JobRepository.getInformationByJobId(
+      req.body.jobId
+    )
+    const userReceiver = infoUserRecvAndJob.user.dataValues
+    const profileUserApplier = await ProfileRepository.getProfileByUserId(userId)
+    const jobToApply = infoUserRecvAndJob.job.dataValues
+    await mail_sender(userApplier, userReceiver, profileUserApplier, jobToApply)
+      res.json({ message: 'Aplicação realizada.' });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json({ message: error.message, error: true });
   }
 };
