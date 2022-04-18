@@ -1,6 +1,7 @@
 import express from "express";
 import jobRoutes from "./routes/jobRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import technologyRoutes from "./routes/technologyRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import skillRoutes from "./routes/skillRoutes.js";
 import healthCheckRoutes from "./routes/healthCheckRoutes.js";
@@ -27,7 +28,11 @@ app.use(express.json());
 app.use("/vagas", jobRoutes);
 app.use("/usuarios", userRoutes);
 app.use("/perfis", profileRoutes);
+<<<<<<< HEAD
+app.use("/tecnologias", technologyRoutes);
+=======
 app.use("/habilidades", skillRoutes);
+>>>>>>> 9365f96e19ad1a034aab569ffbbb4dee04c95a9e
 app.use("/health-check", healthCheckRoutes);
 app.use(
   "/api-doc/v1",
