@@ -28,11 +28,8 @@ app.use(express.json());
 app.use("/vagas", jobRoutes);
 app.use("/usuarios", userRoutes);
 app.use("/perfis", profileRoutes);
-<<<<<<< HEAD
 app.use("/tecnologias", technologyRoutes);
-=======
 app.use("/habilidades", skillRoutes);
->>>>>>> 9365f96e19ad1a034aab569ffbbb4dee04c95a9e
 app.use("/health-check", healthCheckRoutes);
 app.use(
   "/api-doc/v1",
