@@ -31,7 +31,7 @@ const updateTechnology = async (body, id) => {
 const deleteTechnology = async (id) => {
   await Technology.destroy({
     where: {
-    [TechnologyAttrs.id]: id
+      [TechnologyAttrs.id]: id
     }
   });
 };

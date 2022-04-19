@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { getAllSkills, createSkill, getSkillById, updateSkill, deleteSkill  } from '../controllers/Skills.js';
+import { getAllSkills, createSkill, getSkillById, updateSkill, deleteSkill } from '../controllers/Skills.js';
 
 const router = express.Router();
 

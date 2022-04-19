@@ -1,4 +1,4 @@
 export const TechnologyAttrs = {
-    id: 'id',
-    description: 'description',
+  id: 'id',
+  description: 'description'
 };

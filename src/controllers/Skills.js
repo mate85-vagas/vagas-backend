@@ -1,6 +1,5 @@
 import repository from '../repositories/SkillRepository.js';
 
-
 //Get all the skills in db
 export const getAllSkills = async (req, res) => {
   try {
@@ -40,10 +39,9 @@ export const updateSkill = async (req, res) => {
     const skillId = req.params.id;
     await repository.updateSkill(req.body, skillId);
     res.json({
-        message: 'Habilidade atualizada.'
-      });
-    }
-  catch (error) {
+      message: 'Habilidade atualizada.'
+    });
+  } catch (error) {
     res.json({ message: error.message, error: true });
   }
 };

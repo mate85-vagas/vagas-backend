@@ -3,7 +3,7 @@ import { buildJobWhereClause } from '../utils/filters.js';
 import User_JobRepository from '../repositories/User_JobRepository.js';
 import auth from '../utils/auth.js';
 import ProfileRepository from '../repositories/ProfileRepository.js';
-import { mail_sender } from '../utils/emailSender.js'
+import { mail_sender } from '../utils/emailSender.js';
 import UserRepository from '../repositories/UserRepository.js';
 
 //Get all jobs from db (can return filtered data by HTTP GET params)
@@ -85,15 +85,13 @@ export const applyToJob = async (req, res) => {
     let count = await ProfileRepository.countProfileByUserId(userId);
     if (!count) throw new Error('Necessário criar perfil.');
     await repository.applyToJob(userId, req.body.jobId);
-    const userApplier = await UserRepository.getUserById(userId)
-    const infoUserRecvAndJob = await User_JobRepository.getInformationByJobId(
-      req.body.jobId
-    )
-    const userReceiver = infoUserRecvAndJob.user.dataValues
-    const profileUserApplier = await ProfileRepository.getProfileByUserId(userId)
-    const jobToApply = infoUserRecvAndJob.job.dataValues
-    await mail_sender(userApplier, userReceiver, profileUserApplier, jobToApply)
-      res.json({ message: 'Aplicação realizada.' });
+    const userApplier = await UserRepository.getUserById(userId);
+    const infoUserRecvAndJob = await User_JobRepository.getInformationByJobId(req.body.jobId);
+    const userReceiver = infoUserRecvAndJob.user.dataValues;
+    const profileUserApplier = await ProfileRepository.getProfileByUserId(userId);
+    const jobToApply = infoUserRecvAndJob.job.dataValues;
+    await mail_sender(userApplier, userReceiver, profileUserApplier, jobToApply);
+    res.json({ message: 'Aplicação realizada.' });
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
