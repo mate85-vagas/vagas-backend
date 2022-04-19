@@ -4,7 +4,8 @@ import {
   getTechnologyById,
   createTechnology,
   updateTechnology,
-  deleteTechnology
+  deleteTechnology,
+  createBulkTechnologies
 } from '../controllers/Technologies.js';
 
 const router = express.Router();
@@ -13,6 +14,7 @@ const router = express.Router();
 router.get('/', getAllTechnologies);
 router.get('/:id', getTechnologyById);
 router.post('/', createTechnology);
+router.post('/multiplas', createBulkTechnologies);
 router.patch('/:id', updateTechnology);
 router.delete('/:id', deleteTechnology);
 
