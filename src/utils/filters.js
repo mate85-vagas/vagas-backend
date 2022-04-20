@@ -25,6 +25,9 @@ export const buildJobWhereClause = (req) => {
     content.workload = { [Op.between]: [parseFloat(req.query.chmin), parseFloat(req.query.chmax)] };
   if (req.query.scholarity) content.scholarity = { [Op.like]: `%${req.query.scholarity}%` };
   if (req.query.createdAt) content.createdAt = req.query.createdAt;
+  content.endingDate = {
+    [Op.gte]: Sequelize.literal('NOW()')
+  };
 
   return content;
 };
