@@ -49,17 +49,12 @@ const applyToJob = async (userId, jobId) => {
 
 const deleteExpiredJobs = async () => {
   await Job.destroy({
-    where: {
-      [Op.or]: [
-        Sequelize.where(Sequelize.fn('DATE_ADD', Sequelize.col('createdAt'), Sequelize.literal('INTERVAL 6 MONTH')), {
-          [Op.lt]: (() => {
-            let date = new Date();
-            date.setHours(date.getHours() - 3);
-            return date;
-          })()
-        })
-      ]
-    }
+    where: Sequelize.where(
+      Sequelize.fn('DATE_ADD', Sequelize.col('createdAt'), Sequelize.literal('INTERVAL 6 MONTH')),
+      {
+        [Op.lt]: Sequelize.literal('NOW()')
+      }
+    )
   });
 };
 
@@ -67,11 +62,7 @@ const countValidJob = async (jobId) => {
   const count = await Job.count({
     where: {
       [JobAttrs.endingDate]: {
-        [Op.gte]: (() => {
-          let date = new Date();
-          date.setHours(date.getHours() - 3);
-          return date;
-        })()
+        [Op.gte]: Sequelize.literal('NOW()')
       },
       [JobAttrs.id]: jobId
     }

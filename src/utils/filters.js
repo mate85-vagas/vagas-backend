@@ -2,6 +2,14 @@ import { Sequelize } from 'sequelize';
 import { UserAttrs } from '../models/UserAttrs.js';
 const { Op } = Sequelize;
 
+//Get current America/Bahia datetime
+export const getBahiaDate = () => {
+  let date = new Date();
+  date.setHours(date.getHours() - 3);
+  console.log(date);
+  return date;
+};
+
 //Builds where clause for job searching based on GET params
 export const buildJobWhereClause = (req) => {
   var content = {};
@@ -26,11 +34,7 @@ export const buildJobWhereClause = (req) => {
   if (req.query.scholarity) content.scholarity = { [Op.like]: `%${req.query.scholarity}%` };
   if (req.query.createdAt) content.createdAt = req.query.createdAt;
   content.endingDate = {
-    [Op.gte]: (() => {
-      let date = new Date();
-      date.setHours(date.getHours() - 3);
-      return date;
-    })()
+    [Op.gte]: Sequelize.literal('NOW()')
   };
 
   return content;
