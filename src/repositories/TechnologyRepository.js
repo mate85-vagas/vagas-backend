@@ -36,4 +36,15 @@ const deleteTechnology = async (id) => {
   });
 };
 
-export default { updateTechnology, getAllTechnologies, createTechnology, getTechnologyById, deleteTechnology };
+const createBulkThecnologies = async (body) => {
+  await Technology.bulkCreate(body);
+};
+
+export default {
+  updateTechnology,
+  getAllTechnologies,
+  createTechnology,
+  getTechnologyById,
+  deleteTechnology,
+  createBulkThecnologies
+};

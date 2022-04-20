@@ -4,17 +4,21 @@ import { TechnologyAttrs } from './TechnologyAttrs.js';
 
 const { DataTypes } = Sequelize;
 
-const Technology = db.define('technology', {
-  [TechnologyAttrs.id]: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false
+const Technology = db.define(
+  'technology',
+  {
+    [TechnologyAttrs.id]: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
+    },
+    [TechnologyAttrs.description]: {
+      type: DataTypes.STRING(60),
+      allowNull: false
+    }
   },
-  [TechnologyAttrs.description]: {
-    type: DataTypes.TEXT,
-    allowNull: false
-  }
-});
+  { timestamps: false }
+);
 
 export default Technology;

@@ -50,3 +50,15 @@ export const deleteTechnology = async (req, res) => {
     res.json({ message: error.message, error: true });
   }
 };
+
+//Create multiple technologies on db at the same request
+export const createBulkTechnologies = async (req, res) => {
+  try {
+    await repository.createBulkThecnologies(req.body.content);
+    res.json({
+      message: 'Tecnologias criadas.'
+    });
+  } catch (error) {
+    res.json({ message: error.message, error: true });
+  }
+};
