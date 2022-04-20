@@ -2,14 +2,6 @@ import { Sequelize } from 'sequelize';
 import { UserAttrs } from '../models/UserAttrs.js';
 const { Op } = Sequelize;
 
-//Get current America/Bahia datetime
-export const getBahiaDate = () => {
-  let date = new Date();
-  date.setHours(date.getHours() - 3);
-  console.log(date);
-  return date;
-};
-
 //Builds where clause for job searching based on GET params
 export const buildJobWhereClause = (req) => {
   var content = {};
