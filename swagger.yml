@@ -19,6 +19,28 @@ paths:
         200:
           description: OK
 
+  /usuarios/login:
+    post:
+      tags:
+        - Autenticação
+      summary: Login de usuários
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+
+      responses:
+        '200':
+          description: login realizado com sucesso
+
   /vagas:
     get:
       tags:
@@ -88,39 +110,40 @@ paths:
       parameters:
         - in: path
           name: id
-          description: User ID
+          description: Job ID
           required: true
           schema:
             type: integer
-            format: int64
 
-        - in: header
-          name: x-access-token
-          schema:
-            type: string
-          required: true
       responses:
         200:
           description: busca realizada com sucesso
 
-    put:
+    patch:
       tags:
         - Vagas
       summary: Atualização de vagas
       parameters:
         - in: path
           name: id
-          description: User ID
+          description: Job ID
           required: true
           schema:
             type: integer
-            format: int64
 
         - in: header
           name: x-access-token
           schema:
             type: string
           required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example: { 'workload': 8, 'userId': 11 }
       responses:
         200:
           description: vaga atualizada com sucesso
@@ -132,17 +155,17 @@ paths:
       parameters:
         - in: path
           name: id
-          description: User ID
+          description: Job ID
           required: true
           schema:
             type: integer
-            format: int64
 
         - in: header
           name: x-access-token
           schema:
             type: string
           required: true
+
       responses:
         204:
           description: vaga excluída com sucesso
@@ -153,14 +176,6 @@ paths:
         - Vagas
       summary: Aplicação de vagas
       parameters:
-        - in: path
-          name: id
-          description: User ID
-          required: true
-          schema:
-            type: integer
-            format: int64
-
         - in: header
           name: x-access-token
           schema:
@@ -175,6 +190,9 @@ paths:
               type: object
               properties:
                 jobId:
+                  type: integer
+                  format: int64
+                userId:
                   type: integer
                   format: int64
       responses:
@@ -204,3 +222,45 @@ paths:
       responses:
         '201':
           description: conta criada com sucesso
+
+  /perfis:
+    post:
+      tags:
+        - Perfis
+      summary: Registro de perfil
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                birthDate:
+                  type: string
+                  format: date
+                scholarity:
+                  type: string
+                knowledge:
+                  type: string
+                technologies:
+                  type: string
+                languages:
+                  type: string
+                linkResume:
+                  type: string
+                searchable:
+                  type: boolean
+                userId:
+                  type: integer
+                  format: int64
+
+      responses:
+        '200':
+          description: perfil criado com sucesso
