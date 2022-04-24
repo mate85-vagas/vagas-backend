@@ -96,7 +96,7 @@ describe('Jobs Context', () => {
   });
 
   it('getAllJobs: should find all (one) jobs', async () => {
-    jest.spyOn(Job, 'findAndCountAll').mockResolvedValueOnce(Promise.resolve(jobModelMock));
+    jest.spyOn(Job, 'findAndCountAll').mockResolvedValueOnce(Promise.resolve({count: 1, rows: [jobModelMock]}));
     const job = await repository.getAllJobs(jobModelMock.get('id'));
     expect(job).toBeDefined();
   });
