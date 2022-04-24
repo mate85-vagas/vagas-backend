@@ -36,4 +36,8 @@ const deleteSkill = async (id) => {
   });
 };
 
-export default { getAllSkills, getSkillById, updateSkill, deleteSkill, createSkill };
+const createBulkSkills = async (body) => {
+  await Skill.bulkCreate(body);
+};
+
+export default { getAllSkills, getSkillById, updateSkill, deleteSkill, createSkill, createBulkSkills };

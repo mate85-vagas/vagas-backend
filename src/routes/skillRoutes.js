@@ -1,6 +1,13 @@
 import express from 'express';
 
-import { getAllSkills, createSkill, getSkillById, updateSkill, deleteSkill  } from '../controllers/Skills.js';
+import {
+  getAllSkills,
+  createSkill,
+  getSkillById,
+  updateSkill,
+  deleteSkill,
+  createBulkSkills
+} from '../controllers/Skills.js';
 
 const router = express.Router();
 
@@ -8,6 +15,7 @@ const router = express.Router();
 router.get('/', getAllSkills);
 router.get('/:id', getSkillById);
 router.post('/', createSkill);
+router.post('/multiplas', createBulkSkills);
 router.patch('/:id', updateSkill);
 router.delete('/:id', deleteSkill);
 

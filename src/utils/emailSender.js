@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import fs from 'fs';
-import Hogan from 'hogan.js'
 
 dotenv.config();
 

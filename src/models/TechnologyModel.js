@@ -1,19 +1,19 @@
 import { Sequelize } from 'sequelize';
 import db from '../config/database.js';
-import { SkillAttrs } from './SkillAttrs.js';
+import { TechnologyAttrs } from './TechnologyAttrs.js';
 
 const { DataTypes } = Sequelize;
 
-const Skill = db.define(
-  'skill',
+const Technology = db.define(
+  'technology',
   {
-    [SkillAttrs.id]: {
+    [TechnologyAttrs.id]: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false
     },
-    [SkillAttrs.description]: {
+    [TechnologyAttrs.description]: {
       type: DataTypes.STRING(60),
       allowNull: false
     }
@@ -21,4 +21,4 @@ const Skill = db.define(
   { timestamps: false }
 );
 
-export default Skill;
+export default Technology;
