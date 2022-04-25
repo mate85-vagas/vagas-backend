@@ -3,6 +3,7 @@ import Profile from '../../../models/ProfileModel';
 import { jest } from '@jest/globals';
 import factory from '../factory/profile-model-factory';
 import Chance from 'chance';
+import { ProfileAttrs } from '../../../models/ProfileAttrs';
 
 const chance = new Chance();
 
@@ -66,5 +67,84 @@ describe('Profile Context', () => {
     const name = undefined;
     const profiles = await repository.getAllProfiles(filters, itemsPerPage, pageNumber, name);
     expect(profiles).toBeDefined();
+  });
+
+  it('should update the object with given id and return [1]', async () => {
+    const profileModelMock = factory.createProfileModelMock(true);
+    const body = {
+      [ProfileAttrs.birthDate]: profileModelMock.get('birthDate'),
+      [ProfileAttrs.knowledge]: profileModelMock.get('knowledge'),
+      [ProfileAttrs.scholarity]: profileModelMock.get('scholarity'),
+      [ProfileAttrs.technologies]: profileModelMock.get('technologies'),
+      [ProfileAttrs.languages]: profileModelMock.get('languages'),
+      [ProfileAttrs.linkResume]: profileModelMock.get('linkResume'),
+      [ProfileAttrs.searchable]: profileModelMock.get('searchable'),
+      userId: profileModelMock.get('userId')
+    };
+    jest.spyOn(Profile, 'update').mockResolvedValueOnce(Promise.resolve([1]));
+    const profile = await repository.updateProfile(body, profileModelMock.get('id'));
+    expect(profile).toStrictEqual([1]);
+  });
+
+  it('should not find the object with given id and return [0]', async () => {
+    const profileModelMock = factory.createProfileModelMock(true);
+    const body = {
+      [ProfileAttrs.birthDate]: profileModelMock.get('birthDate'),
+      [ProfileAttrs.knowledge]: profileModelMock.get('knowledge'),
+      [ProfileAttrs.scholarity]: profileModelMock.get('scholarity'),
+      [ProfileAttrs.technologies]: profileModelMock.get('technologies'),
+      [ProfileAttrs.languages]: profileModelMock.get('languages'),
+      [ProfileAttrs.linkResume]: profileModelMock.get('linkResume'),
+      [ProfileAttrs.searchable]: profileModelMock.get('searchable'),
+      userId: profileModelMock.get('userId')
+    };
+    jest.spyOn(Profile, 'update').mockResolvedValueOnce(Promise.resolve([0]));
+    const profile = await repository.updateProfile(body, profileModelMock.get('id'));
+    expect(profile).toStrictEqual([0]);
+  });
+
+  it('it should create the object and return it', async () => {
+    const profileModelMock = factory.createProfileModelMock(true);
+    const body = {
+      [ProfileAttrs.birthDate]: profileModelMock.get('birthDate'),
+      [ProfileAttrs.knowledge]: profileModelMock.get('knowledge'),
+      [ProfileAttrs.scholarity]: profileModelMock.get('scholarity'),
+      [ProfileAttrs.technologies]: profileModelMock.get('technologies'),
+      [ProfileAttrs.languages]: profileModelMock.get('languages'),
+      [ProfileAttrs.linkResume]: profileModelMock.get('linkResume'),
+      [ProfileAttrs.searchable]: profileModelMock.get('searchable'),
+      userId: profileModelMock.get('userId')
+    };
+    jest.spyOn(Profile, 'create').mockResolvedValueOnce(Promise.resolve(profileModelMock));
+    const profile = await repository.createProfile(body);
+    expect(profile).toBeDefined();
+  });
+
+  it('it should fail to create the object and return null', async () => {
+    const profileModelMock = factory.createProfileModelMock(true);
+    const body = {
+      [ProfileAttrs.birthDate]: profileModelMock.get('birthDate'),
+      [ProfileAttrs.languages]: profileModelMock.get('languages'),
+      [ProfileAttrs.linkResume]: profileModelMock.get('linkResume'),
+      [ProfileAttrs.searchable]: profileModelMock.get('searchable'),
+      userId: profileModelMock.get('userId')
+    };
+    jest.spyOn(Profile, 'create').mockResolvedValueOnce(Promise.resolve(null));
+    const profile = await repository.createProfile(body);
+    expect(profile).toBe(null);
+  });
+
+  it('should delete the object with given id and return [1]', async () => {
+    const profileModelMock = factory.createProfileModelMock(true);
+    jest.spyOn(Profile, 'destroy').mockResolvedValueOnce(Promise.resolve([1]));
+    const profile = await repository.deleteProfile(profileModelMock.get('id'));
+    expect(profile).toStrictEqual([1]);
+  });
+
+  it('should not find the object with given id and return [0]', async () => {
+    const profileModelMock = factory.createProfileModelMock(true);
+    jest.spyOn(Profile, 'destroy').mockResolvedValueOnce(Promise.resolve([0]));
+    const profile = await repository.deleteProfile(profileModelMock.get('id'));
+    expect(profile).toStrictEqual([0]);
   });
 });
