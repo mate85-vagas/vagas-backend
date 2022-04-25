@@ -5,13 +5,17 @@ import Chance from 'chance';
 
 const chance = new Chance();
 
+const USER_JOB = 1;
+const USER_JOB_INCLUDE_JOB = 2;
+const USER_JOB_INCLUDE_JOB_AND_USER = 3;
+
 const createUser_JobModelMock = (type) => {
   const userJobModelMock = new User_Job();
   userJobModelMock.set('jobId', chance.integer({ min: 1 }));
-  if (type == 1) {
+  if (type == USER_JOB) {
     userJobModelMock.set('userId', chance.integer({ min: 1 }));
-    userJobModelMock.set('createdByUser', true);
-  } else if (type == 2 || type == 3) {
+    userJobModelMock.set('createdByUser', chance.bool());
+  } else if (type == USER_JOB_INCLUDE_JOB || type == USER_JOB_INCLUDE_JOB_AND_USER) {
     const jobModelMock = new Job();
 
     jobModelMock.set('description', chance.string());
@@ -28,7 +32,7 @@ const createUser_JobModelMock = (type) => {
 
     userJobModelMock.dataValues.job = jobModelMock;
     userJobModelMock._previousDataValues.job = undefined;
-    if (type == 3) {
+    if (type == USER_JOB_INCLUDE_JOB_AND_USER) {
       userJobModelMock.set('userId', chance.integer({ min: 1 }));
       const userModelMock = new User();
       userModelMock.set('name', chance.string({ max: 255 }));
@@ -41,4 +45,4 @@ const createUser_JobModelMock = (type) => {
   return userJobModelMock;
 };
 
-export default { createUser_JobModelMock };
+export default { createUser_JobModelMock, USER_JOB, USER_JOB_INCLUDE_JOB, USER_JOB_INCLUDE_JOB_AND_USER };

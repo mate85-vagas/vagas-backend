@@ -8,7 +8,7 @@ const chance = new Chance();
 
 describe('User Job Context', () => {
   it('should create a user_job object and return it', async () => {
-    const user_jobModelMock = factory.createUser_JobModelMock(1);
+    const user_jobModelMock = factory.createUser_JobModelMock(factory.USER_JOB);
     jest.spyOn(User_Job, 'create').mockResolvedValueOnce(Promise.resolve(user_jobModelMock));
     const user_job = await repository.createUser_Job(
       user_jobModelMock.get('userId'),
@@ -19,7 +19,7 @@ describe('User Job Context', () => {
   });
 
   it('should not create a user_job object and should return null', async () => {
-    const user_jobModelMock = factory.createUser_JobModelMock(1);
+    const user_jobModelMock = factory.createUser_JobModelMock(factory.USER_JOB);
     jest.spyOn(User_Job, 'create').mockResolvedValueOnce(Promise.resolve(null));
     const user_job = await repository.createUser_Job(
       user_jobModelMock.get('userId'),
@@ -32,7 +32,7 @@ describe('User Job Context', () => {
     let max = chance.integer({ min: 1, max: 10 });
     let mockedUser_Jobs = [];
     for (let i = 0; i < max; i++) {
-      mockedUser_Jobs.push(factory.createUser_JobModelMock(2));
+      mockedUser_Jobs.push(factory.createUser_JobModelMock(factory.USER_JOB_INCLUDE_JOB));
     }
     let mockedReturn = {
       count: max,
@@ -46,21 +46,21 @@ describe('User Job Context', () => {
   });
 
   it('should find a job by given Job id', async () => {
-    const user_jobModelMock = factory.createUser_JobModelMock(3);
+    const user_jobModelMock = factory.createUser_JobModelMock(factory.USER_JOB_INCLUDE_JOB_AND_USER);
     jest.spyOn(User_Job, 'findOne').mockResolvedValueOnce(Promise.resolve(user_jobModelMock));
     const user_job = await repository.getInformationByJobId(user_jobModelMock.get('jobId'));
     expect(user_job).toBeDefined();
   });
 
   it('should not find a job by given Job id', async () => {
-    const user_jobModelMock = factory.createUser_JobModelMock(3);
+    const user_jobModelMock = factory.createUser_JobModelMock(factory.USER_JOB_INCLUDE_JOB_AND_USER);
     jest.spyOn(User_Job, 'findOne').mockResolvedValueOnce(Promise.resolve(null));
     const user_job = await repository.getInformationByJobId(user_jobModelMock.get('jobId'));
     expect(user_job).toBe(null);
   });
 
   it('should find a user_job by userId and jobId, should return 1', async () => {
-    const user_jobModelMock = factory.createUser_JobModelMock(1);
+    const user_jobModelMock = factory.createUser_JobModelMock(factory.USER_JOB);
     jest.spyOn(User_Job, 'count').mockResolvedValueOnce(Promise.resolve(1));
     const count = await repository.countUser_JobByJobIdAndUserId(
       user_jobModelMock.get('jobId'),
@@ -70,7 +70,7 @@ describe('User Job Context', () => {
   });
 
   it('should not find a user_job by userId and jobId, should return 0', async () => {
-    const user_jobModelMock = factory.createUser_JobModelMock(1);
+    const user_jobModelMock = factory.createUser_JobModelMock(factory.USER_JOB);
     jest.spyOn(User_Job, 'count').mockResolvedValueOnce(Promise.resolve(0));
     const count = await repository.countUser_JobByJobIdAndUserId(
       user_jobModelMock.get('jobId'),

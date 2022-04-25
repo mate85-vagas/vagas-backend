@@ -17,6 +17,7 @@ const createProfileModelMock = (basic) => {
   profileModelMock.set('searchable', chance.bool());
   profileModelMock.set('userId', chance.integer({ min: 1 }));
 
+  //Include user model to profile mock if basic is false
   if (!basic) {
     const userModelMock = new User();
     userModelMock.set('name', chance.string({ max: 255 }));
