@@ -6,12 +6,12 @@ import User from '../models/UserModel.js';
 import { UserAttrs } from '../models/UserAttrs.js';
 
 const createUser_Job = async (userId, jobId, created) => {
-  const users = await User_Job.create({
+  const user_job = await User_Job.create({
     [User_JobAttrs.userId]: userId,
     [User_JobAttrs.jobId]: jobId,
     [User_JobAttrs.created]: created
   });
-  return users;
+  return user_job;
 };
 
 const getJobsByUserId = async (userId, created) => {

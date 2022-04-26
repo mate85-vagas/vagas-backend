@@ -39,7 +39,7 @@ const createUser = async (body) => {
 };
 
 const updateUser = async (body, id) => {
-  await User.update(body, {
+  return await User.update(body, {
     where: {
       [UserAttrs.id]: id
     }
@@ -47,7 +47,7 @@ const updateUser = async (body, id) => {
 };
 
 const deleteUser = async (id) => {
-  await User.destroy({
+  return await User.destroy({
     where: {
       [UserAttrs.id]: id
     }

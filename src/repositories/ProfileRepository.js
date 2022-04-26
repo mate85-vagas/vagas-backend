@@ -46,7 +46,7 @@ const getAllProfiles = async (filters, itemsPerPage, pageNumber, name) => {
 };
 
 const updateProfile = async (body, id) => {
-  await Profile.update(body, {
+  return await Profile.update(body, {
     where: {
       [ProfileAttrs.id]: id
     }
@@ -59,7 +59,7 @@ const createProfile = async (body) => {
 };
 
 const deleteProfile = async (id) => {
-  await Profile.destroy({
+  return await Profile.destroy({
     where: {
       [ProfileAttrs.id]: id
     }
