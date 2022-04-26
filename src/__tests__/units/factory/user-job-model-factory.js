@@ -46,3 +46,4 @@ const createUser_JobModelMock = (type) => {
 };
 
 export default { createUser_JobModelMock, USER_JOB, USER_JOB_INCLUDE_JOB, USER_JOB_INCLUDE_JOB_AND_USER };
+
