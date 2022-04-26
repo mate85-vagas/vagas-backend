@@ -21,11 +21,11 @@ const Profile = db.define('profile', {
     allowNull: false
   },
   [ProfileAttrs.knowledge]: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.TEXT,
     allowNull: false
   },
   [ProfileAttrs.technologies]: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.TEXT,
     allowNull: false
   },
   [ProfileAttrs.languages]: {
