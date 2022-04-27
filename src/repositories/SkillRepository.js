@@ -15,13 +15,8 @@ const getSkillById = async (id) => {
   return skill;
 };
 
-const createSkill = async (body) => {
-  const skill = await Skill.create(body);
-  return skill;
-};
-
 const updateSkill = async (body, id) => {
-  await Skill.update(body, {
+  return await Skill.update(body, {
     where: {
       [SkillAttrs.id]: id
     }
@@ -40,4 +35,4 @@ const createBulkSkills = async (body) => {
   await Skill.bulkCreate(body);
 };
 
-export default { getAllSkills, getSkillById, updateSkill, deleteSkill, createSkill, createBulkSkills };
+export default { getAllSkills, getSkillById, updateSkill, deleteSkill, createBulkSkills };

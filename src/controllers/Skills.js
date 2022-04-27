@@ -19,21 +19,13 @@ export const getSkillById = async (req, res) => {
   }
 };
 
-export const createSkill = async (req, res) => {
-  try {
-    await repository.createSkill(req.body);
-    res.json({
-      message: 'Habilidade criada.'
-    });
-  } catch (error) {
-    res.json({ message: error.message, error: true });
-  }
-};
-
 export const updateSkill = async (req, res) => {
   try {
     const skillId = req.params.id;
-    await repository.updateSkill(req.body, skillId);
+    const result = await repository.updateSkill(req.body, skillId);
+    if (result[0] == 0) {
+      throw new Error('Falha ao realizar operação.');
+    }
     res.json({
       message: 'Habilidade atualizada.'
     });
@@ -53,10 +45,9 @@ export const deleteSkill = async (req, res) => {
   }
 };
 
-//Create multiple skills on db at the same request
 export const createBulkSkills = async (req, res) => {
   try {
-    await repository.createBulkSkills(req.body.content);
+    await repository.createBulkSkills(req.body);
     res.json({
       message: 'Habilidades criadas.'
     });
