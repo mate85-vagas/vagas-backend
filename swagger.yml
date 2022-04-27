@@ -1,7 +1,7 @@
 openapi: '3.0.0'
 info:
-  title: Vagas
-  description: Service documentation
+  title: API - Vagas
+  description: Documentação de rotas do API
   version: 1.0.0 BETA
 servers:
   - url: /
@@ -14,7 +14,462 @@ paths:
     get:
       tags:
         - Health check
-      summary: API integrity check
+      summary: Consultar status da API
       responses:
         200:
           description: OK
+
+  /usuarios/login:
+    post:
+      tags:
+        - Autenticação
+      summary: Login de usuários
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+
+      responses:
+        '200':
+          description: login realizado com sucesso
+
+  /vagas:
+    get:
+      tags:
+        - Vagas
+      summary: Buscar todas as vagas disponíveis
+      responses:
+        200:
+          description: busca realizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                example: { 'count': 0, 'rows': [] }
+
+    post:
+      tags:
+        - Vagas
+      summary: Registro de vagas
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                title:
+                  type: string
+                type:
+                  type: string
+                site:
+                  type: string
+                workload:
+                  type: number
+                  format: double
+                salary:
+                  type: number
+                  format: double
+                scholarity:
+                  type: string
+                startingDate:
+                  type: string
+                  format: date
+                endingDate:
+                  type: string
+                  format: date
+                userId:
+                  type: integer
+
+      responses:
+        '201':
+          description: vaga criada com sucesso
+
+  /vagas/{id}:
+    get:
+      tags:
+        - Vagas
+      summary: Buscar vaga por identificador
+      parameters:
+        - in: path
+          name: id
+          description: Job ID
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+    patch:
+      tags:
+        - Vagas
+      summary: Atualização de vagas
+      parameters:
+        - in: path
+          name: id
+          description: Job ID
+          required: true
+          schema:
+            type: integer
+
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example: { 'workload': 8, 'userId': 11 }
+
+      responses:
+        200:
+          description: vaga atualizada com sucesso
+
+    delete:
+      tags:
+        - Vagas
+      summary: Deleção de vagas
+      parameters:
+        - in: path
+          name: id
+          description: Job ID
+          required: true
+          schema:
+            type: integer
+
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+      responses:
+        204:
+          description: vaga excluída com sucesso
+
+  /vagas/aplicacao:
+    post:
+      tags:
+        - Vagas
+      summary: Aplicação de vagas
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                jobId:
+                  type: integer
+                  format: int64
+                userId:
+                  type: integer
+                  format: int64
+      responses:
+        200:
+          description: operação realizada com sucesso
+
+  /usuarios:
+    post:
+      tags:
+        - Usuários
+      summary: Cadastro de usuários
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+
+      responses:
+        '201':
+          description: conta criada com sucesso
+
+  /perfis:
+    get:
+      tags:
+        - Perfis
+      summary: Buscar perfis
+      parameters:
+        - in: query
+          name: pageNumber
+          description: Número de página
+          schema:
+            type: integer
+
+        - in: query
+          name: itemsPerPage
+          description: Itens por página
+          schema:
+            type: integer
+
+        - in: query
+          name: name
+          description: nome
+          schema:
+            type: string
+
+        - in: query
+          name: scholarity
+          description: Escolaridade
+          schema:
+            type: string
+
+        - in: query
+          name: knowledge
+          description: Conhecimentos
+          schema:
+            type: string
+
+        - in: query
+          name: technologies
+          description: Tecnologias
+          schema:
+            type: string
+
+        - in: query
+          name: languages
+          description: Linguagens
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+    post:
+      tags:
+        - Perfis
+      summary: Registro de perfil
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                birthDate:
+                  type: string
+                  format: date
+                scholarity:
+                  type: string
+                knowledge:
+                  type: string
+                technologies:
+                  type: string
+                languages:
+                  type: string
+                linkResume:
+                  type: string
+                searchable:
+                  type: boolean
+                userId:
+                  type: integer
+                  format: int64
+
+      responses:
+        '200':
+          description: perfil criado com sucesso
+
+  /perfis/{id}:
+    delete:
+      tags:
+        - Perfis
+      summary: Deleção de perfis
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+        - in: path
+          name: id
+          description: Profile ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: perfil excluído com sucesso
+
+    get:
+      tags:
+        - Perfis
+      summary: Buscar perfil por identificador
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+        - in: path
+          name: id
+          description: Profile ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+    patch:
+      tags:
+        - Perfis
+      summary: Atualização de perfis
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+        - in: path
+          name: id
+          description: Profile ID
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example: { 'scholarity': 'Superior Incompleto', 'userId': 11 }
+
+      responses:
+        204:
+          description: perfil atualizado com sucesso
+
+  /habilidades:
+    post:
+      tags:
+        - Habilidades
+      summary: Registro de habilidades
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  description:
+                    type: string
+
+      responses:
+        '201':
+          description: habilidades criada com sucesso
+
+    get:
+      tags:
+        - Habilidades
+      summary: Buscar habilidades
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+  /habilidades/{id}:
+    get:
+      tags:
+        - Habilidades
+      summary: Buscar habilidade por identificador
+      parameters:
+        - in: path
+          name: id
+          description: Skill ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+    delete:
+      tags:
+        - Habilidades
+      summary: Deleção de habilidades
+      parameters:
+        - in: path
+          name: id
+          description: Skill ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: habilidade excluída com sucesso
+
+    patch:
+      tags:
+        - Habilidades
+      summary: Atualização de habilidades
+      parameters:
+        - in: path
+          name: id
+          description: Skill ID
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example: { 'description': 'backend' }
+      responses:
+        204:
+          description: habilidade atualizada com sucesso

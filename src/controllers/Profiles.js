@@ -66,6 +66,7 @@ export const deleteProfile = async (req, res) => {
   try {
     const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
     const profile = await repository.getProfileByUserId(userId);
+
     if (profile.id == req.params.id) {
       await repository.deleteProfile(profile.id);
       res.json({
