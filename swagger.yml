@@ -144,6 +144,7 @@ paths:
             schema:
               type: object
               example: { 'workload': 8, 'userId': 11 }
+
       responses:
         200:
           description: vaga atualizada com sucesso
@@ -224,6 +225,57 @@ paths:
           description: conta criada com sucesso
 
   /perfis:
+    get:
+      tags:
+        - Perfis
+      summary: Buscar perfis
+      parameters:
+        - in: query
+          name: pageNumber
+          description: Número de página
+          schema:
+            type: integer
+
+        - in: query
+          name: itemsPerPage
+          description: Itens por página
+          schema:
+            type: integer
+
+        - in: query
+          name: name
+          description: nome
+          schema:
+            type: string
+
+        - in: query
+          name: scholarity
+          description: Escolaridade
+          schema:
+            type: string
+
+        - in: query
+          name: knowledge
+          description: Conhecimentos
+          schema:
+            type: string
+
+        - in: query
+          name: technologies
+          description: Tecnologias
+          schema:
+            type: string
+
+        - in: query
+          name: languages
+          description: Linguagens
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: busca realizada com sucesso
+
     post:
       tags:
         - Perfis
@@ -264,3 +316,160 @@ paths:
       responses:
         '200':
           description: perfil criado com sucesso
+
+  /perfis/{id}:
+    delete:
+      tags:
+        - Perfis
+      summary: Deleção de perfis
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+        - in: path
+          name: id
+          description: Profile ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: perfil excluído com sucesso
+
+    get:
+      tags:
+        - Perfis
+      summary: Buscar perfil por identificador
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+        - in: path
+          name: id
+          description: Profile ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+    patch:
+      tags:
+        - Perfis
+      summary: Atualização de perfis
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+        - in: path
+          name: id
+          description: Profile ID
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example: { 'scholarity': 'Superior Incompleto', 'userId': 11 }
+
+      responses:
+        204:
+          description: perfil atualizado com sucesso
+
+  /habilidades:
+    post:
+      tags:
+        - Habilidades
+      summary: Registro de habilidades
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  description:
+                    type: string
+
+      responses:
+        '201':
+          description: habilidades criada com sucesso
+
+    get:
+      tags:
+        - Habilidades
+      summary: Buscar habilidades
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+  /habilidades/{id}:
+    get:
+      tags:
+        - Habilidades
+      summary: Buscar habilidade por identificador
+      parameters:
+        - in: path
+          name: id
+          description: Skill ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+    delete:
+      tags:
+        - Habilidades
+      summary: Deleção de habilidades
+      parameters:
+        - in: path
+          name: id
+          description: Skill ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: habilidade excluída com sucesso
+
+    patch:
+      tags:
+        - Habilidades
+      summary: Atualização de habilidades
+      parameters:
+        - in: path
+          name: id
+          description: Skill ID
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example: { 'description': 'backend' }
+      responses:
+        204:
+          description: habilidade atualizada com sucesso
