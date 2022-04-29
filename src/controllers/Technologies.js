@@ -18,17 +18,6 @@ export const getTechnologyById = async (req, res) => {
   }
 };
 
-export const createTechnology = async (req, res) => {
-  try {
-    await repository.createTechnology(req.body);
-    res.json({
-      message: 'Tecnologia criada.'
-    });
-  } catch (error) {
-    res.json({ message: error.message, error: true });
-  }
-};
-
 export const updateTechnology = async (req, res) => {
   try {
     await repository.updateTechnology(req.body, req.params.id);
@@ -54,7 +43,7 @@ export const deleteTechnology = async (req, res) => {
 //Create multiple technologies on db at the same request
 export const createBulkTechnologies = async (req, res) => {
   try {
-    await repository.createBulkThecnologies(req.body.content);
+    await repository.createBulkThecnologies(req.body);
     res.json({
       message: 'Tecnologias criadas.'
     });

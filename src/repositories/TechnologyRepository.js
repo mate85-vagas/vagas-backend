@@ -15,11 +15,6 @@ const getAllTechnologies = async () => {
   return technologies;
 };
 
-const createTechnology = async (body) => {
-  const technology = await Technology.create(body);
-  return technology;
-};
-
 const updateTechnology = async (body, id) => {
   await Technology.update(body, {
     where: {
@@ -43,7 +38,6 @@ const createBulkThecnologies = async (body) => {
 export default {
   updateTechnology,
   getAllTechnologies,
-  createTechnology,
   getTechnologyById,
   deleteTechnology,
   createBulkThecnologies

@@ -2,7 +2,6 @@ import express from 'express';
 import {
   getAllTechnologies,
   getTechnologyById,
-  createTechnology,
   updateTechnology,
   deleteTechnology,
   createBulkTechnologies
@@ -13,8 +12,7 @@ const router = express.Router();
 //Routes for Technologies
 router.get('/', getAllTechnologies);
 router.get('/:id', getTechnologyById);
-router.post('/', createTechnology);
-router.post('/multiplas', createBulkTechnologies);
+router.post('/', createBulkTechnologies);
 router.patch('/:id', updateTechnology);
 router.delete('/:id', deleteTechnology);
 
