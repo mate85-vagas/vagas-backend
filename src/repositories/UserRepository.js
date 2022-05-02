@@ -2,12 +2,13 @@ import User from '../models/UserModel.js';
 import { UserAttrs } from '../models/UserAttrs.js';
 
 const getAllUsers = async () => {
-  const users = await User.findAndCountAll();
+  const users = await User.findAndCountAll({ attributes: { exclude: ['password'] } });
   return users;
 };
 
 const getUserById = async (id) => {
   const user = await User.findOne({
+    attributes: { exclude: ['password'] },
     where: {
       [UserAttrs.id]: id
     }
