@@ -68,7 +68,7 @@ describe('Users Context', () => {
     it('deleteUser: should throw error', async () => {
     jest.spyOn(User, 'destroy').mockRejectedValueOnce(new Error("error"));
     try {
-      await repository.deleteJob(userModelMock.get('id'));
+      await repository.deleteUser(userModelMock.get('id'));
     } catch (error) {
       expect(error).toBeDefined();  
     }
