@@ -146,7 +146,7 @@ paths:
               example: { 'workload': 8, 'userId': 11 }
 
       responses:
-        200:
+        204:
           description: vaga atualizada com sucesso
 
     delete:
@@ -197,7 +197,7 @@ paths:
                   type: integer
                   format: int64
       responses:
-        200:
+        201:
           description: operação realizada com sucesso
 
   /usuarios:
@@ -223,6 +223,131 @@ paths:
       responses:
         '201':
           description: conta criada com sucesso
+
+    get:
+      tags:
+        - Usuários
+      summary: Buscar usuários
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+  /usuarios/{id}:
+    get:
+      tags:
+        - Usuários
+      summary: Buscar usuário por identificador
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+        - in: path
+          name: id
+          description: User ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+    delete:
+      tags:
+        - Usuários
+      summary: Deleção de usuários
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+        - in: path
+          name: id
+          description: User ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: usuário excluído com sucesso
+
+    patch:
+      tags:
+        - Usuários
+      summary: Atualização de dados da conta
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+        - in: path
+          name: id
+          description: Profile ID
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example: { 'name': 'Diego Maradona' }
+
+      responses:
+        204:
+          description: conta atualizada com sucesso
+
+  /usuarios/{id}/vagas/criadas:
+    get:
+      tags:
+        - Usuários
+      summary: Buscar vagas criadas por usuário
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+        - in: path
+          name: id
+          description: User ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+  /usuarios/{id}/vagas/aplicadas:
+    get:
+      tags:
+        - Usuários
+      summary: Buscar vagas aplicadas por usuário
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+        - in: path
+          name: id
+          description: User ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: busca realizada com sucesso
 
   /perfis:
     get:
@@ -314,7 +439,7 @@ paths:
                   format: int64
 
       responses:
-        '200':
+        201:
           description: perfil criado com sucesso
 
   /perfis/{id}:
@@ -409,8 +534,8 @@ paths:
                     type: string
 
       responses:
-        '201':
-          description: habilidades criada com sucesso
+        201:
+          description: registro realizado com sucesso
 
     get:
       tags:
@@ -472,4 +597,88 @@ paths:
               example: { 'description': 'backend' }
       responses:
         204:
-          description: habilidade atualizada com sucesso
+          description: habilidades atualizadass
+
+  /tecnologias:
+    post:
+      tags:
+        - Tecnologias
+      summary: Registro de tecnologias
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  description:
+                    type: string
+
+      responses:
+        201:
+          description: registro realizado com sucesso
+
+    get:
+      tags:
+        - Tecnologias
+      summary: Buscar tecnologias
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+  /tecnologias/{id}:
+    get:
+      tags:
+        - Tecnologias
+      summary: Buscar tecnologia por identificador
+      parameters:
+        - in: path
+          name: id
+          description: Technology ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+    delete:
+      tags:
+        - Tecnologias
+      summary: Deleção de tecnologias
+      parameters:
+        - in: path
+          name: id
+          description: Technology ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: tecnologia excluída com sucesso
+
+    patch:
+      tags:
+        - Tecnologias
+      summary: Atualização de tecnologias
+      parameters:
+        - in: path
+          name: id
+          description: Technology ID
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example: { 'description': 'Node.js' }
+      responses:
+        204:
+          description: tecnologias atualizadas
