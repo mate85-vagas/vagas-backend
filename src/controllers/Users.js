@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import repository from '../repositories/UserRepository.js';
+import { buildJobWhereClause } from '../utils/filters.js';
 import User_JobRepository from '../repositories/User_JobRepository.js';
 import auth from '../utils/auth.js';
 import ProfileRepository from '../repositories/ProfileRepository.js';
@@ -52,7 +53,9 @@ export const getUserById = async (req, res) => {
 export const getCreatedJobsByUser = async (req, res) => {
   try {
     auth.checkToken(req.params.id, req.headers['x-access-token']);
-    const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, true);
+    const pageNumber = parseInt(req.query.pageNumber);
+    const itemsPerPage = parseInt(req.query.itemsPerPage);
+    const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, true, itemsPerPage, pageNumber);
     res.json(user_jobs);
   } catch (error) {
     res.json({ message: error.message, error: true });
@@ -63,7 +66,9 @@ export const getCreatedJobsByUser = async (req, res) => {
 export const getAppliedJobsByUser = async (req, res) => {
   try {
     auth.checkToken(req.params.id, req.headers['x-access-token']);
-    const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, false);
+    const pageNumber = parseInt(req.query.pageNumber);
+    const itemsPerPage = parseInt(req.query.itemsPerPage);
+    const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, false, itemsPerPage, pageNumber);
     res.json(user_jobs);
   } catch (error) {
     res.json({ message: error.message, error: true });
