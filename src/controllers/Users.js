@@ -123,10 +123,12 @@ export const updateUser = async (req, res) => {
       const salt = await bcrypt.genSalt(10);
       req.body.password = await bcrypt.hash(req.body.password, salt);
     }
-    await repository.updateUser(req.body, req.params.id);
-    res.json({
-      message: 'Usuário atualizado.'
-    });
+    const result = await repository.updateUser(req.body, req.params.id);
+    if (result[0] == 1)
+      res.json({
+        message: 'Usuário atualizado.'
+      });
+    else throw new Error('Falha ao realizar operação.');
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
@@ -135,10 +137,12 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     auth.checkToken(req.params.id, req.headers['x-access-token']);
-    await repository.deleteUser(req.params.id);
-    res.json({
-      message: 'Usuário deletado.'
-    });
+    const result = await repository.deleteUser(req.params.id);
+    if (result)
+      res.json({
+        message: 'Usuário deletado.'
+      });
+    else throw new Error('Falha ao realizar operação.');
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
