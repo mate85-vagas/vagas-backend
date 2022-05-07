@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import repository from '../repositories/UserRepository.js';
-import { buildJobWhereClause } from '../utils/filters.js';
 import User_JobRepository from '../repositories/User_JobRepository.js';
 import auth from '../utils/auth.js';
 import ProfileRepository from '../repositories/ProfileRepository.js';
