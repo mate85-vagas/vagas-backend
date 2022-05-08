@@ -52,7 +52,7 @@ const buildMailOptions = async (
         userReceiver, jobToApply, htmlEmail) => {
     let mailOptions = {
         from: process.env.LOGIN,
-        to: 'brunodipaolo12@gmail.com',
+        to: userReceiver,
         subject: `Aplicação para a vaga ${jobToApply.title}`,
         html: htmlEmail
     };
