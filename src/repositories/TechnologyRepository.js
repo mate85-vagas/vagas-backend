@@ -15,13 +15,8 @@ const getAllTechnologies = async () => {
   return technologies;
 };
 
-const createTechnology = async (body) => {
-  const technology = await Technology.create(body);
-  return technology;
-};
-
 const updateTechnology = async (body, id) => {
-  await Technology.update(body, {
+  return await Technology.update(body, {
     where: {
       [TechnologyAttrs.id]: id
     }
@@ -29,22 +24,21 @@ const updateTechnology = async (body, id) => {
 };
 
 const deleteTechnology = async (id) => {
-  await Technology.destroy({
+  return await Technology.destroy({
     where: {
       [TechnologyAttrs.id]: id
     }
   });
 };
 
-const createBulkThecnologies = async (body) => {
-  await Technology.bulkCreate(body);
+const createBulkTechnologies = async (body) => {
+  return await Technology.bulkCreate(body);
 };
 
 export default {
   updateTechnology,
   getAllTechnologies,
-  createTechnology,
   getTechnologyById,
   deleteTechnology,
-  createBulkThecnologies
+  createBulkTechnologies
 };

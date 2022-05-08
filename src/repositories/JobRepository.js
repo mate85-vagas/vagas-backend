@@ -25,10 +25,11 @@ const getJobById = async (id) => {
 const createJob = async (body, userId) => {
   const job = await Job.create(body);
   await User_JobRepository.createUser_Job(userId, job.id, true);
+  return job;
 };
 
 const updateJob = async (body, id) => {
-  await Job.update(body, {
+  return await Job.update(body, {
     where: {
       [JobAttrs.id]: id
     }
@@ -36,7 +37,7 @@ const updateJob = async (body, id) => {
 };
 
 const deleteJob = async (id) => {
-  await Job.destroy({
+  return await Job.destroy({
     where: {
       [JobAttrs.id]: id
     }
@@ -44,11 +45,11 @@ const deleteJob = async (id) => {
 };
 
 const applyToJob = async (userId, jobId) => {
-  await User_JobRepository.createUser_Job(userId, jobId, false);
+  return await User_JobRepository.createUser_Job(userId, jobId, false);
 };
 
 const deleteExpiredJobs = async () => {
-  await Job.destroy({
+  return await Job.destroy({
     where: Sequelize.where(
       Sequelize.fn('DATE_ADD', Sequelize.col('createdAt'), Sequelize.literal('INTERVAL 6 MONTH')),
       {

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "jest --runInBand ",
-    "dev": "npx nodemon src/index",
+    "dev": "nodemon src/index",
     "test:cov": "jest --runInBand --coverage"
   },
   "repository": {
@@ -43,6 +43,7 @@
     "eslint": "^8.12.0",
     "jest": "^27.5.1",
     "nodemon": "^2.0.15",
-    "prettier": "^2.6.1"
+    "prettier": "^2.6.1",
+    "sucrase": "^3.21.0"
   }
 }

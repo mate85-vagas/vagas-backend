@@ -15,13 +15,8 @@ const getSkillById = async (id) => {
   return skill;
 };
 
-const createSkill = async (body) => {
-  const skill = await Skill.create(body);
-  return skill;
-};
-
 const updateSkill = async (body, id) => {
-  await Skill.update(body, {
+  return await Skill.update(body, {
     where: {
       [SkillAttrs.id]: id
     }
@@ -29,7 +24,7 @@ const updateSkill = async (body, id) => {
 };
 
 const deleteSkill = async (id) => {
-  await Skill.destroy({
+  return await Skill.destroy({
     where: {
       [SkillAttrs.id]: id
     }
@@ -37,7 +32,7 @@ const deleteSkill = async (id) => {
 };
 
 const createBulkSkills = async (body) => {
-  await Skill.bulkCreate(body);
+  return await Skill.bulkCreate(body);
 };
 
-export default { getAllSkills, getSkillById, updateSkill, deleteSkill, createSkill, createBulkSkills };
+export default { getAllSkills, getSkillById, updateSkill, deleteSkill, createBulkSkills };

@@ -48,6 +48,7 @@ const checkLanguageAndResume = async (profile) => {
     return [language, resume]
 }
 
+
 const buildMailOptions = async (
         userReceiver, jobToApply, htmlEmail) => {
     let mailOptions = {
@@ -82,3 +83,4 @@ export const mail_sender = async (
         throw new Error(e)
     }
 }
+

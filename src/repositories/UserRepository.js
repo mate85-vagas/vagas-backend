@@ -2,12 +2,13 @@ import User from '../models/UserModel.js';
 import { UserAttrs } from '../models/UserAttrs.js';
 
 const getAllUsers = async () => {
-  const users = await User.findAndCountAll();
+  const users = await User.findAndCountAll({ attributes: { exclude: ['password'] } });
   return users;
 };
 
 const getUserById = async (id) => {
   const user = await User.findOne({
+    attributes: { exclude: ['password'] },
     where: {
       [UserAttrs.id]: id
     }
@@ -39,7 +40,7 @@ const createUser = async (body) => {
 };
 
 const updateUser = async (body, id) => {
-  await User.update(body, {
+  return await User.update(body, {
     where: {
       [UserAttrs.id]: id
     }
@@ -47,7 +48,7 @@ const updateUser = async (body, id) => {
 };
 
 const deleteUser = async (id) => {
-  await User.destroy({
+  return await User.destroy({
     where: {
       [UserAttrs.id]: id
     }

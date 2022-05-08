@@ -39,10 +39,12 @@ export const updateProfile = async (req, res) => {
     if (profile) {
       if (profile.userId == userId) {
         auth.checkToken(userId, req.headers['x-access-token']);
-        await repository.updateProfile(req.body, req.params.id);
-        res.json({
-          message: 'Perfil atualizado.'
-        });
+        const result = await repository.updateProfile(req.body, req.params.id);
+        if (result[0] == 1)
+          res.json({
+            message: 'Perfil atualizado.'
+          });
+        else throw new Error('Falha ao realizar operação.');
       } else throw new Error('Acesso não autorizado.');
     } else res.json({ message: 'Perfil não encontrado.', error: true });
   } catch (error) {
@@ -53,10 +55,12 @@ export const updateProfile = async (req, res) => {
 export const createProfile = async (req, res) => {
   try {
     auth.checkToken(req.body.userId, req.headers['x-access-token']);
-    await repository.createProfile(req.body);
-    res.json({
-      message: 'Perfil criado.'
-    });
+    const profile = await repository.createProfile(req.body);
+    if (profile)
+      res.json({
+        message: 'Perfil criado.'
+      });
+    else throw new Error('Falha ao realizar operação.');
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
@@ -66,11 +70,14 @@ export const deleteProfile = async (req, res) => {
   try {
     const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
     const profile = await repository.getProfileByUserId(userId);
+
     if (profile.id == req.params.id) {
-      await repository.deleteProfile(profile.id);
-      res.json({
-        message: 'Perfil deletado.'
-      });
+      const result = await repository.deleteProfile(profile.id);
+      if (result)
+        res.json({
+          message: 'Perfil deletado.'
+        });
+      else throw new Error('Falha ao realizar operação.');
     } else throw new Error('Acesso não autorizado.');
   } catch (error) {
     res.json({ message: error.message, error: true });
