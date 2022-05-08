@@ -54,7 +54,7 @@ export const mail_sender = async (userApplier, userReceiver, profileUserApplier,
         pass: process.env.PASSWORD
       }
     });
-    transporter.sendMail(mailOptions, function (err, info) {
+    return transporter.sendMail(mailOptions, function (err, info) {
       return err || info;
     });
   } catch (e) {

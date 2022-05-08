@@ -147,3 +147,12 @@ export const deleteUser = async (req, res) => {
     res.json({ message: error.message, error: true });
   }
 };
+
+export const validateUser = async (req, res) => {
+  try {
+    const id = auth.checkTokenAndReturnId(req.body.token);
+    res.json({ userId: id });
+  } catch (error) {
+    res.json({ message: error.message, error: true });
+  }
+};
