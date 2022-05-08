@@ -42,6 +42,8 @@ This application uses this following technologies:
 - [Prettier](https://prettier.io/) (Code formatting)
 - [bcrypt](https://www.npmjs.com/package/bcrypt)
 - [MySQL2](https://www.npmjs.com/package/mysql2)
+- [Jwt](https://www.npmjs.com/package/jsonwebtoken)
+- [Cors](https://www.npmjs.com/package/cors)
 
 <a id="como-executar"></a>
 
