@@ -1,23 +1,3 @@
-# How to run
-
-Make sure to have all dependencies installed before run the project, you can use `npm install` to do that.
-
-Since you have all the dependencies, you can run the project by using `npx nodemon src/index` on your console, in vagas-backend dir.
-
-p.s.: Make sure to have a MySQL database named vagas_db running and all the environment variables set.
-<!---
-# API endpoints
-
-These endpoints will be used to consult, analyze and update informations on the application in IC's jobs base
---->
-# Code formatting setup
-
-Download prettier and eslint plugin in vscode.
-
-Execute command: `ctrl + shift + P`
-
-Now add: "editor.defaultFormatter": "esbenp.prettier-vscode", "editor.formatOnSave": true
-
 <!-- Logo -->
 
 <h1 align="center" style="font-family: Ubuntu; font-size: 45px; color: #333; margin-bottom: 0">
@@ -34,29 +14,21 @@ Now add: "editor.defaultFormatter": "esbenp.prettier-vscode", "editor.formatOnSa
 
 <h2>Summary</h2>
 
-- [:framed_picture: Layout](#framed_picture-layout)
-- [:computer: Demo](#computer-demo)
+- [:computer: API Documentation](#computer-api-documentation)
 - [:rocket: Technologies](#rocket-technologies)
 - [:boom: How to run](#boom-how-to-run)
     - [Prerequisites](#prerequisites)
     - [Setting environment variables](#setting-environment-variables)
     - [Running the application](#running-the-application)
-- [:wrench: Environment variables](#wrench-environment-variables)
+- [:sparkles: Code formatting setup](#sparkles-code-formatting-setup)
 - [:recycle: How to contribute](#recycle-how-to-contribute)
 - [:memo: License](#memo-license)
 
+<a id="doc"></a>
 
-<a id="layout"></a>
+## :computer: API Documentation
 
-## :framed_picture: Layout
-
-The layout prototype of this application is available on [Figma](https://www.figma.com/file/Z6loIYv1xVtCgkyf3BzHp3/MATE85---Grupo-3?node-id=0%3A1).
-
-<a id="demo"></a>
-
-## :computer: Demo
-
-This application was hosted by [Heroku](https://www.heroku.com/) e can be found here: [Talentos IC](https://talentosic-vagas.herokuapp.com/).
+This application is documented on [Swagger](https://swagger.io//) and can be found here: [Talentos IC - Swagger](https://vagas-ic.herokuapp.com/api-doc/v1/).
 
 <a id="tecnologias"></a>
 
@@ -64,10 +36,12 @@ This application was hosted by [Heroku](https://www.heroku.com/) e can be found 
 
 This application uses this following technologies:
 
-- [ReactJS](https://reactjs.org/)
+- [Express](https://expressjs.com/pt-br/)
+- [Sequelize](https://sequelize.org/)
 - [ESLint](https://eslint.org/) (Code standardization)
 - [Prettier](https://prettier.io/) (Code formatting)
-- [React Router](https://reactrouter.com/web/guides/quick-start)
+- [bcrypt](https://www.npmjs.com/package/bcrypt)
+- [MySQL2](https://www.npmjs.com/package/mysql2)
 
 <a id="como-executar"></a>
 
@@ -81,8 +55,9 @@ To run this application, you need to have it on your machine:
 
 
 #### Setting environment variables
+
 ```sh
-# Copy .env from .env.example to setup environment variables
+# Copy .env from .env.example to setup environment variables and set them
 $ cp .env.example .env
 ```
 
@@ -90,17 +65,19 @@ $ cp .env.example .env
 
 ```sh
 # Clone this repository
-$ git clone https://github.com/mate85-vagas/vagas-frontend
+$ git clone https://github.com/mate85-vagas/vagas-backend
 
 # Move to root directory
-$ cd vagas-frontend
+$ cd vagas-backend
 
 # Install dependencies
 $ npm install
 
 # Run on a local server
-$ npm start
+$ npx nodemon src/index
 ```
+
+##### Make sure to have a MySQL database named vagas_db running and all the environment variables set.
 
 #### Running the tests
 
@@ -109,13 +86,22 @@ $ npm start
 $ npm test
 ```
 
-<a id="variaveis-ambiente"></a>
+---
 
-## :wrench: Environment variables
+<a id="code-format"></a>
 
-| Name          | Description     | Default               |
-| -             | -               | -                     |
-| REACT_APP_API | URL of the API  | http://localhost:5000 |
+## :sparkles: Code formatting setup
+
+Download prettier and eslint plugin in vscode.
+
+Execute command: `ctrl + shift + P`
+
+Now add on vscode configurations:
+
+```json
+"editor.defaultFormatter": "esbenp.prettier-vscode",
+"editor.formatOnSave": true
+```
 
 ---
 
