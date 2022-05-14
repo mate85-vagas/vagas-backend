@@ -87,3 +87,33 @@ export const mail_sender = async (userApplier, userReceiver, profileUserApplier,
     throw new Error(e);
   }
 };
+
+export const inviteMail = async(newUserEmail) => {
+  try {
+    let html = fs.readFileSync('./././inviteEmail.html', 'utf8');
+    html = html.replace('${link}', process.env.URL_CADASTRO);
+    let mailOptions = inviteMailOptions(newUserEmail, html)
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.LOGIN,
+        pass: process.env.PASSWORD
+      }
+    });
+    return transporter.sendMail(mailOptions, function (err, info) {
+      return err || info;
+    });
+  } catch (e){
+    throw new Error(e)
+  }
+};
+
+const inviteMailOptions = (newUserEmail, html) => {
+  let mailOptions = {
+    from: process.env.LOGIN,
+    to: newUserEmail,
+    subject: `Convite para Talentos-IC`,
+    html: html
+  };
+  return mailOptions;
+};
