@@ -1,0 +1,72 @@
+
+<section id="vic-email" style="background: #333; padding: 5%">
+  <div
+    id="vagas-main-content"
+    style="
+      background-color: rgba(29, 79, 149, 1);
+      color: #fff;
+      font-family: Arial;
+      -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      overflow: hidden;
+      font-size: 16px;
+      font-weight: 400;
+    "
+  >
+    <div id="content" style="box-sizing: border-box">
+      <span
+        class="receiver-name"
+        style="
+          box-sizing: border-box;
+          font-size: 1.5rem;
+          display: block;
+          background-color: #fff;
+          padding: 5% 7%;
+          color: #13335f;
+          font-weight: 600;
+        "
+      >
+        Olá ${userReceiver.name},
+      </span>
+      <div class="text" style="box-sizing: border-box; padding: 5% 7%">
+        <p style="box-sizing: border-box; margin: 0 0 1.6em 0">
+          O usuário de nome <b> ${userApplier.name} </b>aplicou para a vaga entitulada <b>${jobToApply.title}</b>.
+        </p>
+
+        <p style="box-sizing: border-box; margin: 30px 0 1.1em 0">
+          Abaixo estão algumas informações sobre o usuário que podem ser úteis:
+        </p>
+        <ul style="list-style: circle;">
+        <li style="box-sizing: border-box; margin: 2% 0 0.5em 0"><b>Habilidades: </b>${knowledge}</li>
+        <li style="box-sizing: border-box; margin: 2% 0 0.5em 0"><b>Escolaridade: </b>${scholarity}</li>
+        <li style="box-sizing: border-box; margin: 2% 0 0.5em 0"><b>Tecnologias: </b>${technologies}</li>
+        <li style="box-sizing: border-box; margin: 2% 0 0.5em 0"><b>Idiomas: </b>${profile.languages}</li>
+        <li style="box-sizing: border-box; margin: 2% 0 0.5em 0"><b>E-mail para contato: </b>${email}</li>
+        <li style="box-sizing: border-box; margin: 2% 0 0.5em 0"><b>Currículo online: </b>${profile.resume}</li>
+        </ul>
+
+        <p style="margin-top: 50px;">${contato}</p>        
+      </div>
+      <div class="footer" style="box-sizing: border-box; text-align: center; padding: 5% 3%; background: #13335f;">
+        <img
+          src="http://eky.hk/upload/file/png625c36a0ccf6e.png"
+          alt="Logo Instituto de Computação"
+          style="box-sizing: border-box; display: block; height: 70px; margin: 0 auto 0 auto"
+        />
+        <span
+          class="warning"
+          style="
+            box-sizing: border-box;
+            opacity: 0.8;
+            font-style: italic;
+            display: block;
+            margin: 20px 0 0 0;
+            font-size: 12px;
+          "
+          >Este é um e-mail automático, favor não responder.
+        </span>
+      </div>
+    </div>
+  </div>
+</section>

@@ -8,7 +8,8 @@ import {
   deleteUser,
   checkUser,
   getCreatedJobsByUser,
-  getAppliedJobsByUser
+  getAppliedJobsByUser,
+  validateUser
 } from '../controllers/Users.js';
 
 const router = express.Router();
@@ -22,5 +23,6 @@ router.post('/', createUser);
 router.post('/login', checkUser);
 router.patch('/:id', updateUser);
 router.delete('/:id', deleteUser);
+router.post('/validacao', validateUser);
 
 export default router;

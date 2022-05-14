@@ -1,9 +1,49 @@
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
+import fs from 'fs';
 
 dotenv.config();
 
-const checkLanguageAndResume = async (profile) => {
+const returnScholarityFullDescription = (scholarity) => {
+  if (scholarity == 'supc') return 'Superior Completo';
+  else if (scholarity == 'supinc') return 'Superior Incompleto';
+  else return 'Pós-Graduação';
+};
+
+const splitArrayByComma = (value) => {
+  return value.split(';').join(', ');
+};
+
+const htmlSetup = (userApplier, userReceiver, profileUserApplier, jobToApply) => {
+  try {
+    let html = fs.readFileSync('./././email.html', 'utf8');
+    const languageAndResume = checkLanguageAndResume(profileUserApplier);
+    const languages = languageAndResume[0];
+    const resume = languageAndResume[1];
+    html = html.replace('${userReceiver.name}', userReceiver.name);
+    html = html.replace('${userApplier.name}', userApplier.name);
+    html = html.replace('${jobToApply.title}', jobToApply.title);
+    html = html.replace('${knowledge}', splitArrayByComma(profileUserApplier.knowledge));
+    html = html.replace('${scholarity}', returnScholarityFullDescription(profileUserApplier.scholarity));
+    html = html.replace('${technologies}', splitArrayByComma(profileUserApplier.technologies));
+    html = html.replace('${profile.languages}', languages);
+    html = html.replace(
+      '${email}',
+      `<a style="color: white" href="mailto:${userApplier.email}"> ${userApplier.email} </a>`
+    );
+    html = html.replace('${profile.resume}', resume);
+    html = html.replace(
+      '${contato}',
+      `Para entrar em contato com o aplicante, <a style="color: white" href="mailto:${userApplier.email}"> clique aqui </a>.`
+    );
+    console.log(profileUserApplier.technologies);
+    return html;
+  } catch (e) {
+    throw Error(e);
+  }
+};
+
+const checkLanguageAndResume = (profile) => {
   let language = '';
   let resume = '';
   if (profile.languages) {
@@ -18,35 +58,21 @@ const checkLanguageAndResume = async (profile) => {
   }
   return [language, resume];
 };
-const buildMailOptions = async (userApplier, userReceiver, profileUserApplier, jobToApply) => {
-  const languageAndResume = await checkLanguageAndResume(profileUserApplier);
-  const languages = languageAndResume[0];
-  const resume = languageAndResume[1];
+
+const buildMailOptions = (userReceiver, jobToApply, htmlEmail) => {
   let mailOptions = {
     from: process.env.LOGIN,
     to: userReceiver.email,
     subject: `Aplicação para a vaga ${jobToApply.title}`,
-    html: `<p>Olá ${userReceiver.name},</p>
-        <p></p>
-        <p>O usuário de nome <b>${userApplier.name}</b> aplicou para a vaga entitulada <b>${jobToApply.title}</b></p>
-        <p></p>
-        <p> Abaixo algumas informações sobre o usuário que podem ser úteis:</p>
-        <p></p>
-        <p><b>Escolaridade</b>: ${profileUserApplier.scholarity}</p>
-        <p><b>Habilidade</b>: ${profileUserApplier.knowledge}</p>
-        <p><b>Tecnologias conhecidas</b>: ${profileUserApplier.technologies}</p>
-        <p><b>Idiomas conhecidos</b>: ${languages}</p>
-        <p><b>E-mail para contato</b>: ${userApplier.email}</p>
-        <p><b>Link para currículo online</b>: ${resume}</p>
-        <p></p>
-        <p>Obs: este é um e-mail automático, favor não responder. Qualquer contato deve ser feito diretamente ao aplicante.</p>`
+    html: htmlEmail
   };
   return mailOptions;
 };
 
 export const mail_sender = async (userApplier, userReceiver, profileUserApplier, jobToApply) => {
   try {
-    const mailOptions = await buildMailOptions(userApplier, userReceiver, profileUserApplier, jobToApply);
+    let htmlEmail = htmlSetup(userApplier, userReceiver, profileUserApplier, jobToApply);
+    const mailOptions = buildMailOptions(userReceiver, jobToApply, htmlEmail);
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -54,7 +80,7 @@ export const mail_sender = async (userApplier, userReceiver, profileUserApplier,
         pass: process.env.PASSWORD
       }
     });
-    transporter.sendMail(mailOptions, function (err, info) {
+    return transporter.sendMail(mailOptions, function (err, info) {
       return err || info;
     });
   } catch (e) {

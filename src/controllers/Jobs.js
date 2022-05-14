@@ -35,10 +35,12 @@ export const createJob = async (req, res) => {
   try {
     const userId = req.body.userId;
     auth.checkToken(userId, req.headers['x-access-token']);
-    await repository.createJob(req.body, userId);
-    res.json({
-      message: 'Vaga criada.'
-    });
+    const job = await repository.createJob(req.body, userId);
+    if (job)
+      res.json({
+        message: 'Vaga criada.'
+      });
+    else throw new Error('Falha ao realizar operação.');
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
@@ -51,10 +53,12 @@ export const updateJob = async (req, res) => {
     const jobId = req.params.id;
     if (userId && (await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId))) {
       auth.checkToken(userId, req.headers['x-access-token']);
-      await repository.updateJob(req.body, jobId);
-      res.json({
-        message: 'Vaga atualizada.'
-      });
+      const result = await repository.updateJob(req.body, jobId);
+      if (result[0] == 1)
+        res.json({
+          message: 'Vaga atualizada.'
+        });
+      else throw new Error('Falha ao realizar operação.');
     } else throw new Error('Acesso não autorizado.');
   } catch (error) {
     res.json({ message: error.message, error: true });
@@ -67,10 +71,12 @@ export const deleteJob = async (req, res) => {
     const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
     const jobId = req.params.id;
     if (await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId)) {
-      await repository.deleteJob(jobId);
-      res.json({
-        message: 'Vaga deletada.'
-      });
+      const result = await repository.deleteJob(jobId);
+      if (result)
+        res.json({
+          message: 'Vaga deletada.'
+        });
+      else throw new Error('Falha ao realizar operação.');
     } else throw new Error('Acesso não autorizado.');
   } catch (error) {
     res.json({ message: error.message, error: true });
@@ -85,14 +91,16 @@ export const applyToJob = async (req, res) => {
     let count = await ProfileRepository.countProfileByUserId(userId);
     if (!count) throw new Error('Necessário criar perfil.');
     if (!(await repository.countValidJob(req.body.jobId))) throw new Error('Vaga expirada');
-    await repository.applyToJob(userId, req.body.jobId);
-    const userApplier = await UserRepository.getUserById(userId);
-    const infoUserRecvAndJob = await User_JobRepository.getInformationByJobId(req.body.jobId);
-    const userReceiver = infoUserRecvAndJob.user.dataValues;
-    const profileUserApplier = await ProfileRepository.getProfileByUserId(userId);
-    const jobToApply = infoUserRecvAndJob.job.dataValues;
-    await mail_sender(userApplier, userReceiver, profileUserApplier, jobToApply);
-    res.json({ message: 'Aplicação realizada.' });
+    const userJob = await repository.applyToJob(userId, req.body.jobId);
+    if (userJob) {
+      const userApplier = await UserRepository.getUserById(userId);
+      const infoUserRecvAndJob = await User_JobRepository.getInformationByJobId(req.body.jobId);
+      const userReceiver = infoUserRecvAndJob.user.dataValues;
+      const profileUserApplier = await ProfileRepository.getProfileByUserId(userId);
+      const jobToApply = infoUserRecvAndJob.job.dataValues;
+      await mail_sender(userApplier, userReceiver, profileUserApplier, jobToApply);
+      res.json({ message: 'Aplicação realizada.' });
+    } else throw new Error('Falha ao realizar operação.');
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
