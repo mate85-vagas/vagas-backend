@@ -30,7 +30,7 @@ const User = db.define('user', {
   },
   [UserAttrs.isAuthorized]: {
     type: DataTypes.BOOLEAN,
-    defaultValue: true,
+    defaultValue: false,
     allowNull: true
   }
 });
