@@ -80,11 +80,7 @@ export const createUser = async (req, res) => {
     await checkExistentEmail(req.body.email);
     const salt = await bcrypt.genSalt(10);
     req.body.password = await bcrypt.hash(req.body.password, salt);
-    if (req.body.isAdmin == process.env.SECRET_ADM) {
-      req.body.isAdmin = true;
-    } else {
-      req.body.isAdmin = false;
-    }
+    if (!(req.body.isAdmin == true && req.body.secret == process.env.SECRET_ADM)) req.body.isAdmin = false;
     const user = await repository.createUser(req.body);
     const token = auth.createToken(user.id);
     res.json({
