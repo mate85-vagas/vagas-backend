@@ -21,7 +21,7 @@ router.get('/:id', getUserById);
 router.get('/:id/vagas/criadas', getCreatedJobsByUser);
 router.get('/:id/vagas/aplicadas', getAppliedJobsByUser);
 router.post('/', createUser);
-router.post('/invite', inviteUser);
+router.post('/convite', inviteUser);
 router.post('/login', checkUser);
 router.patch('/:id', updateUser);
 router.delete('/:id', deleteUser);
