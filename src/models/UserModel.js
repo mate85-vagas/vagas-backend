@@ -22,16 +22,6 @@ const User = db.define('user', {
   [UserAttrs.password]: {
     type: DataTypes.STRING,
     allowNull: false
-  },
-  [UserAttrs.isAdmin]: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-    allowNull: true
-  },
-  [UserAttrs.isAuthorized]: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: true,
-    allowNull: true
   }
 });
 

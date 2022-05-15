@@ -52,9 +52,7 @@ export const getUserById = async (req, res) => {
 export const getCreatedJobsByUser = async (req, res) => {
   try {
     auth.checkToken(req.params.id, req.headers['x-access-token']);
-    const pageNumber = parseInt(req.query.pageNumber);
-    const itemsPerPage = parseInt(req.query.itemsPerPage);
-    const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, true, itemsPerPage, pageNumber);
+    const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, true);
     res.json(user_jobs);
   } catch (error) {
     res.json({ message: error.message, error: true });
@@ -65,9 +63,7 @@ export const getCreatedJobsByUser = async (req, res) => {
 export const getAppliedJobsByUser = async (req, res) => {
   try {
     auth.checkToken(req.params.id, req.headers['x-access-token']);
-    const pageNumber = parseInt(req.query.pageNumber);
-    const itemsPerPage = parseInt(req.query.itemsPerPage);
-    const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, false, itemsPerPage, pageNumber);
+    const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, false);
     res.json(user_jobs);
   } catch (error) {
     res.json({ message: error.message, error: true });
@@ -80,11 +76,6 @@ export const createUser = async (req, res) => {
     await checkExistentEmail(req.body.email);
     const salt = await bcrypt.genSalt(10);
     req.body.password = await bcrypt.hash(req.body.password, salt);
-    if (req.body.isAdmin == process.env.SECRET_ADM) {
-      req.body.isAdmin = true;
-    } else {
-      req.body.isAdmin = false;
-    }
     const user = await repository.createUser(req.body);
     const token = auth.createToken(user.id);
     res.json({
