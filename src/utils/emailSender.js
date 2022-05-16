@@ -34,7 +34,7 @@ const htmlSetup = (userApplier, userReceiver, profileUserApplier, jobToApply) =>
     html = html.replace('${profile.resume}', resume);
     html = html.replace(
       '${contato}',
-      `Para entrar em contato com o aplicante, <a style="color: white" href="mailto:${userApplier.email}"> clique aqui </a>.`
+      `Para entrar em contato com o aplicante, <a style="color: white" href="mailto:${userApplier.email}"> clique aqui.</a>`
     );
     console.log(profileUserApplier.technologies);
     return html;
