@@ -1,5 +1,5 @@
 
-<section id="vic-email" style="background: #333; padding: 5%">
+<section id="vic-email" style="background: #333; padding: 1%">
   <div
     id="vagas-main-content"
     style="
@@ -15,40 +15,52 @@
     "
   >
     <div id="content" style="box-sizing: border-box">
-      <span
-        class="receiver-name"
+      <div
+        class="header"
         style="
           box-sizing: border-box;
           font-size: 1.5rem;
           display: block;
           background-color: #fff;
-          padding: 5% 7%;
+          padding: 4% 7%;
           color: #13335f;
           font-weight: 600;
+          text-align: center;
         "
       >
-        Olá ${userReceiver.name},
-      </span>
-      <div class="text" style="box-sizing: border-box; padding: 5% 7%">
+      <img
+        src="http://eky.hk/upload/file/png628292adcbf39.png"
+        alt="Logo Instituto de Computação"
+        style="box-sizing: border-box; display: block; height: 100px; margin: 0 auto 0 auto"
+      />
+      <span class="email-receiver">
+        <div>
+          <div style="font-weight: 900; margin: 10px auto 0 auto; font-size: 25px;">Talentos IC </div>
+          <div style="font-size: 16px; font-weight: 500; margin: 5px auto 0 auto;">Instituto de Computação da UFBA</div>
+        </div>        
+      </span>       
+    </div>
+      <div class="text" style="box-sizing: border-box; padding: 5% 7%;">
+        <div style="font-weight: 600; font-size: 20px; margin-bottom: 60px;">Olá, ${userReceiver.name}!</div>       
         <p style="box-sizing: border-box; margin: 0 0 1.6em 0">
           O usuário de nome <b> ${userApplier.name} </b>aplicou para a vaga entitulada <b>${jobToApply.title}</b>.
         </p>
 
-        <p style="box-sizing: border-box; margin: 30px 0 1.1em 0">
+        <p style="box-sizing: border-box; margin: 30px 0 15px 0;">
           Abaixo estão algumas informações sobre o usuário que podem ser úteis:
         </p>
         <ul style="list-style: circle;">
-        <li style="box-sizing: border-box; margin: 2% 0 0.5em 0"><b>Habilidades: </b>${knowledge}</li>
-        <li style="box-sizing: border-box; margin: 2% 0 0.5em 0"><b>Escolaridade: </b>${scholarity}</li>
-        <li style="box-sizing: border-box; margin: 2% 0 0.5em 0"><b>Tecnologias: </b>${technologies}</li>
-        <li style="box-sizing: border-box; margin: 2% 0 0.5em 0"><b>Idiomas: </b>${profile.languages}</li>
-        <li style="box-sizing: border-box; margin: 2% 0 0.5em 0"><b>E-mail para contato: </b>${email}</li>
-        <li style="box-sizing: border-box; margin: 2% 0 0.5em 0"><b>Currículo online: </b>${profile.resume}</li>
+        <li style="box-sizing: border-box; margin: 13px 0;"><b>Habilidades: </b>${knowledge}</li>
+        <li style="box-sizing: border-box; margin: 13px 0;"><b>Escolaridade: </b>${scholarity}</li>
+        <li style="box-sizing: border-box; margin: 13px 0;"><b>Tecnologias: </b>${technologies}</li>
+        <li style="box-sizing: border-box; margin: 13px 0;"><b>Idiomas: </b>${profile.languages}</li>
+        <li style="box-sizing: border-box; margin: 13px 0;"><b>E-mail para contato: </b>${email}</li>
+        <li style="box-sizing: border-box; margin: 13px 0;"><b>Currículo online: </b>${profile.resume}</li>
         </ul>
 
         <p style="margin-top: 50px;">${contato}</p>        
       </div>
-      <div class="footer" style="box-sizing: border-box; text-align: center; padding: 5% 3%; background: #13335f;">
+      <div class="footer" style="box-sizing: border-box; text-align: center; padding: 4% 3%; background: #13335f;">
         <img
           src="http://eky.hk/upload/file/png625c36a0ccf6e.png"
           alt="Logo Instituto de Computação"

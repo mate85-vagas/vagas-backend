@@ -4,6 +4,7 @@ import repository from '../repositories/UserRepository.js';
 import User_JobRepository from '../repositories/User_JobRepository.js';
 import auth from '../utils/auth.js';
 import ProfileRepository from '../repositories/ProfileRepository.js';
+import { inviteMail } from '../utils/emailSender.js'
 
 //Check if e-mail is valid
 const checkValidEmail = (email) => {
@@ -159,6 +160,17 @@ export const validateUser = async (req, res) => {
     const id = auth.checkTokenAndReturnId(req.body.token);
     res.json({ userId: id });
   } catch (error) {
+    res.json({ message: error.message, error: true });
+  }
+};
+
+export const inviteUser = async (req, res) => {
+  try {
+    const userId = req.body.userId
+    auth.checkToken(userId, req.headers['x-access-token']);
+    inviteMail(req.body.email)
+    res.json({ message: 'Convite enviado.' })
+  } catch (error){
     res.json({ message: error.message, error: true });
   }
 };
