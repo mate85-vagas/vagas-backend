@@ -1,5 +1,6 @@
 import User from '../models/UserModel.js';
 import { UserAttrs } from '../models/UserAttrs.js';
+import Job from '../models/JobModel.js';
 
 const getAllUsers = async () => {
   const users = await User.findAndCountAll({ attributes: { exclude: ['password'] } });
@@ -48,9 +49,14 @@ const updateUser = async (body, id) => {
 };
 
 const deleteUser = async (id) => {
-  return await User.destroy({
+  await Job.destroy({
     where: {
-      [UserAttrs.id]: id
+      userId: id
+    }
+  });
+  await User.destroy({
+    where: {
+      id: id
     }
   });
 };

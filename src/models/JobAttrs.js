@@ -8,6 +8,7 @@ export const JobAttrs = {
   salary: 'salary',
   endingDate: 'endingDate',
   startingDate: 'startingDate',
+  userId: 'userId',
   scholarity: 'scholarity',
   createdAt: 'createdAt'
 };

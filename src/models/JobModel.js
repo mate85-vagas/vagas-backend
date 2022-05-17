@@ -49,6 +49,9 @@ const Job = db.define('job', {
   },
   [JobAttrs.createdAt]: {
     type: DataTypes.DATEONLY
+  },
+  [JobAttrs.userId]: {
+    type: DataTypes.INTEGER
   }
 });
 
