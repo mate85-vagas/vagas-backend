@@ -25,6 +25,7 @@ const getJobById = async (id) => {
 const createJob = async (body, userId) => {
   const job = await Job.create(body);
   await User_JobRepository.createUser_Job(userId, job.id, true);
+  return job;
 };
 
 const updateJob = async (body, id) => {

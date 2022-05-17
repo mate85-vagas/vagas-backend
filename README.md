@@ -1,240 +1,123 @@
-# How to run
+<!-- Logo -->
 
-Make sure to have all dependencies installed before run the project, you can use `npm install` to do that.
+<h1 align="center" style="font-family: Ubuntu; font-size: 45px; color: #333; margin-bottom: 0">
+  Talentos IC - REST API
+</h1>
 
-Since you have all the dependencies, you can run the project by using `npx nodemon src/index` on your console, in vagas-backend dir.
+<!-- Description -->
 
-p.s.: Make sure to have a MySQL database named vagas_db running and all the environment variables set.
-<!---
-# API endpoints
+<h4 align="center">
+	UFBA - Instituto de Computação - MATE85 - 2022.1 - Grupo 3
+</h4>
 
-These endpoints will be used to consult, analyze and update informations on the application in IC's jobs base
---->
-# Code formatting setup
+<!-- Summary -->
+
+<h2>Summary</h2>
+
+- [:computer: API Documentation](#computer-api-documentation)
+- [:rocket: Technologies](#rocket-technologies)
+- [:boom: How to run](#boom-how-to-run)
+    - [Prerequisites](#prerequisites)
+    - [Setting environment variables](#setting-environment-variables)
+    - [Running the application](#running-the-application)
+- [:sparkles: Code formatting setup](#sparkles-code-formatting-setup)
+- [:recycle: How to contribute](#recycle-how-to-contribute)
+- [:memo: License](#memo-license)
+
+<a id="doc"></a>
+
+## :computer: API Documentation
+
+This application is documented on [Swagger](https://swagger.io//) and can be found here: [Talentos IC - Swagger](https://vagas-ic.herokuapp.com/api-doc/v1/).
+
+<a id="tecnologias"></a>
+
+## :rocket: Technologies
+
+This application uses this following technologies:
+
+- [Express](https://expressjs.com/pt-br/)
+- [Sequelize](https://sequelize.org/)
+- [ESLint](https://eslint.org/) (Code standardization)
+- [Prettier](https://prettier.io/) (Code formatting)
+- [bcrypt](https://www.npmjs.com/package/bcrypt)
+- [MySQL2](https://www.npmjs.com/package/mysql2)
+- [Jwt](https://www.npmjs.com/package/jsonwebtoken)
+- [Cors](https://www.npmjs.com/package/cors)
+
+<a id="como-executar"></a>
+
+## :boom: How to run
+
+#### Prerequisites
+
+To run this application, you need to have it on your machine:
+
+- [NodeJS](https://nodejs.org/en/download/)
+
+
+#### Setting environment variables
+
+```sh
+# Copy .env from .env.example to setup environment variables and set them
+$ cp .env.example .env
+```
+
+#### Running the application
+
+```sh
+# Clone this repository
+$ git clone https://github.com/mate85-vagas/vagas-backend
+
+# Move to root directory
+$ cd vagas-backend
+
+# Install dependencies
+$ npm install
+
+# Run on a local server
+$ npx nodemon src/index
+```
+
+##### Make sure to have a MySQL database named vagas_db running and all the environment variables set.
+
+#### Running the tests
+
+```sh
+# Searches and runs all tests
+$ npm test
+```
+
+---
+
+<a id="code-format"></a>
+
+## :sparkles: Code formatting setup
 
 Download prettier and eslint plugin in vscode.
 
 Execute command: `ctrl + shift + P`
 
-Now add: "editor.defaultFormatter": "esbenp.prettier-vscode", "editor.formatOnSave": true
-<!---
-## GET
+Now add on vscode configurations:
 
-`url` [/usuarios](#get-usuarios) <br/>
-`url` [/vagas](#get-vagas) <br/>
-
-## POST
-
-`url` [/usuarios](#post-usuarios)<br/>
-`url` [/usuarios/login](#post-usuarioslogin)<br/>
-`url` [/vagas](#post-vagas) <br/>
-
----
-
-### GET /usuarios
-
-**Response**
-
-|        Name |  Type  | Description                              |
-| ----------: | :----: | ---------------------------------------- |
-|        `id` |  int   | The user's identification code           |
-|      `name` | string | The user's name                          |
-|     `email` | string | The user's email                         |
-|  `password` | string | The user's password to sign in           |
-| `createdAt` |  date  | The date of the job's record creation    |
-| `updatedAt` |  date  | The date of the last job's record update |
-
-**Example**
-
-```
-{
-      "id: 1,
-      "name": "Vinicius",
-      "email": "viniciuskevitzz@gmail.com",
-      "password": "lQacNBFz2Z7HoUkN&OXVV8eSGvCbmqGb!1q",
-      "createdAt": "2022-03-23T16:36:05.000Z",
-      "updatedAt": "2022-03-24T16:36:05.000Z",
-}
+```json
+"editor.defaultFormatter": "esbenp.prettier-vscode",
+"editor.formatOnSave": true
 ```
 
 ---
 
-### GET /vagas
+<a id="como-contribuir"></a>
 
-**Parameters**
+## :recycle: How to contribute
 
-|           Name | Required |  Type  | Description                                                                                                        |
-| -------------: | :------: | :----: | ------------------------------------------------------------------------------------------------------------------ |
-|         `type` | optional | string | Shows you the type of the job... Internship, junior, full or senior                                                |
-|         `site` | optional | string | Tells you the city where you will work <br/><br/> In case of home office, tells you the city your team is alocated |
-|     `workload` | optional |  int   | Your weekly workload                                                                                               |
-|   `scholarity` | optional | string | The minimum scholarity required fot the job                                                                        |
-|       `filter` | optional | string | Filter will search in both description and title                                                                   |
-|          `min` | optional | float  | Lower bound of salary (must have `max` parameter too work)                                                         |
-|          `max` | optional | float  | Upper bound of salary (must have `min` parameter too work)                                                         |
-| `itemsPerPage` | optional |  int   | The number of items you want to see in a single page                                                               |
-|   `pageNumber` | optional |  int   | The page number                                                                                                    |
-|    `createdAt` | optional |  date  | The date of the job's record creation                                                                              |
+- Fork this repository
+- Create a branch with the name of your feature: `git checkout -b my-feature`
+- Commit your changes: `git commit -m 'feat: My new feature'`
+- Push your branch: `git push origin my-feature`
 
-**Response**
+<a id="licenca"></a>
 
-|           Name |  Type  | Description                                                                                                        |
-| -------------: | :----: | ------------------------------------------------------------------------------------------------------------------ |
-|        `count` |  int   | Counts the amount of data from database that matches with the requisition query (not based on pagination)          |
-|         `rows` | array  | Contains the data from database that matches with requisition query                                                |
-|           `id` |  int   | The id of the job                                                                                                  |
-|  `description` | string | Explains the job's requirements                                                                                    |
-|   `scholarity` | string | The minimum scholarity required fot the job                                                                        |
-|        `title` | string | A little 'spoiler' of the job's requirement                                                                        |
-|         `type` | string | Shows you the type of the job... Internship, junior, full or senior                                                |
-|         `site` | string | Tells you the city where you will work <br/><br/> In case of home office, tells you the city your team is alocated |
-|     `workload` |  int   | Your weekly workload                                                                                               |
-|       `salary` | float  | The monthly wage offer                                                                                             |
-|   `endingDate` |  date  | Deadline for the job in the database (default: 3 weeks, 6 months max)                                              |
-| `startingDate` |  date  | When the job starts                                                                                                |
-|    `createdAt` |  date  | The date of the job's record creation                                                                              |
-|    `updatedAt` |  date  | The date of the last job's record update                                                                           |
-|       `userId` |  int   | The job's identification code                                                                                      |
-|         `user` | object | Contains information about job's creator                                                                           |
-|    `user.name` | string | Name of the creator of the job                                                                                     |
-|   `user.email` | string | Email of the creator of the job                                                                                    |
+## :memo: License
 
-**Example**
-
-```
-// {url}/vagas?site=Salvador&workload=40
-{   count": 2,
-    "rows: ": [
-      {
-               "id": 1
-               "description: "Vaga programador júnior com pelo menos 1 ano de experiência, na Vini LTDA",
-               "scholarity": "Ensino médio completo",
-               "title": "Vaga para backend python",
-               "type": "Júnior",
-               "site": "Salvador-BA",
-               "workload": "40",
-               "salary": "2970",
-               "endingDate": "2022-03-23",
-               "startingDate": "2021-11-15",
-               "createdAt" : "2022-06-01T16:36:05.000Z",
-               "updatedAt": "2022-06-01T16:36:05.000Z",
-               "userId": "1",
-               "user": {
-                  "name": "Vinicius Andrade",
-                  "email": "vini@vini.ltda"
-               }
-       }
-       {
-               "id": 2
-               "description: "Vaga programador sênior com pelo menos 5 anos de experiência, na Natan LTDA",
-               "scolarity": "Ensino superior completo",
-               "title": "Vaga para backend php",
-               "type": "Júnior",
-               "site": "Salvador-BA",
-               "workload": "40",
-               "salary": "10000",
-               "endingDate": "2022-06-01",
-               "startingDate": "2022-01-16",
-               "createdAt" : "2022-06-01T16:36:05.000Z",
-               "updatedAt": "2022-06-01T16:36:05.000Z",
-               "userId": "2",
-                "user": {
-                  "name": "Natan Moura",
-                  "email": "natan@ntan.ltda"
-               }
-       }
- }
-```
-
----
-
-### POST /usuarios
-
-**Body**
-
-|       Name |   Type   | Required | Description                    |
-| ---------: | :------: | :------: | ------------------------------ |
-|     `name` | required |  string  | The user's name                |
-|    `email` | required |  string  | The user's email               |
-| `password` | required |  string  | The user's password to sign in |
-
-**Response**
-
-```
-{
-      {
-      "token": "string with random token",
-       }
-    or
-       {
-       "message": "Erro",
-       }
- }
-```
-
----
-
-### POST /usuarios/login
-
-**Body**
-
-|       Name |   Type   | Required | Description                    |
-| ---------: | :------: | :------: | ------------------------------ |
-|    `email` | required |  string  | The user's email               |
-| `password` | required |  string  | The user's password to sign in |
-
-**Response**
-
-|    Name |  Type  | Description                                             |
-| ------: | :----: | ------------------------------------------------------- |
-| `token` | string | Random token to verify user access (expires in 2 hours) |
-
-**Response**
-
-```
-{
-      {
-      "token": "string with random token",
-       }
-    or
-       {
-       "message": "Erro",
-       }
- }
-```
-
----
-
-### POST /vagas
-
-**Body**
-
-|           Name | Required |  Type  | Description                                                                                                        |
-| -------------: | :------: | :----: | ------------------------------------------------------------------------------------------------------------------ |
-|  `description` | required | string | Explains the job's requirements                                                                                    |
-|        `title` | required | string | A little 'spoiler' of the job's requirement                                                                        |
-|         `type` | required | string | Shows you the type of the job... Internship, junior, full or senior                                                |
-|         `site` | required | string | Tells you the city where you will work <br/><br/> In case of home office, tells you the city your team is alocated |
-|     `workload` | required |  int   | Your weekly workload                                                                                               |
-|       `salary` | required | float  | The monthly wage offer                                                                                             |
-|   `endingDate` | required |  date  | Deadline for the job in the database (default: 3 weeks, 6 months max)                                              |
-| `startingDate` | required |  date  | When the job starts                                                                                                |
-|   `scholarity` | required | string | The minimum scholarity required fot the job                                                                        |
-|       `userId` | required |  int   | the job's identification code                                                                                      |
-
-**Response**
-
-```
-{
-      {
-      "message": "Vaga criada",
-       }
-    or
-       {
-       "message": "Erro",
-       }
- }
-```
-
----
---->
+To be defined...
