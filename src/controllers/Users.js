@@ -4,7 +4,7 @@ import repository from '../repositories/UserRepository.js';
 import User_JobRepository from '../repositories/User_JobRepository.js';
 import auth from '../utils/auth.js';
 import ProfileRepository from '../repositories/ProfileRepository.js';
-import { inviteMail } from '../utils/emailSender.js'
+import { inviteMail } from '../utils/emailSender.js';
 
 //Check if e-mail is valid
 const checkValidEmail = (email) => {
@@ -144,12 +144,9 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     auth.checkToken(req.params.id, req.headers['x-access-token']);
-    const result = await repository.deleteUser(req.params.id);
-    if (result)
-      res.json({
-        message: 'Usuário deletado.'
-      });
-    else throw new Error('Falha ao realizar operação.');
+    await repository.deleteUser(req.params.id);
+
+    res.sendStatus(204);
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
@@ -166,11 +163,11 @@ export const validateUser = async (req, res) => {
 
 export const inviteUser = async (req, res) => {
   try {
-    const userId = req.body.userId
+    const userId = req.body.userId;
     auth.checkToken(userId, req.headers['x-access-token']);
-    inviteMail(req.body.email)
-    res.json({ message: 'Convite enviado.' })
-  } catch (error){
+    inviteMail(req.body.email);
+    res.json({ message: 'Convite enviado.' });
+  } catch (error) {
     res.json({ message: error.message, error: true });
   }
 };
