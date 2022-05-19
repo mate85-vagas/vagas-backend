@@ -222,7 +222,7 @@ paths:
                 isAdmin:
                   type: boolean
                 isAuthorized:
-                  type: boollean
+                  type: boolean
 
       responses:
         '201':
