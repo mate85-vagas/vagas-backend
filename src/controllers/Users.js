@@ -184,8 +184,8 @@ export const passwordRecovery = async (req, res) => {
           await TokenRepository.createToken(user.dataValues.id, random_token);
         }
         recoveryMail(email, random_token);
-        res.sendStatus(200);
       }
+      res.sendStatus(200);
     } else if (token && password) {
       const received_token = await TokenRepository.checkToken(token);
       if (received_token) {
