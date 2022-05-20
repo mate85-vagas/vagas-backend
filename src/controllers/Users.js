@@ -4,7 +4,10 @@ import repository from '../repositories/UserRepository.js';
 import User_JobRepository from '../repositories/User_JobRepository.js';
 import auth from '../utils/auth.js';
 import ProfileRepository from '../repositories/ProfileRepository.js';
-import { inviteMail } from '../utils/emailSender.js';
+import { inviteMail, recoveryMail } from '../utils/emailSender.js';
+import TokenRepository from '../repositories/TokenRepository.js';
+import crypto from 'crypto';
+import { UserAttrs } from '../models/UserAttrs.js';
 
 //Check if e-mail is valid
 const checkValidEmail = (email) => {
@@ -152,21 +155,48 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-export const validateUser = async (req, res) => {
+export const inviteUser = async (req, res) => {
   try {
-    const id = auth.checkTokenAndReturnId(req.body.token);
-    res.json({ userId: id });
+    auth.checkTokenAndReturnId(req.headers['x-access-token']);
+    inviteMail(req.body.email);
+    res.json({ message: 'Convite enviado.' });
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
 };
 
-export const inviteUser = async (req, res) => {
+//Delete expired tokens, create new password recovery tokens and recovers password
+export const passwordRecovery = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    auth.checkToken(userId, req.headers['x-access-token']);
-    inviteMail(req.body.email);
-    res.json({ message: 'Convite enviado.' });
+    const email = req.body.email;
+    const token = req.body.token;
+    let password = req.body.password;
+    if (email) {
+      await TokenRepository.deleteExpiredTokens();
+      const user = await repository.getUserByEmail(email);
+      if (user) {
+        let random_token = crypto.randomBytes(20).toString('hex');
+        //Try to create a unique token, if not possible try again
+        try {
+          await TokenRepository.createToken(user.dataValues.id, random_token);
+        } catch {
+          random_token = crypto.randomBytes(20).toString('hex');
+          await TokenRepository.createToken(user.dataValues.id, random_token);
+        }
+        recoveryMail(email, random_token);
+        res.sendStatus(200);
+      }
+    } else if (token && password) {
+      const received_token = await TokenRepository.checkToken(token);
+      if (received_token) {
+        const salt = await bcrypt.genSalt(10);
+        password = await bcrypt.hash(password, salt);
+        await repository.updateUser({ [UserAttrs.password]: password }, received_token.dataValues.userId);
+        await TokenRepository.deleteToken(received_token.dataValues.token);
+
+        res.sendStatus(200);
+      } else throw new Error('invalid token');
+    } else res.sendStatus(400);
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
