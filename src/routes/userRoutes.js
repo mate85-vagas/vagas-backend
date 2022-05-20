@@ -23,7 +23,7 @@ router.get('/:id/vagas/aplicadas', getAppliedJobsByUser);
 router.post('/', createUser);
 router.post('/convite', inviteUser);
 router.post('/login', checkUser);
-router.post('/recuperarsenha', passwordRecovery);
+router.post('/recuperacao/senha', passwordRecovery);
 router.patch('/:id', updateUser);
 router.delete('/:id', deleteUser);
 
