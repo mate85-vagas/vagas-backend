@@ -41,7 +41,7 @@ paths:
         '200':
           description: login realizado com sucesso
 
-  /usuarios/recuperarsenha:
+  /usuarios/recuperacao/senha:
     post:
       tags:
         - Autenticação
