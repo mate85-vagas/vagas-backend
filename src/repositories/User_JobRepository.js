@@ -14,7 +14,7 @@ const createUser_Job = async (userId, jobId, created) => {
   return user_job;
 };
 
-const getJobsByUserId = async (userId, created) => {
+const getJobsByUserId = async (userId, created, itemsPerPage, pageNumber) => {
   const createdJobsByUser = await User_Job.findAndCountAll({
     where: {
       [User_JobAttrs.userId]: userId,
@@ -29,7 +29,9 @@ const getJobsByUserId = async (userId, created) => {
         as: 'job',
         attributes: { exclude: [JobAttrs.id] }
       }
-    ]
+    ],
+    offset: (pageNumber - 1) * itemsPerPage || 0,
+    limit: itemsPerPage || undefined
   });
   return createdJobsByUser;
 };

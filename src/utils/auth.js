@@ -19,7 +19,7 @@ const checkToken = (id, token) => {
     const decoded = jwt.verify(token, process.env.SECRET);
     if (decoded.userId != id) throw new Error();
   } catch (error) {
-    error.message = 'Acesso não autorizado';
+    error.message = 'Acesso não autorizado.';
     throw error;
   }
 };
@@ -30,7 +30,7 @@ const checkTokenAndReturnId = (token) => {
     const decoded = jwt.verify(token, process.env.SECRET);
     return decoded.userId;
   } catch (error) {
-    error.message = 'Acesso não autorizado';
+    error.message = 'Acesso não autorizado.';
     throw error;
   }
 };
