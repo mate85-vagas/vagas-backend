@@ -1,25 +1,25 @@
 import EmailList from '../models/EmailListModel.js';
 import { EmailListAttrs } from '../models/EmailListAttrs.js';
 
-const getAllEmailsFromEmailLists = async () => {
-  const EmailLists = await EmailList.findAndCountAll();
-  return EmailLists;
+const getAllEmailLists = async () => {
+  const emailLists = await EmailList.findAndCountAll();
+  return emailLists;
 };
 
-const getEmailFromEmailListById = async (id) => {
-  const EmailList = await EmailList.findOne({
+const getEmailListById = async (id) => {
+  const emailList = await EmailList.findOne({
     where: {
       [EmailListAttrs.id]: id
     }
   });
-  return EmailList;
+  return emailList;
 };
 
 const updateAllIsActive = async (state) => {
   return await EmailList.update({"isActive": state});
 };
 
-const updateEmailFromEmailList = async (body, id) => {
+const updateEmailList = async (body, id) => {
   return await EmailList.update(body, {
     where: {
       [EmailListAttrs.id]: id
@@ -27,7 +27,7 @@ const updateEmailFromEmailList = async (body, id) => {
   });
 };
 
-const deleteEmailFromEmailList = async (id) => {
+const deleteEmailList = async (id) => {
   return await EmailList.destroy({
     where: {
       [EmailListAttrs.id]: id
@@ -35,4 +35,4 @@ const deleteEmailFromEmailList = async (id) => {
   });
 };
 
-export default { getAllEmailsFromEmailLists, getEmailFromEmailListById, updateAllIsActive, updateEmailFromEmailList, deleteEmailFromEmailList };
+export default { getAllEmailLists, getEmailListById, updateAllIsActive, updateEmailList, deleteEmailList };
