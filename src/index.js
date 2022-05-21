@@ -5,6 +5,7 @@ import technologyRoutes from './routes/technologyRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
 import skillRoutes from './routes/skillRoutes.js';
 import healthCheckRoutes from './routes/healthCheckRoutes.js';
+import emailListRoutes from './routes/emailListRoutes.js';
 import cors from 'cors';
 import connect from './utils/connection.js';
 import compression from 'express';
@@ -32,6 +33,7 @@ app.use('/perfis', profileRoutes);
 app.use('/tecnologias', technologyRoutes);
 app.use('/habilidades', skillRoutes);
 app.use('/health-check', healthCheckRoutes);
+app.use('/email-list', emailListRoutes);
 app.use('/api-doc/v1', swaggerUi.serve, swaggerUi.setup(swaggerDocument[0], { explorer: true }));
 
 deleteExpiredJobs();
