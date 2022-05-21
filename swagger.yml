@@ -246,10 +246,6 @@ paths:
                   format: email
                 password:
                   type: string
-                isAdmin:
-                  type: boolean
-                isAuthorized:
-                  type: boolean
 
       responses:
         '201':
