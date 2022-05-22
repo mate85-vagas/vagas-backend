@@ -1,24 +1,24 @@
 import { Sequelize } from 'sequelize';
 import db from '../config/database.js';
-import { Email_ListAttrs } from '../models/Email_ListAttrs.js';
+import { EmailListAttrs } from '../models/EmailListAttrs.js';
 
 const { DataTypes } = Sequelize;
-const Email_List = db.define('email_list', {
-    [Email_ListAttrs.id]: {
+const EmailList = db.define('emailList', {
+    [EmailListAttrs.id]: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false
     },
-    [Email_ListAttrs.email]: {
+    [EmailListAttrs.email]: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    [Email_ListAttrs.isActive]: {
+    [EmailListAttrs.isActive]: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       allowNull: true
     },
 });
 
-export default Email_List;
+export default EmailList;

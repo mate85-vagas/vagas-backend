@@ -1,4 +1,4 @@
-export const Email_ListAttrs = {
+export const EmailListAttrs = {
     id: 'id',
     email: 'email',
     isActive: 'isActive',
