@@ -9,4 +9,4 @@ userModelMock.set('email', chance.string());
 userModelMock.set('name', chance.string());
 userModelMock.set('password', chance.string());
 
-export { userModelMock };
+export { userModelMock }; 
