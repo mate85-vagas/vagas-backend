@@ -14,6 +14,7 @@
 
 <h2>Summary</h2>
 
+- [:page_with_curl: Deployment Document](#page_with_curl-deployment-document)
 - [:computer: API Documentation](#computer-api-documentation)
 - [:rocket: Technologies](#rocket-technologies)
 - [:boom: How to run](#boom-how-to-run)
@@ -23,6 +24,12 @@
 - [:sparkles: Code formatting setup](#sparkles-code-formatting-setup)
 - [:recycle: How to contribute](#recycle-how-to-contribute)
 - [:memo: License](#memo-license)
+
+<a id="doc-implant"></a>
+
+## :page_with_curl: Deployment Document
+
+The deployment document can be found on this [link](https://docs.google.com/document/d/1-MTmP5WswbvFB25XE1YlzXn-FZ0LhCXj2cAWlHahfpg/edit?usp=sharing).
 
 <a id="doc"></a>
 
