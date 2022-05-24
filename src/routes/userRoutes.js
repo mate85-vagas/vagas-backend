@@ -9,8 +9,8 @@ import {
   checkUser,
   getCreatedJobsByUser,
   getAppliedJobsByUser,
-  validateUser,
-  inviteUser
+  inviteUser,
+  passwordRecovery
 } from '../controllers/Users.js';
 
 const router = express.Router();
@@ -23,8 +23,8 @@ router.get('/:id/vagas/aplicadas', getAppliedJobsByUser);
 router.post('/', createUser);
 router.post('/convite', inviteUser);
 router.post('/login', checkUser);
+router.post('/recuperacao/senha', passwordRecovery);
 router.patch('/:id', updateUser);
 router.delete('/:id', deleteUser);
-router.post('/validacao', validateUser);
 
 export default router;

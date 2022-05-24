@@ -88,11 +88,11 @@ export const mail_sender = async (userApplier, userReceiver, profileUserApplier,
   }
 };
 
-export const inviteMail = async(newUserEmail) => {
+export const inviteMail = async (newUserEmail) => {
   try {
     let html = fs.readFileSync('./././inviteEmail.html', 'utf8');
-    html = html.replace('${link}', process.env.URL_CADASTRO);
-    let mailOptions = inviteMailOptions(newUserEmail, html)
+    html = html.replace('${link}', process.env.SIGNUP_URL);
+    let mailOptions = inviteMailOptions(newUserEmail, html);
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -103,8 +103,8 @@ export const inviteMail = async(newUserEmail) => {
     return transporter.sendMail(mailOptions, function (err, info) {
       return err || info;
     });
-  } catch (e){
-    throw new Error(e)
+  } catch (e) {
+    throw new Error(e);
   }
 };
 
@@ -113,6 +113,36 @@ const inviteMailOptions = (newUserEmail, html) => {
     from: process.env.LOGIN,
     to: newUserEmail,
     subject: `Convite para Talentos-IC`,
+    html: html
+  };
+  return mailOptions;
+};
+
+export const recoveryMail = async (email, token) => {
+  try {
+    let html = fs.readFileSync('./././recoveryMail.html', 'utf8');
+    html = html.replace('${link}', process.env.RECOVERY_URL + token);
+    let mailOptions = recoveryMailOptions(email, html);
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.LOGIN,
+        pass: process.env.PASSWORD
+      }
+    });
+    return transporter.sendMail(mailOptions, function (err, info) {
+      return err || info;
+    });
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+const recoveryMailOptions = (email, html) => {
+  let mailOptions = {
+    from: process.env.LOGIN,
+    to: email,
+    subject: `Recuperação de Senha (Talentos-IC)`,
     html: html
   };
   return mailOptions;
