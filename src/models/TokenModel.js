@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 import db from '../config/database.js';
-import { TokenAttrs } from './TokenAttrs';
+import { TokenAttrs } from './TokenAttrs.js';
 import User from './UserModel.js';
 
 const { DataTypes } = Sequelize;
@@ -17,10 +17,6 @@ const Token = db.define('token', {
     allowNull: false
   },
   [TokenAttrs.token]: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  [TokenAttrs.userId]: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true
