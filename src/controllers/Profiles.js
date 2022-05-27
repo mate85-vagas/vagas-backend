@@ -22,7 +22,7 @@ export const getProfileById = async (req, res) => {
     if (profile) {
       if (profile.searchable) res.json(profile);
       else {
-        const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
+        const { userId } = auth.getTokenProperties(req.headers['x-access-token']);
         if (profile.userId == userId) res.json(profile);
         else throw new Error('Acesso não autorizado.');
       }
@@ -68,7 +68,7 @@ export const createProfile = async (req, res) => {
 
 export const deleteProfile = async (req, res) => {
   try {
-    const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
+    const { userId } = auth.getTokenProperties(req.headers['x-access-token']);
     const profile = await repository.getProfileByUserId(userId);
 
     if (profile.id == req.params.id) {

@@ -42,11 +42,12 @@ const createUser = async (body) => {
 };
 
 const updateUser = async (body, id) => {
-  return await User.update(body, {
+  const queryResult = await User.update(body, {
     where: {
       [UserAttrs.id]: id
     }
   });
+  if (queryResult === 0) throw new Error('falha na operação.');
 };
 
 const deleteUser = async (id) => {
@@ -66,11 +67,12 @@ const deleteUser = async (id) => {
     });
   });
 
-  await User.destroy({
+  const queryResult = await User.destroy({
     where: {
       id: id
     }
   });
+  if (queryResult === 0) throw new Error('falha na operação.');
 };
 
 export default { getAllUsers, getUserByEmail, getUserById, checkExistentEmail, deleteUser, updateUser, createUser };
