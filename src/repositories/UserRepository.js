@@ -48,6 +48,7 @@ const updateUser = async (body, id) => {
     }
   });
   if (queryResult === 0) throw new Error('falha na operação.');
+  return queryResult;
 };
 
 const deleteUser = async (id) => {
@@ -73,6 +74,7 @@ const deleteUser = async (id) => {
     }
   });
   if (queryResult === 0) throw new Error('falha na operação.');
+  return queryResult;
 };
 
 export default { getAllUsers, getUserByEmail, getUserById, checkExistentEmail, deleteUser, updateUser, createUser };

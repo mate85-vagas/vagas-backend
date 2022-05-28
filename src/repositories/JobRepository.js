@@ -35,6 +35,7 @@ const updateJob = async (body, id) => {
     }
   });
   if (queryResult[0] === 0) throw new Error('falha na operação.');
+  return queryResult;
 };
 
 const deleteJob = async (id) => {
@@ -44,6 +45,7 @@ const deleteJob = async (id) => {
     }
   });
   if (queryResult === 0) throw new Error('falha na operação.');
+  return queryResult;
 };
 
 const applyToJob = async (userId, jobId) => {
