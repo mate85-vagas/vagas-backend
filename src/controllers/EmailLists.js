@@ -35,8 +35,9 @@ export const createEmailList = async (req, res) => {
     const userId = req.body.userId;
     auth.checkToken(userId, req.headers['x-access-token']);
     const user = await UserRepository.getUserById(userId);
+    console.log(user.isAdmin);
     if (user.isAdmin) {
-      const emailList = await repository.createemailList(req.body, userId);
+      const emailList = await repository.createEmailList(req.body, userId);
       if (emailList)
         res.json({
           message: 'Lista de emails criada.'
@@ -54,7 +55,7 @@ export const updateAllIsActive = async (req, res) => {
     auth.checkToken(userId, req.headers['x-access-token']);
     const user = await UserRepository.getUserById(userId);
     if (user.isAdmin) {
-      const result = await repository.updateAllIsActive(req.params.state);
+      const result = await repository.updateAllIsActive(req.body.state);
       if (result)
         res.json({
           message: 'Status das listas atualizadas.'

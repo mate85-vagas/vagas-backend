@@ -21,7 +21,12 @@ const getEmailListById = async (id) => {
 };
 
 const updateAllIsActive = async (state) => {
-  return await EmailList.update({"isActive": state});
+  if (state) {
+    return await EmailList.update({ "isActive": true }, { where: {} });
+  }
+  else {
+    return await EmailList.update({ "isActive": false }, { where: {} });
+  }
 };
 
 const updateEmailList = async (body, id) => {
