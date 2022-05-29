@@ -41,6 +41,33 @@ paths:
         '200':
           description: login realizado com sucesso
 
+  /usuarios/recuperacao/senha:
+    post:
+      tags:
+        - Autenticação
+      summary: Recuperação de senha
+      description: Caso o body contenha o campo email então o servidor tentará enviar e-mail de recuperação, caso tenha campos token e password mas não e-mail ele tentará atualizar a senha do usuário respectivo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                token:
+                  type: string
+                password:
+                  type: string
+
+      responses:
+        '200':
+          description: tentativa de recuperação realizada com sucesso
+        '400':
+          description: formato da requisição não suportado
+
   /vagas:
     get:
       tags:
@@ -219,10 +246,6 @@ paths:
                   format: email
                 password:
                   type: string
-                isAdmin:
-                  type: boolean
-                isAuthorized:
-                  type: boolean
 
       responses:
         '201':
