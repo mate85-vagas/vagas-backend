@@ -29,19 +29,23 @@ const createJob = async (body, userId) => {
 };
 
 const updateJob = async (body, id) => {
-  return await Job.update(body, {
+  const queryResult = await Job.update(body, {
     where: {
       [JobAttrs.id]: id
     }
   });
+  if (queryResult[0] === 0) throw new Error('falha na operação.');
+  return queryResult;
 };
 
 const deleteJob = async (id) => {
-  return await Job.destroy({
+  const queryResult = await Job.destroy({
     where: {
       [JobAttrs.id]: id
     }
   });
+  if (queryResult === 0) throw new Error('falha na operação.');
+  return queryResult;
 };
 
 const applyToJob = async (userId, jobId) => {

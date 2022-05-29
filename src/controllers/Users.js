@@ -89,7 +89,7 @@ export const createUser = async (req, res) => {
       req.body.isAuthorized = false;
     } else req.body.isAuthorized = true;
     const user = await repository.createUser(req.body);
-    const token = auth.createToken(user.id);
+    const token = auth.createToken(user.id, user.isAdmin);
     res.json({
       id: user.id,
       token: token
@@ -99,8 +99,7 @@ export const createUser = async (req, res) => {
   }
 };
 
-//Check user credentials
-export const checkUser = async (req, res) => {
+export const authenticate = async (req, res) => {
   try {
     const user = await repository.getUserByEmail(req.body.email);
     if (user) {
@@ -108,7 +107,7 @@ export const checkUser = async (req, res) => {
       const validPassword = await bcrypt.compare(req.body.password, user.password);
       if (validPassword) {
         dotenv.config();
-        const token = auth.createToken(user.id);
+        const token = auth.createToken(user.id, user.isAdmin);
         res.json({
           id: user.id,
           token: token
@@ -126,42 +125,51 @@ export const checkUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    auth.checkToken(req.params.id, req.headers['x-access-token']);
+    const { isAdmin, userId } = auth.getTokenProperties(req.headers['x-access-token']);
+
     if (req.body.email) {
       checkValidEmail(req.body.email);
       await checkExistentEmail(req.body.email);
     }
+
     if (req.body.password) {
       const salt = await bcrypt.genSalt(10);
       req.body.password = await bcrypt.hash(req.body.password, salt);
     }
-    const result = await repository.updateUser(req.body, req.params.id);
-    if (result[0] == 1)
-      res.json({
-        message: 'Usuário atualizado.'
+
+    if (req.params.id == userId || isAdmin) {
+      await repository.updateUser(req.body, req.params.id);
+      return res.json({
+        message: 'usuário atualizado.'
       });
-    else throw new Error('Falha ao realizar operação.');
+    }
+
+    res.status(401).json({ message: 'acesso não autorizado.', error: true });
   } catch (error) {
-    res.json({ message: error.message, error: true });
+    res.status(500).json({ message: error.message, error: true });
   }
 };
 
 export const deleteUser = async (req, res) => {
   try {
-    auth.checkToken(req.params.id, req.headers['x-access-token']);
-    await repository.deleteUser(req.params.id);
+    const { isAdmin, userId } = auth.getTokenProperties(req.headers['x-access-token']);
 
-    res.sendStatus(204);
+    if (req.params.id == userId || isAdmin) {
+      await repository.deleteUser(req.params.id);
+      return res.status(204).json();
+    }
+
+    res.status(401).json({ message: 'acesso não autorizado.', error: true });
   } catch (error) {
-    res.json({ message: error.message, error: true });
+    res.status(500).json({ message: error.message, error: true });
   }
 };
 
 export const inviteUser = async (req, res) => {
   try {
-    auth.checkTokenAndReturnId(req.headers['x-access-token']);
+    const { userId } = auth.getTokenProperties(req.headers['x-access-token']);
     inviteMail(req.body.email);
-    res.json({ message: 'Convite enviado.' });
+    res.json({ message: 'Convite enviado.', userId: userId });
   } catch (error) {
     res.json({ message: error.message, error: true });
   }

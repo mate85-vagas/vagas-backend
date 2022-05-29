@@ -49,37 +49,35 @@ export const createJob = async (req, res) => {
 //Update job record on db
 export const updateJob = async (req, res) => {
   try {
-    const userId = req.body.userId;
     const jobId = req.params.id;
-    if (userId && (await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId))) {
-      auth.checkToken(userId, req.headers['x-access-token']);
-      const result = await repository.updateJob(req.body, jobId);
-      if (result[0] == 1)
-        res.json({
-          message: 'Vaga atualizada.'
-        });
-      else throw new Error('Falha ao realizar operação.');
-    } else throw new Error('Acesso não autorizado.');
+    const { isAdmin, userId } = auth.getTokenProperties(req.headers['x-access-token']);
+
+    if ((await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId)) || isAdmin) {
+      await repository.updateJob(req.body, jobId);
+      return res.json({
+        message: 'vaga atualizada.'
+      });
+    }
+    res.status(401).json({ message: 'acesso não autorizado.', error: true });
   } catch (error) {
-    res.json({ message: error.message, error: true });
+    res.status(500).json({ message: error.message, error: true });
   }
 };
 
 //Delete job from db
 export const deleteJob = async (req, res) => {
   try {
-    const userId = auth.checkTokenAndReturnId(req.headers['x-access-token']);
+    const { userId, isAdmin } = auth.getTokenProperties(req.headers['x-access-token']);
     const jobId = req.params.id;
-    if (await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId)) {
-      const result = await repository.deleteJob(jobId);
-      if (result)
-        res.json({
-          message: 'Vaga deletada.'
-        });
-      else throw new Error('Falha ao realizar operação.');
-    } else throw new Error('Acesso não autorizado.');
+
+    if ((await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId)) || isAdmin) {
+      await repository.deleteJob(jobId);
+      return res.status(204).json();
+    }
+
+    res.status(401).json({ message: 'acesso não autorizado.', error: true });
   } catch (error) {
-    res.json({ message: error.message, error: true });
+    res.status(500).json({ message: error.message, error: true });
   }
 };
 

@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 
 //Create token for user request validation
-const createToken = (id) => {
+const createToken = (id, isAdmin) => {
   try {
-    const token = jwt.sign({ userId: id }, process.env.SECRET, {
+    const token = jwt.sign({ userId: id, isAdmin: isAdmin }, process.env.SECRET, {
       expiresIn: 7200 // expires in 2h
     });
     return token;
@@ -24,15 +24,14 @@ const checkToken = (id, token) => {
   }
 };
 
-//Validates token and return user id
-const checkTokenAndReturnId = (token) => {
+const getTokenProperties = (token) => {
   try {
     const decoded = jwt.verify(token, process.env.SECRET);
-    return decoded.userId;
+    return { userId: decoded.userId, isAdmin: decoded.isAdmin };
   } catch (error) {
     error.message = 'Acesso não autorizado.';
     throw error;
   }
 };
 
-export default { createToken, checkToken, checkTokenAndReturnId };
+export default { createToken, checkToken, getTokenProperties };
