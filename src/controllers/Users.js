@@ -9,6 +9,8 @@ import TokenRepository from '../repositories/TokenRepository.js';
 import crypto from 'crypto';
 import { UserAttrs } from '../models/UserAttrs.js';
 
+dotenv.config();
+
 //Check if e-mail is valid
 const checkValidEmail = (email) => {
   const regex =
