@@ -10,7 +10,7 @@ export const getAllEmailLists = async (req, res) => {
     if (user.isAdmin) {
       const emailList = await repository.getAllEmailLists();
       res.json(emailList);
-    } else throw new Error('Acesso não autorizado.');
+    } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
@@ -24,7 +24,7 @@ export const getEmailListById = async (req, res) => {
     if (user.isAdmin) {
       const emailList = await repository.getEmailListById(req.params.id);
       res.json(emailList);
-    } else throw new Error('Acesso não autorizado.');
+    } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
@@ -43,7 +43,7 @@ export const createEmailList = async (req, res) => {
           message: 'Lista de emails criada.'
         });
       else throw new Error('Falha ao realizar operação.');
-    } else throw new Error('Acesso não autorizado.');
+    } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
@@ -61,25 +61,25 @@ export const updateAllIsActive = async (req, res) => {
           message: 'Status das listas atualizadas.'
         });
       else throw new Error('Falha ao realizar operação.');
-    } else throw new Error('Acesso não autorizado.');
+    } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
 };
 
-export const updateEmailList  = async (req, res) => {
+export const updateEmailList = async (req, res) => {
   try {
     const userId = req.body.userId;
     auth.checkToken(userId, req.headers['x-access-token']);
     const user = await UserRepository.getUserById(userId);
     if (user.isAdmin) {
-      const result = await repository.updateEmailList (req.body, req.params.id);
+      const result = await repository.updateEmailList(req.body, req.params.id);
       if (result[0] == 1)
         res.json({
           message: 'Lista de e-mails atualizada.'
         });
       else throw new Error('Falha ao realizar operação.');
-    } else throw new Error('Acesso não autorizado.');
+    } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
   } catch (error) {
     res.json({ message: error.message, error: true });
   }
@@ -97,7 +97,7 @@ export const deleteEmailList = async (req, res) => {
           message: 'Lista de e-mails deletada.'
         });
       else throw new Error('Falha ao realizar operação.');
-    } else throw new Error('Acesso não autorizado.');
+    } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
   } catch (error) {
     res.json({ message: error.message, error: true });
   }

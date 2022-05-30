@@ -50,7 +50,8 @@ export const getUserById = async (req, res) => {
       res.json(user);
     } else res.json({ message: 'Usuário não encontrado.', error: true });
   } catch (error) {
-    res.json({ message: error.message, error: true });
+    if (!error.auth) res.json({ message: error.message, error: true });
+    else res.json({ message: error.message, error: true, notAuthorized: true });
   }
 };
 
@@ -63,7 +64,8 @@ export const getCreatedJobsByUser = async (req, res) => {
     const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, true, itemsPerPage, pageNumber);
     res.json(user_jobs);
   } catch (error) {
-    res.json({ message: error.message, error: true });
+    if (!error.auth) res.json({ message: error.message, error: true });
+    else res.json({ message: error.message, error: true, notAuthorized: true });
   }
 };
 
@@ -76,7 +78,8 @@ export const getAppliedJobsByUser = async (req, res) => {
     const user_jobs = await User_JobRepository.getJobsByUserId(req.params.id, false, itemsPerPage, pageNumber);
     res.json(user_jobs);
   } catch (error) {
-    res.json({ message: error.message, error: true });
+    if (!error.auth) res.json({ message: error.message, error: true });
+    else res.json({ message: error.message, error: true, notAuthorized: true });
   }
 };
 
@@ -144,11 +147,10 @@ export const updateUser = async (req, res) => {
       return res.json({
         message: 'usuário atualizado.'
       });
-    }
-
-    res.status(401).json({ message: 'acesso não autorizado.', error: true });
+    } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
   } catch (error) {
-    res.status(500).json({ message: error.message, error: true });
+    if (!error.auth) res.json({ message: error.message, error: true });
+    else res.json({ message: error.message, error: true, notAuthorized: true });
   }
 };
 
@@ -159,11 +161,10 @@ export const deleteUser = async (req, res) => {
     if (req.params.id == userId || isAdmin) {
       await repository.deleteUser(req.params.id);
       return res.status(204).json();
-    }
-
-    res.status(401).json({ message: 'acesso não autorizado.', error: true });
+    } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
   } catch (error) {
-    res.status(500).json({ message: error.message, error: true });
+    if (!error.auth) res.json({ message: error.message, error: true });
+    else res.json({ message: error.message, error: true, notAuthorized: true });
   }
 };
 
