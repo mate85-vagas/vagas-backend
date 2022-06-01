@@ -87,7 +87,7 @@ export const applyToJob = async (req, res) => {
     const userId = req.body.userId;
     auth.checkToken(userId, req.headers['x-access-token']);
     let count = await ProfileRepository.countProfileByUserId(userId);
-    if (!count) throw new Error('Necessário criar perfil.');
+    if (!count) res.json({ message: 'Necessário criar perfil.', error: true, emptyProfile: true });
     if (!(await repository.countValidJob(req.body.jobId))) throw new Error('Vaga expirada');
     const userJob = await repository.applyToJob(userId, req.body.jobId);
     if (userJob) {
