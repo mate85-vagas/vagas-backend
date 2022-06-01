@@ -170,7 +170,7 @@ paths:
           application/json:
             schema:
               type: object
-              example: { 'workload': 8, 'userId': 11 }
+              example: { 'workload': 8 }
 
       responses:
         204:

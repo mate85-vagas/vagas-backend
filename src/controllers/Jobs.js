@@ -42,7 +42,8 @@ export const createJob = async (req, res) => {
       });
     else throw new Error('Falha ao realizar operação.');
   } catch (error) {
-    res.json({ message: error.message, error: true });
+    if (!error.auth) res.json({ message: error.message, error: true });
+    else res.json({ message: error.message, error: true, notAuthorized: true });
   }
 };
 
@@ -57,10 +58,10 @@ export const updateJob = async (req, res) => {
       return res.json({
         message: 'vaga atualizada.'
       });
-    }
-    res.status(401).json({ message: 'acesso não autorizado.', error: true });
+    } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
   } catch (error) {
-    res.status(500).json({ message: error.message, error: true });
+    if (!error.auth) res.json({ message: error.message, error: true });
+    else res.json({ message: error.message, error: true, notAuthorized: true });
   }
 };
 
@@ -73,11 +74,10 @@ export const deleteJob = async (req, res) => {
     if ((await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId)) || isAdmin) {
       await repository.deleteJob(jobId);
       return res.status(204).json();
-    }
-
-    res.status(401).json({ message: 'acesso não autorizado.', error: true });
+    } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
   } catch (error) {
-    res.status(500).json({ message: error.message, error: true });
+    if (!error.auth) res.json({ message: error.message, error: true });
+    else res.json({ message: error.message, error: true, notAuthorized: true });
   }
 };
 
@@ -100,6 +100,7 @@ export const applyToJob = async (req, res) => {
       res.json({ message: 'Aplicação realizada.' });
     } else throw new Error('Falha ao realizar operação.');
   } catch (error) {
-    res.json({ message: error.message, error: true });
+    if (!error.auth) res.json({ message: error.message, error: true });
+    else res.json({ message: error.message, error: true, notAuthorized: true });
   }
 };

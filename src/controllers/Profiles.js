@@ -28,7 +28,8 @@ export const getProfileById = async (req, res) => {
       }
     } else res.json({ message: 'Perfil não encontrado.', error: true });
   } catch (error) {
-    res.json({ message: error.message, error: true });
+    if (!error.auth) res.json({ message: error.message, error: true });
+    else res.json({ message: error.message, error: true, notAuthorized: true });
   }
 };
 
@@ -45,7 +46,7 @@ export const updateProfile = async (req, res) => {
             message: 'Perfil atualizado.'
           });
         else throw new Error('Falha ao realizar operação.');
-      } else throw new Error('Acesso não autorizado.');
+      } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
     } else res.json({ message: 'Perfil não encontrado.', error: true });
   } catch (error) {
     res.json({ message: error.message, error: true });
@@ -62,7 +63,8 @@ export const createProfile = async (req, res) => {
       });
     else throw new Error('Falha ao realizar operação.');
   } catch (error) {
-    res.json({ message: error.message, error: true });
+    if (!error.auth) res.json({ message: error.message, error: true });
+    else res.json({ message: error.message, error: true, notAuthorized: true });
   }
 };
 
@@ -78,8 +80,9 @@ export const deleteProfile = async (req, res) => {
           message: 'Perfil deletado.'
         });
       else throw new Error('Falha ao realizar operação.');
-    } else throw new Error('Acesso não autorizado.');
+    } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
   } catch (error) {
-    res.json({ message: error.message, error: true });
+    if (!error.auth) res.json({ message: error.message, error: true });
+    else res.json({ message: error.message, error: true, notAuthorized: true });
   }
 };

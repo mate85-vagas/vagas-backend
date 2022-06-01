@@ -20,6 +20,7 @@ const checkToken = (id, token) => {
     if (decoded.userId != id) throw new Error();
   } catch (error) {
     error.message = 'Acesso não autorizado.';
+    error.auth = true;
     throw error;
   }
 };
@@ -30,6 +31,7 @@ const getTokenProperties = (token) => {
     return { userId: decoded.userId, isAdmin: decoded.isAdmin };
   } catch (error) {
     error.message = 'Acesso não autorizado.';
+    error.auth = true;
     throw error;
   }
 };
