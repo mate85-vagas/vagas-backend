@@ -102,3 +102,13 @@ export const deleteEmailList = async (req, res) => {
     res.json({ message: error.message, error: true });
   }
 };
+
+export const getEmailListState = async (req, res) => {
+  try {
+    let status = await repository.countIsActive();
+    if (status == 0) res.json({ status: false });
+    else res.json({ status: true });
+  } catch (error) {
+    res.json({ message: error.message, error: true });
+  }
+};

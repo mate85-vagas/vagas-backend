@@ -22,10 +22,9 @@ const getEmailListById = async (id) => {
 
 const updateAllIsActive = async (state) => {
   if (state) {
-    return await EmailList.update({ "isActive": true }, { where: {} });
-  }
-  else {
-    return await EmailList.update({ "isActive": false }, { where: {} });
+    return await EmailList.update({ isActive: true }, { where: {} });
+  } else {
+    return await EmailList.update({ isActive: false }, { where: {} });
   }
 };
 
@@ -45,4 +44,16 @@ const deleteEmailList = async (id) => {
   });
 };
 
-export default { createEmailList, getAllEmailLists, getEmailListById, updateAllIsActive, updateEmailList, deleteEmailList };
+const countIsActive = async () => {
+  return EmailList.count({ where: { isActive: true } });
+};
+
+export default {
+  createEmailList,
+  getAllEmailLists,
+  getEmailListById,
+  updateAllIsActive,
+  updateEmailList,
+  deleteEmailList,
+  countIsActive
+};
