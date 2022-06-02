@@ -1,10 +1,19 @@
 import express from 'express';
 
-import { getAllEmailLists, getEmailListById, updateEmailList, deleteEmailList, updateAllIsActive, createEmailList } from '../controllers/EmailLists.js';
+import {
+  getAllEmailLists,
+  getEmailListById,
+  updateEmailList,
+  deleteEmailList,
+  updateAllIsActive,
+  createEmailList,
+  getEmailListState
+} from '../controllers/EmailLists.js';
 
 const router = express.Router();
 
 //Routes for Skill
+router.get('/verificacao', getEmailListState);
 router.get('/', getAllEmailLists);
 router.get('/:id', getEmailListById);
 router.post('/', createEmailList);
