@@ -4,10 +4,8 @@ import auth from '../utils/auth.js';
 
 export const getAllEmailLists = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    auth.checkToken(userId, req.headers['x-access-token']);
-    const user = await UserRepository.getUserById(userId);
-    if (user.isAdmin) {
+    const { isAdmin } = auth.getTokenProperties(req.headers['x-access-token']);
+    if (isAdmin) {
       const emailList = await repository.getAllEmailLists();
       res.json(emailList);
     } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
@@ -18,10 +16,8 @@ export const getAllEmailLists = async (req, res) => {
 
 export const getEmailListById = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    auth.checkToken(userId, req.headers['x-access-token']);
-    const user = await UserRepository.getUserById(userId);
-    if (user.isAdmin) {
+    const { isAdmin } = auth.getTokenProperties(req.headers['x-access-token']);
+    if (isAdmin) {
       const emailList = await repository.getEmailListById(req.params.id);
       res.json(emailList);
     } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
@@ -32,11 +28,8 @@ export const getEmailListById = async (req, res) => {
 
 export const createEmailList = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    auth.checkToken(userId, req.headers['x-access-token']);
-    const user = await UserRepository.getUserById(userId);
-    console.log(user.isAdmin);
-    if (user.isAdmin) {
+    const { isAdmin } = auth.getTokenProperties(req.headers['x-access-token']);
+    if (isAdmin) {
       const emailList = await repository.createEmailList(req.body, userId);
       if (emailList)
         res.json({
@@ -51,10 +44,8 @@ export const createEmailList = async (req, res) => {
 
 export const updateAllIsActive = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    auth.checkToken(userId, req.headers['x-access-token']);
-    const user = await UserRepository.getUserById(userId);
-    if (user.isAdmin) {
+    const { isAdmin } = auth.getTokenProperties(req.headers['x-access-token']);
+    if (isAdmin) {
       const result = await repository.updateAllIsActive(req.body.state);
       if (result)
         res.json({
@@ -69,10 +60,8 @@ export const updateAllIsActive = async (req, res) => {
 
 export const updateEmailList = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    auth.checkToken(userId, req.headers['x-access-token']);
-    const user = await UserRepository.getUserById(userId);
-    if (user.isAdmin) {
+    const { isAdmin } = auth.getTokenProperties(req.headers['x-access-token']);
+    if (isAdmin) {
       const result = await repository.updateEmailList(req.body, req.params.id);
       if (result[0] == 1)
         res.json({
@@ -87,10 +76,8 @@ export const updateEmailList = async (req, res) => {
 
 export const deleteEmailList = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    auth.checkToken(userId, req.headers['x-access-token']);
-    const user = await UserRepository.getUserById(userId);
-    if (user.isAdmin) {
+    const { isAdmin } = auth.getTokenProperties(req.headers['x-access-token']);
+    if (isAdmin) {
       const result = await repository.deleteEmailList(req.params.id);
       if (result)
         res.json({
