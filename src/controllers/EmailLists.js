@@ -1,5 +1,4 @@
 import repository from '../repositories/EmailListRepository.js';
-import UserRepository from '../repositories/UserRepository.js';
 import auth from '../utils/auth.js';
 
 export const getAllEmailLists = async (req, res) => {
@@ -30,7 +29,7 @@ export const createEmailList = async (req, res) => {
   try {
     const { isAdmin } = auth.getTokenProperties(req.headers['x-access-token']);
     if (isAdmin) {
-      const emailList = await repository.createEmailList(req.body, userId);
+      const emailList = await repository.createEmailList(req.body);
       if (emailList)
         res.json({
           message: 'Lista de emails criada.'
