@@ -1,8 +1,8 @@
 import EmailList from '../models/EmailListModel.js';
 import { EmailListAttrs } from '../models/EmailListAttrs.js';
 
-const createEmailList = async (body) => {
-  const emailList = await EmailList.create(body);
+const createBulkEmailLists = async (body) => {
+  const emailList = await EmailList.bulkCreate(body);
   return emailList;
 };
 
@@ -36,10 +36,10 @@ const updateEmailList = async (body, id) => {
   });
 };
 
-const deleteEmailList = async (id) => {
+const deleteBulkEmailLists = async (ids) => {
   return await EmailList.destroy({
     where: {
-      [EmailListAttrs.id]: id
+      [EmailListAttrs.id]: ids
     }
   });
 };
@@ -49,11 +49,11 @@ const countIsActive = async () => {
 };
 
 export default {
-  createEmailList,
+  createBulkEmailLists,
   getAllEmailLists,
   getEmailListById,
   updateAllIsActive,
   updateEmailList,
-  deleteEmailList,
+  deleteBulkEmailLists,
   countIsActive
 };

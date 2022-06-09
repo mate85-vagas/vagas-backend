@@ -25,14 +25,14 @@ export const getEmailListById = async (req, res) => {
   }
 };
 
-export const createEmailList = async (req, res) => {
+export const createBulkEmailLists = async (req, res) => {
   try {
     const { isAdmin } = auth.getTokenProperties(req.headers['x-access-token']);
     if (isAdmin) {
-      const emailList = await repository.createEmailList(req.body);
-      if (emailList)
+      const emailLists = await repository.createBulkEmailLists(req.body);
+      if (emailLists.length > 0)
         res.json({
-          message: 'Lista de emails criada.'
+          message: 'Listas de email criadas.'
         });
       else throw new Error('Falha ao realizar operação.');
     } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
@@ -73,14 +73,14 @@ export const updateEmailList = async (req, res) => {
   }
 };
 
-export const deleteEmailList = async (req, res) => {
+export const deleteBulkEmailLists = async (req, res) => {
   try {
     const { isAdmin } = auth.getTokenProperties(req.headers['x-access-token']);
     if (isAdmin) {
-      const result = await repository.deleteEmailList(req.params.id);
+      const result = await repository.deleteBulkEmailLists(req.params.ids.split(','));
       if (result)
         res.json({
-          message: 'Lista de e-mails deletada.'
+          message: 'Listas de e-mail deletadas.'
         });
       else throw new Error('Falha ao realizar operação.');
     } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });

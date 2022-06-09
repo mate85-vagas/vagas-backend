@@ -4,9 +4,9 @@ import {
   getAllEmailLists,
   getEmailListById,
   updateEmailList,
-  deleteEmailList,
+  deleteBulkEmailLists,
   updateAllIsActive,
-  createEmailList,
+  createBulkEmailLists,
   getEmailListState
 } from '../controllers/EmailLists.js';
 
@@ -16,9 +16,9 @@ const router = express.Router();
 router.get('/verificacao', getEmailListState);
 router.get('/', getAllEmailLists);
 router.get('/:id', getEmailListById);
-router.post('/', createEmailList);
+router.post('/', createBulkEmailLists);
 router.patch('/:id', updateEmailList);
 router.patch('/', updateAllIsActive);
-router.delete('/:id', deleteEmailList);
+router.delete('/:ids', deleteBulkEmailLists);
 
 export default router;
