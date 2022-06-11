@@ -147,3 +147,38 @@ const recoveryMailOptions = (email, html) => {
   };
   return mailOptions;
 };
+export const emailsListMail = async(job, emailsLists) => {
+  try{
+    let html = fs.readFileSync('./././vagaCriada.html', 'utf-8');
+    html = html.replace('${description}', job.description);
+    html = html.replace('${type}', job.type)
+    html = html.replace('${site}', job.site);
+    html = html.replace('${workload}', job.workload);
+    html = html.replace('${salary}', job.salary);
+    html = html.replace('${scholarity}', job.scholarity);
+    html = html.replace('${link}', process.env.URL_VAGA + (job.id).toString())
+    let mailOptions = emailsListMailOptions(html, emailsLists)
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.LOGIN,
+        pass: process.env.PASSWORD
+      }
+    });
+    return transporter.sendMail(mailOptions, function (err, info) {
+      return err || info;
+    });
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+const emailsListMailOptions = async (html, emailsLists) => {
+  let mailOptions = {
+    from: process.env.LOGIN,
+    to: emailsLists,
+    subject: `Nova Vaga disponível!`,
+    html: html
+  }
+  return mailOptions
+};
