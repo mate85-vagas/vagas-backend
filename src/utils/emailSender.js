@@ -147,3 +147,59 @@ const recoveryMailOptions = (email, html) => {
   };
   return mailOptions;
 };
+
+export const emailsListMail = async(job, emailsLists) => {
+  try{
+    let html = fs.readFileSync('./././vagaCriada.html', 'utf-8');
+    html = html.replace('${description}', job.description);
+    let tipo = {  
+      "estagio": 'Estágio',
+      "trabalho": 'Trabalho',
+      "iniccient": 'Iniciação Cientifica',
+      "tcc": 'TCC',
+      "mestrado": 'Mestrado',
+      "doutorado": 'Doutorado',
+      "extensao": 'Extensão',
+      "pesquisa": 'Pesquisa',
+      "complementar": 'Complementar',
+      "outro": 'Outro'
+    }
+    html = html.replace('${type}', tipo[job.type])
+    html = html.replace('${site}', job.site);
+    html = html.replace('${workload}', job.workload);
+    html = html.replace('${salary}', job.salary);
+    let escol = {
+      "notgrad": 'Não Graduado',
+      "supinc": 'Superior Incompleto',
+      "supc": 'Superior Completo',
+      "posgrad": 'Pós-Graduação'
+    }
+    const escolaridade = job.scholarity
+    html = html.replace('${scholarity}', escol[escolaridade]);
+    html = html.replace('${titulo}', job.title)
+    html = html.replace('${link}', process.env.URL_VAGA + (job.id).toString())
+    let mailOptions = emailsListMailOptions(html, emailsLists)
+    var transporter = nodemailer.createTransport({
+      service: 'outlook',
+      auth: {
+        user: process.env.LOGIN,
+        pass: process.env.PASSWORD
+      }
+    });
+    return transporter.sendMail(mailOptions, function (err, info) {
+      return err || info;
+    });
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+const emailsListMailOptions = (html, emailsLists) => {
+  let mailOptions = {
+    from: process.env.LOGIN,
+    to: emailsLists,
+    subject: `Nova Vaga disponível!`,
+    html: html
+  }
+  return mailOptions
+};
