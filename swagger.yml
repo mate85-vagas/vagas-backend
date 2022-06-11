@@ -250,7 +250,6 @@ paths:
       responses:
         '201':
           description: conta criada com sucesso
-
     get:
       tags:
         - Usuários
@@ -375,6 +374,25 @@ paths:
       responses:
         200:
           description: busca realizada com sucesso
+
+  /usuarios/convite:
+    post:
+      tags:
+        - Usuários
+      summary: Convidar usuários
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        '201':
+          description: convite enviado
 
   /perfis:
     get:
@@ -752,7 +770,7 @@ paths:
                     type: boolean
       responses:
         201:
-          description: Lista de email criada
+          description: lista de email criada
 
     patch:
       tags:
@@ -776,7 +794,7 @@ paths:
 
       responses:
         200:
-          description: Status das listas atualizado
+          description: status das listas atualizado
 
   /email-list/{id}:
     get:
@@ -832,7 +850,7 @@ paths:
                   type: boolean
       responses:
         200:
-          description: Lista de emails atualizada
+          description: lista de emails atualizada
 
   /email-list/{ids}:
     delete:
@@ -855,7 +873,7 @@ paths:
 
       responses:
         200:
-          description: Listas deletadas com sucesso
+          description: listas deletadas com sucesso
 
   /email-list/verificacao:
     get:
@@ -866,4 +884,4 @@ paths:
 
       responses:
         200:
-          description: Listas deletadas com sucesso
+          description: listas deletadas com sucesso
