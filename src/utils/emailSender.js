@@ -74,7 +74,7 @@ export const mail_sender = async (userApplier, userReceiver, profileUserApplier,
     let htmlEmail = htmlSetup(userApplier, userReceiver, profileUserApplier, jobToApply);
     const mailOptions = buildMailOptions(userReceiver, jobToApply, htmlEmail);
     var transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: 'outlook',
       auth: {
         user: process.env.LOGIN,
         pass: process.env.PASSWORD
@@ -94,7 +94,7 @@ export const inviteMail = async (newUserEmail) => {
     html = html.replace('${link}', process.env.SIGNUP_URL);
     let mailOptions = inviteMailOptions(newUserEmail, html);
     var transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: 'outlook',
       auth: {
         user: process.env.LOGIN,
         pass: process.env.PASSWORD
@@ -124,7 +124,7 @@ export const recoveryMail = async (email, token) => {
     html = html.replace('${link}', process.env.RECOVERY_URL + token);
     let mailOptions = recoveryMailOptions(email, html);
     var transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: 'outlook',
       auth: {
         user: process.env.LOGIN,
         pass: process.env.PASSWORD

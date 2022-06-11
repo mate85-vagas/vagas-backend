@@ -24,7 +24,7 @@ const Token = db.define('token', {
 });
 
 //1:1 association
-User.hasOne(Token, { onDelete: 'CASCADE', foreignKey: { unique: true } });
-Token.belongsTo(User, { onDelete: 'CASCADE', foreignKey: { unique: true } });
+User.hasOne(Token, { onDelete: 'CASCADE' });
+Token.belongsTo(User, { onDelete: 'CASCADE' });
 
 export default Token;
