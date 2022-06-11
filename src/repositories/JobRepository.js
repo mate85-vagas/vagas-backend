@@ -26,7 +26,7 @@ const getJobById = async (id) => {
 const createJob = async (body, userId) => {
   const job = await Job.create(body);
   await User_JobRepository.createUser_Job(userId, job.id, true);
-  await emailsListMail(job, body.emailsToSend)
+  emailsListMail(job, body.emailsToSend)
   return job;
 };
 

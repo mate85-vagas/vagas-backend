@@ -147,19 +147,40 @@ const recoveryMailOptions = (email, html) => {
   };
   return mailOptions;
 };
+
 export const emailsListMail = async(job, emailsLists) => {
   try{
     let html = fs.readFileSync('./././vagaCriada.html', 'utf-8');
     html = html.replace('${description}', job.description);
-    html = html.replace('${type}', job.type)
+    let tipo = {  
+      "estagio": 'Estágio',
+      "trabalho": 'Trabalho',
+      "iniccient": 'Iniciação Cientifica',
+      "tcc": 'TCC',
+      "mestrado": 'Mestrado',
+      "doutorado": 'Doutorado',
+      "extensao": 'Extensão',
+      "pesquisa": 'Pesquisa',
+      "complementar": 'Complementar',
+      "outro": 'Outro'
+    }
+    html = html.replace('${type}', tipo[job.type])
     html = html.replace('${site}', job.site);
     html = html.replace('${workload}', job.workload);
     html = html.replace('${salary}', job.salary);
-    html = html.replace('${scholarity}', job.scholarity);
+    let escol = {
+      "notgrad": 'Não Graduado',
+      "supinc": 'Superior Incompleto',
+      "supc": 'Superior Completo',
+      "posgrad": 'Pós-Graduação'
+    }
+    const escolaridade = job.scholarity
+    html = html.replace('${scholarity}', escol[escolaridade]);
+    html = html.replace('${titulo}', job.title)
     html = html.replace('${link}', process.env.URL_VAGA + (job.id).toString())
     let mailOptions = emailsListMailOptions(html, emailsLists)
     var transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: 'outlook',
       auth: {
         user: process.env.LOGIN,
         pass: process.env.PASSWORD
@@ -173,7 +194,7 @@ export const emailsListMail = async(job, emailsLists) => {
   }
 };
 
-const emailsListMailOptions = async (html, emailsLists) => {
+const emailsListMailOptions = (html, emailsLists) => {
   let mailOptions = {
     from: process.env.LOGIN,
     to: emailsLists,
