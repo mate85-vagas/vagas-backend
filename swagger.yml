@@ -709,3 +709,161 @@ paths:
       responses:
         204:
           description: tecnologias atualizadas
+
+  /email-list:
+    get:
+      tags:
+        - Lista de emails
+      summary: Buscar todas as listas
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+    post:
+      tags:
+        - Lista de emails
+      summary: Criar lista de emails
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  email:
+                    type: string
+                  isActive:
+                    type: boolean
+      responses:
+        201:
+          description: Lista de email criada
+
+    patch:
+      tags:
+        - Lista de emails
+      summary: Atualização de status das listas.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                state:
+                  type: boolean
+
+      responses:
+        200:
+          description: Status das listas atualizado
+
+  /email-list/{id}:
+    get:
+      tags:
+        - Lista de emails
+      summary: Buscar listas por identificador
+      parameters:
+        - in: path
+          name: id
+          description: Lista ID
+          required: true
+          schema:
+            type: integer
+
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+      responses:
+        200:
+          description: busca realizada com sucesso
+
+    patch:
+      tags:
+        - Lista de emails
+      summary: Atualização de lista de emails
+      parameters:
+        - in: path
+          name: id
+          description: Lista ID
+          required: true
+          schema:
+            type: integer
+
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                isActive:
+                  type: boolean
+      responses:
+        200:
+          description: Lista de emails atualizada
+
+  /email-list/{ids}:
+    delete:
+      tags:
+        - Lista de emails
+      summary: Deleção de listas de emails
+      parameters:
+        - in: path
+          name: id
+          description: Lista ID
+          required: true
+          schema:
+            type: array
+
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+
+      responses:
+        200:
+          description: Listas deletadas com sucesso
+
+  /email-list/verificacao:
+    get:
+      tags:
+        - Lista de emails
+      summary: Verificação de listas de emails
+      parameters:
+
+      responses:
+        200:
+          description: Listas deletadas com sucesso

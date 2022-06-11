@@ -48,7 +48,7 @@ export const updateAllIsActive = async (req, res) => {
       const result = await repository.updateAllIsActive(req.body.state);
       if (result)
         res.json({
-          message: 'Status das listas atualizadas.'
+          message: 'Status das listas atualizado.'
         });
       else throw new Error('Falha ao realizar operação.');
     } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
