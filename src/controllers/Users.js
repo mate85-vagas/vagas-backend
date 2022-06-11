@@ -31,12 +31,15 @@ const checkExistentEmail = async (email) => {
 
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await repository.getAllUsers();
-    res.json(users);
-  } catch (error) {
-    res.json({ message: error.message, error: true });
+    const { isAdmin } = auth.getTokenProperties(req.headers['x-access-token']);
+      if (isAdmin) {
+        const users = await repository.getAllUsers();
+        res.json(users);
+      } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
+    } catch (error) {
+      res.json({ message: error.message, error: true });
+    }
   }
-};
 
 export const getUserById = async (req, res) => {
   try {
