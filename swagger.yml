@@ -124,6 +124,10 @@ paths:
                   format: date
                 userId:
                   type: integer
+                emailsToSend:
+                  type: array
+                  items:
+                    type: string
 
       responses:
         '201':

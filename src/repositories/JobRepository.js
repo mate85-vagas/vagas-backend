@@ -2,7 +2,6 @@ import Job from '../models/JobModel.js';
 import User_JobRepository from '../repositories/User_JobRepository.js';
 import { JobAttrs } from '../models/JobAttrs.js';
 import { Sequelize } from 'sequelize';
-import { emailsListMail } from '../utils/emailSender.js'
 const { Op } = Sequelize;
 
 const getAllJobs = async (filters, itemsPerPage, pageNumber) => {
@@ -26,7 +25,6 @@ const getJobById = async (id) => {
 const createJob = async (body, userId) => {
   const job = await Job.create(body);
   await User_JobRepository.createUser_Job(userId, job.id, true);
-  emailsListMail(job, body.emailsToSend)
   return job;
 };
 

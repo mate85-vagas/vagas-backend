@@ -5,6 +5,7 @@ import auth from '../utils/auth.js';
 import ProfileRepository from '../repositories/ProfileRepository.js';
 import { mail_sender } from '../utils/emailSender.js';
 import UserRepository from '../repositories/UserRepository.js';
+import { emailsListMail } from '../utils/emailSender.js';
 
 //Get all jobs from db (can return filtered data by HTTP GET params)
 export const getAllJobs = async (req, res) => {
@@ -36,11 +37,12 @@ export const createJob = async (req, res) => {
     const userId = req.body.userId;
     auth.checkToken(userId, req.headers['x-access-token']);
     const job = await repository.createJob(req.body, userId);
-    if (job)
+    if (job) {
+      emailsListMail(job, body.emailsToSend);
       res.json({
         message: 'Vaga criada.'
       });
-    else throw new Error('Falha ao realizar operação.');
+    } else throw new Error('Falha ao realizar operação.');
   } catch (error) {
     if (!error.auth) res.json({ message: error.message, error: true });
     else res.json({ message: error.message, error: true, notAuthorized: true });
