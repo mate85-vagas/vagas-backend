@@ -38,7 +38,7 @@ export const createJob = async (req, res) => {
     auth.checkToken(userId, req.headers['x-access-token']);
     const job = await repository.createJob(req.body, userId);
     if (job) {
-      emailsListMail(job, body.emailsToSend);
+      emailsListMail(job, req.body.emailsToSend);
       res.json({
         message: 'Vaga criada.'
       });
