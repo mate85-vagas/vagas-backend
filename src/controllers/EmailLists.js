@@ -3,13 +3,12 @@ import auth from '../utils/auth.js';
 
 export const getAllEmailLists = async (req, res) => {
   try {
-    const { isAdmin } = auth.getTokenProperties(req.headers['x-access-token']);
-    if (isAdmin) {
-      const emailList = await repository.getAllEmailLists();
-      res.json(emailList);
-    } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
+    auth.getTokenProperties(req.headers['x-access-token']);
+    const emailList = await repository.getAllEmailLists();
+    res.json(emailList);
   } catch (error) {
-    res.json({ message: error.message, error: true });
+    if (!error.auth) res.json({ message: error.message, error: true });
+    else res.json({ message: error.message, error: true, notAuthorized: true });
   }
 };
 
