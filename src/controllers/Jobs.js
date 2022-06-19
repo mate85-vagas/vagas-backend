@@ -58,7 +58,7 @@ export const updateJob = async (req, res) => {
     if ((await User_JobRepository.countUser_JobByJobIdAndUserId(jobId, userId)) || isAdmin) {
       await repository.updateJob(req.body, jobId);
       return res.json({
-        message: 'vaga atualizada.'
+        message: 'Vaga atualizada.'
       });
     } else res.status(401).json({ message: 'acesso não autorizado.', error: true, notAuthorized: true });
   } catch (error) {
