@@ -198,7 +198,7 @@ const emailsListMailOptions = (html, emailsLists) => {
   let mailOptions = {
     from: process.env.LOGIN,
     to: emailsLists,
-    subject: `Nova Vaga disponível!`,
+    subject: `Nova Vaga disponível! (Talentos IC)`,
     html: html
   }
   return mailOptions
